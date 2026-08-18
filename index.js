@@ -41,7 +41,7 @@ callbackURL: process.env.CALLBACK_URL || 'https://prem-production-5c47.up.railwa
 
 // Configurar el motor de vistas EJS y la carpeta pública
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.resolve('./views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Función auxiliar para sumar comandos al archivo stats.json de manera segura
