@@ -104,9 +104,9 @@ const PORT = process.env.PORT || 3000;
 
 client.login(TOKEN).then(() => {
     // Configurado con '0.0.0.0' para que Railway exponga la web correctamente
-    app.listen(PORT, '0.0.0.0', () => {
-        console.log(`Bot conectado y servidor web corriendo en el puerto ${PORT}`);
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en el puerto ${PORT}`);
     });
 }).catch(err => {
-    console.error('Error al iniciar sesión con el bot de Discord:', err);
+    console.error('Error al iniciar sesión:', err);
 });
