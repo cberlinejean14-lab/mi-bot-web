@@ -103,6 +103,7 @@ const TOKEN = process.env.DISCORD_TOKEN;
 const PORT = process.env.PORT || 3000;
 
 client.login(TOKEN).then(() => {
+    // Configurado con '0.0.0.0' para que Railway exponga la web correctamente
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Bot conectado y servidor web corriendo en el puerto ${PORT}`);
     });
