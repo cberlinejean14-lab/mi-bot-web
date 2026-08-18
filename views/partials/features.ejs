@@ -1,0 +1,34 @@
+<section style="max-width: 1000px; margin: 60px auto; padding: 0 20px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;"><%= typeof t !== 'undefined' ? t.featuresTitle : 'Características Principales' %></h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+        <!-- Característica 1 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); transition: transform 0.3s ease;">
+            <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <i class="fa-solid fa-chart-line" style="font-size: 1.3rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><%= typeof t !== 'undefined' ? t.feat1Title : 'Niveles y XP' %></h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.feat1Desc : 'Fomenta la actividad en tu chat con tablas de clasificación dinámicas, roles automáticos por nivel y recompensas personalizadas.' %></p>
+        </div>
+
+        <!-- Característica 2 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); transition: transform 0.3s ease;">
+            <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 1.3rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><%= typeof t !== 'undefined' ? t.feat2Title : 'Moderación Avanzada' %></h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.feat2Desc : 'Protege tu servidor con sistemas automáticos anti-spam, registros detallados y herramientas inteligentes de sanción.' %></p>
+        </div>
+
+        <!-- Característica 3 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); transition: transform 0.3s ease;">
+            <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <i class="fa-solid fa-headphones-simple" style="font-size: 1.3rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><%= typeof t !== 'undefined' ? t.feat3Title : 'Música en Alta Fidelidad' %></h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.feat3Desc : 'Disfruta de reproducción de audio fluida, sin cortes y con soporte para múltiples plataformas como YouTube y Spotify.' %></p>
+        </div>
+    </div>
+</section>

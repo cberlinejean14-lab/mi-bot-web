@@ -1,0 +1,34 @@
+<section style="max-width: 1000px; margin: 60px auto; padding: 0 20px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;"><%= typeof t !== 'undefined' ? t.commandsTitle : 'Comandos Destacados' %></h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+        <!-- Comando 1 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+            <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <i class="fa-solid fa-store" style="font-size: 1.3rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><%= typeof t !== 'undefined' ? t.cmd1Title : 'Economía y Tienda' %></h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.cmd1Desc : 'Crea una economía virtual con trabajos, recompensas diarias y roles personalizables que los usuarios pueden comprar.' %></p>
+        </div>
+
+        <!-- Comando 2 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+            <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <i class="fa-solid fa-ticket" style="font-size: 1.3rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><%= typeof t !== 'undefined' ? t.cmd2Title : 'Sistema de Tickets' %></h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.cmd2Desc : 'Brinda atención al cliente y soporte profesional con paneles privados y organizados de alta calidad.' %></p>
+        </div>
+
+        <!-- Comando 3 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+            <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <i class="fa-solid fa-door-open" style="font-size: 1.3rem; color: var(--accent-color);"></i>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;"><%= typeof t !== 'undefined' ? t.cmd3Title : 'Bienvenida y Despedida' %></h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.cmd3Desc : 'Saluda a los nuevos miembros y despide a quienes se van con mensajes personalizados y banners atractivos.' %></p>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="<%= typeof lang !== 'undefined' ? lang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Select Server</title>
+    <style>
+        :root {
+            --bg-main: #0b0914;
+            --nav-bg: rgba(18, 15, 31, 0.75);
+            --card-bg: rgba(26, 21, 45, 0.6);
+            --border-color: rgba(139, 92, 246, 0.2);
+            --text-color: #ffffff;
+            --text-muted: #9ca3af;
+            --accent-color: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.4);
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f3f4f6;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --accent-color: #9333ea;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .bot-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .bot-name {
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 450px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            outline: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .guilds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .guild-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .guild-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.15);
+            border-color: var(--accent-color);
+        }
+
+        .guild-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .guild-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: rgba(168, 85, 247, 0.1);
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .guild-details h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 170px;
+        }
+
+        .guild-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .btn-manage {
+            display: block;
+            text-align: center;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .btn-manage:hover {
+            opacity: 0.9;
+            box-shadow: 0 6px 16px var(--accent-glow);
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 5px 12px 5px 6px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/?lang=<%= typeof lang !== 'undefined' ? lang : 'es' %>" class="nav-left">
+            <!-- URL directa del avatar del bot de Discord con brillo y estilo circular -->
+            <img src="https://cdn.discordapp.com/avatars/1534632950224781548/a_678d6b7de1507542e3636f611d297e20.gif?size=2048" alt="Bot Avatar" class="bot-avatar">
+            <span class="bot-name">PREM</span>
+        </a>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            
+            <!-- Selector de Idioma -->
+            <div class="lang-dropdown" style="position: relative; display: inline-block;">
+                <button onclick="toggleLangMenu()" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 7px 14px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                    <% 
+                        let flag = '🇪🇸'; let langName = 'Español';
+                        const currentLang = typeof lang !== 'undefined' ? lang : 'es';
+                        if (currentLang === 'en') { flag = '🇺🇸'; langName = 'English'; }
+                        else if (currentLang === 'pt') { flag = '🇧🇷'; langName = 'Português'; }
+                        else if (currentLang === 'fr') { flag = '🇫🇷'; langName = 'Français'; }
+                    %>
+                    <span><%= flag %></span>
+                    <span><%= langName %></span>
+                </button>
+                <div id="langMenu" style="display: none; position: absolute; right: 0; top: 120%; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; z-index: 10000; min-width: 150px; backdrop-filter: blur(20px);">
+                    <a href="/dashboard?lang=es" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇪🇸 Español</a>
+                    <a href="/dashboard?lang=en" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇺🇸 English</a>
+                    <a href="/dashboard?lang=pt" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇧🇷 Português</a>
+                </div>
+            </div>
+
+            <!-- Botón de Tema -->
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema">
+                🌙
+            </button>
+
+            <!-- Perfil de Usuario -->
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="user-dropdown-container" style="position: relative; display: inline-block;">
+                    <div onclick="toggleUserMenu()" class="user-profile">
+                        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="Avatar" class="user-avatar">
+                        <span style="font-weight: 600; font-size: 0.9rem;"><%= user.global_name || user.username %></span>
+                    </div>
+
+                    <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 45px; width: 220px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10000; padding: 8px; backdrop-filter: blur(20px);">
+                        <a href="/dashboard" style="display: block; padding: 8px 12px; color: var(--text-color); text-decoration: none; border-radius: 8px; font-size: 13px;">Mis servidores</a>
+                        <a href="/logout" style="display: block; padding: 8px 12px; color: #ef4444; text-decoration: none; border-radius: 8px; font-size: 13px; margin-top: 4px; border-top: 1px solid var(--border-color);">Cerrar sesión</a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container">
+        <h1>Selecciona un servidor</h1>
+        <p class="subtitle">Elige un servidor para administrar o invitar al bot.</p>
+
+        <!-- Buscador -->
+        <div class="search-container">
+            <input type="text" id="serverSearch" class="search-input" placeholder="Buscar servidores por nombre...">
+        </div>
+
+        <!-- Tarjetas de Servidores en Cuadrícula -->
+        <div class="guilds-grid" id="guildsGrid">
+            <% if (typeof guilds !== 'undefined' && Array.isArray(guilds)) { %>
+                <% guilds.forEach(guild => { %>
+                    <% if (guild && guild.name) { %>
+                        <div class="guild-card" data-name="<%= guild.name.toLowerCase() %>">
+                            <div class="guild-info">
+                                <% if (guild.icon) { %>
+                                    <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" alt="Icon" class="guild-icon">
+                                <% } else { %>
+                                    <div class="guild-icon" style="display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; color: var(--accent-color);">
+                                        <%= guild.name.charAt(0) %>
+                                    </div>
+                                <% } %>
+                                <div class="guild-details">
+                                    <h3 title="<%= guild.name %>"><%= guild.name %></h3>
+                                    <span class="guild-role">
+                                        <%= guild.owner ? 'Propietario' : 'Administrador' %>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <% 
+                                const esAdmin = guild.permissions ? (guild.permissions & 0x8) === 0x8 : guild.administrator; 
+                            %>
+                            <% if (esAdmin) { %>
+                                <a href="/dashboard/<%= guild.id %>?lang=<%= currentLang %>" class="btn-manage">Gestionar</a>
+                            <% } else { %>
+                                <a href="https://discord.com/oauth2/authorize?client_id=1534632950224781548&scope=bot&permissions=8&guild_id=<%= guild.id %>" target="_blank" class="btn-manage" style="background: rgba(168, 85, 247, 0.15); border: 1px solid var(--border-color);">Invitar</a>
+                            <% } %>
+                        </div>
+                    <% } %>
+                <% %>
+            <% } %>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 PREM Bot. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Scripts de Interacción -->
+    <script>
+        function toggleLangMenu() {
+            const menu = document.getElementById('langMenu');
+            if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+        function toggleUserMenu() {
+            const menu = document.getElementById('userDropdownMenu');
+            if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('prem_theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                localStorage.setItem('prem_theme', 'light');
+            }
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('prem_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+        window.onclick = function(event) {
+            if (!event.target.closest('.lang-dropdown')) {
+                const menu = document.getElementById('langMenu');
+                if (menu) menu.style.display = 'none';
+            }
+            if (!event.target.closest('.user-dropdown-container')) {
+                const userMenu = document.getElementById('userDropdownMenu');
+                if (userMenu) userMenu.style.display = 'none';
+            }
+        }
+        const searchInput = document.getElementById('serverSearch');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.guild-card');
+                cards.forEach(card => {
+                    const name = card.getAttribute('data-name');
+                    card.style.display = name.includes(term) ? 'flex' : 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

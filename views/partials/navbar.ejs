@@ -1,0 +1,116 @@
+<header style="position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: var(--bg-sidebar, #121216); border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 99999; box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease;">
+        
+    <div class="nav-left">
+        <a href="/" class="brand-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+            <!-- Contenedor del avatar con borde y resplandor morado brillante -->
+            <div style="position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #c084fc; box-shadow: 0 0 12px rgba(192, 132, 252, 0.8), inset 0 0 8px rgba(192, 132, 252, 0.4); pointer-events: none;"></div>
+                <img src="https://cdn.discordapp.com/avatars/1534632950224781548/a_678d6b7de1507542e3636f611d297e20.gif?size=2048" alt="PREM" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; position: relative; z-index: 1;">
+            </div>
+            <!-- Texto PREM -->
+            <span style="font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px; color: var(--text-main, #e9d5ff);">PREM</span>
+        </a>
+    </div>
+
+    <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
+        
+        <div class="lang-container" style="position: relative; display: inline-block;">
+            <select class="lang-select" onchange="location.href='?lang=' + this.value" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none;">
+                <option value="es" <%= (typeof currentLang !== 'undefined' && currentLang === 'es') ? 'selected' : '' %>>ES Español</option>
+                <option value="en" <%= (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'selected' : '' %>>US English</option>
+                <option value="pt" <%= (typeof currentLang !== 'undefined' && currentLang === 'pt') ? 'selected' : '' %>>BR Português</option>
+                <option value="fr" <%= (typeof currentLang !== 'undefined' && currentLang === 'fr') ? 'selected' : '' %>>FR Français</option>
+                <option value="hi" <%= (typeof currentLang !== 'undefined' && currentLang === 'hi') ? 'selected' : '' %>>IN हिन्दी</option>
+                <option value="ar" <%= (typeof currentLang !== 'undefined' && currentLang === 'ar') ? 'selected' : '' %>>SA العربية</option>
+                <option value="zh" <%= (typeof currentLang !== 'undefined' && currentLang === 'zh') ? 'selected' : '' %>>CN 中文</option>
+            </select>
+        </div>
+
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px;">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+
+        <% if (typeof user !== 'undefined' && user) { %>
+            <div class="user-dropdown-container" style="position: relative; display: inline-block;">
+                <div onclick="toggleUserMenu()" style="display: flex; align-items: center; gap: 10px; background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); padding: 6px 14px; border-radius: 30px; cursor: pointer; transition: all 0.2s;">
+                    <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%;">
+                    <span style="font-size: 13px; font-weight: 600; color: var(--text-main, #fff);"><%= user.username %></span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
+                </div>
+
+                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 250px; max-height: 450px; overflow-y: auto; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000;">
+                    <div style="padding: 6px 10px 10px 10px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); margin-bottom: 8px;">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main, #fff);"><%= user.username %></div>
+                        <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">@<%= user.username.toLowerCase() %></div>
+                    </div>
+
+                    <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                        <i class="fa-solid fa-server" style="color: #a855f7;"></i> Mis servidores
+                    </a>
+                    <a href="#" onclick="toggleTheme(); toggleUserMenu(); return false;" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                        <i class="fa-solid fa-moon" style="color: #a855f7;"></i> Preferencias / Tema
+                    </a>
+
+                    <div style="font-size: 10px; color: var(--text-muted, #9ca3af); font-weight: bold; text-transform: uppercase; padding: 10px 10px 4px 10px;">Gestión de PREM Bot</div>
+                    <a href="/dashboard/custom-bot" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                        <i class="fa-solid fa-robot" style="color: #a855f7;"></i> Personalización de Bot
+                    </a>
+                    <a href="/dashboard/custom-commands" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                        <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-code" style="color: #a855f7;"></i> Comandos personalizados</div>
+                        <span style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">PREMIUM</span>
+                    </a>
+
+                    <div style="border-top: 1px solid var(--border, rgba(255,255,255,0.1)); margin-top: 8px; padding-top: 8px;">
+                        <a href="/auth/logout" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <a href="/auth/discord" class="login-btn" style="background: var(--bg-dropdown, rgba(255,255,255,0.05)); color: var(--text-main, #fff); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid var(--border, rgba(255,255,255,0.1)); display: flex; align-items: center; gap: 8px;">
+                <i class="fa-brands fa-discord"></i> Iniciar Sesión
+            </a>
+        <% } %>
+
+    </div>
+</header>
+
+<script>
+    window.toggleTheme = function() {
+        const htmlEl = document.documentElement;
+        const currentTheme = htmlEl.getAttribute('data-theme');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        if (currentTheme === 'light') {
+            htmlEl.setAttribute('data-theme', 'dark');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            localStorage.setItem('theme', 'dark');
+        } else {
+            htmlEl.setAttribute('data-theme', 'light');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            localStorage.setItem('theme', 'light');
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const themeIcon = document.getElementById('themeIcon');
+        if (themeIcon) {
+            if (savedTheme === 'light') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+    });
+</script>

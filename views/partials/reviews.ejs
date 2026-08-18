@@ -1,0 +1,35 @@
+<section style="max-width: 1000px; margin: 60px auto; padding: 0 20px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;"><%= typeof t !== 'undefined' ? t.reviewsTitle : 'Confiado por Comunidades' %></h2>
+        <p style="color: var(--text-muted); font-size: 1rem;"><%- typeof t !== 'undefined' ? t.reviewsDesc : 'Usa el comando <code>/review</code> en Discord para dejar tu opinión de 4 o 5 estrellas.' %></p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <% if (typeof reviews !== 'undefined' && reviews && reviews.length > 0) { %>
+            <% reviews.forEach(review => { %>
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; backdrop-filter: blur(15px); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; gap: 5px; color: #fbbf24; margin-bottom: 15px;">
+                            <% for(let i = 0; i < review.rating; i++) { %>
+                                <i class="fa-solid fa-star"></i>
+                            <% } %>
+                        </div>
+                        <p style="color: var(--text-main); font-size: 0.95rem; line-height: 1.6; margin: 0 0 20px 0;"><%= review.comment %></p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                        <img src="<%= review.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="User" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+                        <div>
+                            <h4 style="margin: 0; font-size: 0.9rem; color: var(--text-main);"><%= review.username %></h4>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);"><%= review.serverName || 'Discord User' %></span>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div style="grid-column: 1 / -1; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; text-align: center; backdrop-filter: blur(15px);">
+                <i class="fa-regular fa-comment-dots" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 15px;"></i>
+                <p style="color: var(--text-muted); font-size: 1rem; margin: 0;"><%- typeof t !== 'undefined' ? t.noReviews : 'Aún no hay reseñas positivas registradas. ¡Sé el primero en calificar con 4 o 5 estrellas usando <code>/review</code> en Discord!' %></p>
+            </div>
+        <% } %>
+    </div>
+</section>

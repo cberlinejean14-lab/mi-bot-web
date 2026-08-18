@@ -1,0 +1,48 @@
+<section style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+    <div style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 20px; flex-wrap: wrap;">
+        
+        <!-- Servidores Activos -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px;">
+            <i class="fa-solid fa-server" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
+            <h3 id="stat-servers" style="font-size: 2rem; font-weight: 800; margin: 5px 0; color: var(--text-main);">0...</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;"><%= typeof t !== 'undefined' ? t.statServers : 'Servidores Activos' %></p>
+        </div>
+
+        <!-- Usuarios Totales -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px;">
+            <i class="fa-solid fa-users" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
+            <h3 id="stat-users" style="font-size: 2rem; font-weight: 800; margin: 5px 0; color: var(--text-main);">0...</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;"><%= typeof t !== 'undefined' ? t.statUsers : 'Usuarios Totales' %></p>
+        </div>
+
+        <!-- Comandos Ejecutados -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px;">
+            <i class="fa-solid fa-terminal" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
+            <h3 id="stat-commands" style="font-size: 2rem; font-weight: 800; margin: 5px 0; color: var(--text-main);">0...</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;"><%= typeof t !== 'undefined' ? t.statCommands : 'Comandos Ejecutados' %></p>
+        </div>
+        
+    </div>
+</section>
+
+<!-- Script para actualizar las estadísticas automáticamente en tiempo real -->
+<script>
+    async function updateRealtimeStats() {
+        try {
+            const response = await fetch('/api/stats');
+            const data = await response.json();
+            
+            if (data.servers) document.getElementById('stat-servers').innerText = data.servers;
+            if (data.users) document.getElementById('stat-users').innerText = data.users;
+            if (data.commands) document.getElementById('stat-commands').innerText = data.commands;
+        } catch (error) {
+            console.error('Error al actualizar las estadísticas en tiempo real:', error);
+        }
+    }
+
+    // Ejecutar la función inmediatamente al cargar la página
+    updateRealtimeStats();
+
+    // Consulta la API cada 10 segundos para refrescar los datos automáticamente
+    setInterval(updateRealtimeStats, 10000);
+</script>
