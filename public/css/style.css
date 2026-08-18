@@ -296,7 +296,7 @@ p {
 
 .stats-section {
     max-width: 1200px !important;
-    margin: 40px auto 80px auto !important;
+    margin: 100px auto 80px auto !important; /* Margen superior incrementado para bajarlas más */
     padding: 0 25px !important;
     display: flex !important;
     flex-direction: row !important;
