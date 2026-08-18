@@ -3,6 +3,9 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const session = require('express-session');
+const passport = require('passport');
+const DiscordStrategy = require('passport-discord').Strategy;
 
 const app = express();
 
@@ -13,6 +16,28 @@ const client = new Client({
         GatewayIntentBits.GuildMembers
     ]
 });
+
+// Configuración de Sesiones y Passport para el Login
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'secreto_super_seguro_para_sesiones',
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
+
+passport.use(new DiscordStrategy({
+    clientID: process.env.CLIENT_ID,
+clientSecret: process.env.CLIENT_SECRET,
+callbackURL: process.env.CALLBACK_URL || 'https://prem-production-5c47.up.railway.app/auth/discord/callback',
+    scope: ['identify', 'guilds']
+}, (accessToken, refreshToken, profile, done) => {
+    return done(null, profile);
+}));
 
 // Configurar el motor de vistas EJS y la carpeta pública
 app.set('view engine', 'ejs');
@@ -32,6 +57,21 @@ function sumarComando() {
         console.error('Error al actualizar el contador de comandos:', error);
     }
 }
+
+// Rutas de Autenticación con Discord
+app.get('/auth/discord', passport.authenticate('discord'));
+app.get('/auth/discord/callback', passport.authenticate('discord', {
+    failureRedirect: '/'
+}), (req, res) => {
+    res.redirect('/dashboard');
+});
+
+app.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.redirect('/');
+    });
+});
 
 // 2. Ruta API para alimentar las estadísticas en tiempo real
 app.get('/api/stats', async (req, res) => {
@@ -77,13 +117,17 @@ app.get('/', (req, res) => {
 
 // 4. Ruta del Dashboard
 app.get('/dashboard', (req, res) => {
-    const guilds = [
+    if (!req.isAuthenticated()) {
+        return res.redirect('/auth/discord');
+    }
+
+    const guilds = req.user.guilds || [
         { id: '1', name: 'Servidor de Ejemplo 1', icon: null, owner: true, permissions: 8 },
         { id: '2', name: 'Servidor de Ejemplo 2', icon: null, owner: false, permissions: 8 }
     ];
     
     res.render('dashboard-select', { 
-        user: req.user || { username: 'Ganzita', id: '123456789', avatar: 'default' },
+        user: req.user,
         guilds: guilds,
         lang: req.query.lang || 'es'
     });
@@ -104,7 +148,7 @@ const PORT = process.env.PORT || 3000;
 
 client.login(TOKEN).then(() => {
     // Configurado con '0.0.0.0' para que Railway exponga la web correctamente
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`Servidor corriendo en el puerto ${PORT}`);
     });
 }).catch(err => {
