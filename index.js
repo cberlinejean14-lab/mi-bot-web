@@ -28,12 +28,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
+passport.deserializeUser((obj, done) => done(obj, done));
 
 passport.use(new DiscordStrategy({
     clientID: process.env.CLIENT_ID,
-clientSecret: process.env.CLIENT_SECRET,
-callbackURL: process.env.CALLBACK_URL || 'https://prem-production-5c47.up.railway.app/auth/discord/callback',
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL || 'https://prem-production-5c47.up.railway.app/auth/discord/callback',
     scope: ['identify', 'guilds']
 }, (accessToken, refreshToken, profile, done) => {
     return done(null, profile);
@@ -135,22 +135,18 @@ app.get('/dashboard', (req, res) => {
 
 // Detector automático de comandos ejecutados en Discord
 client.on('interactionCreate', async interaction => {
-    // Verificamos si la interacción es un comando de barra (ChatInputCommand)
     if (!interaction.isChatInputCommand()) return;
-
-    // Sumamos +1 al archivo stats.json cada vez que alguien usa un comando
     sumarComando();
 });
 
-// 5. Iniciar sesión del bot de Discord y levantar el servidor web
+// 5. Iniciar sesión del bot de Discord y levantar el servidor web con '0.0.0.0'
 const TOKEN = process.env.DISCORD_TOKEN;
 const PORT = process.env.PORT || 3000;
 
 client.login(TOKEN).then(() => {
-    // Configurado con '0.0.0.0' para que Railway exponga la web correctamente
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Servidor corriendo en el puerto ${PORT}`);
     });
 }).catch(err => {
     console.error('Error al iniciar sesión:', err);
-}); 
+});
