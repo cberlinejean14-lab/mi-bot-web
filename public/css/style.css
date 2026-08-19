@@ -271,7 +271,6 @@ p {
     transform: translateY(-3px);
 }
 
-/* Visibilidad y contraste garantizado para botones secundarios en tema claro */
 [data-theme="light"] .btn-secondary {
     color: #6b21a8;
     border-color: rgba(147, 51, 234, 0.4);
@@ -296,7 +295,7 @@ p {
 
 .stats-section {
     max-width: 1200px !important;
-    margin: 100px auto 80px auto !important; /* Margen superior incrementado para bajarlas más */
+    margin: 100px auto 80px auto !important;
     padding: 0 25px !important;
     display: flex !important;
     flex-direction: row !important;
@@ -560,4 +559,14 @@ footer {
     .center-card {
         transform: translateY(0);
     }
-}  
+}
+
+/* === NUEVO: Adaptación de los puntitos / destellos alrededor del avatar en modo claro === */
+[data-theme="light"] .avatar-container .dot,
+[data-theme="light"] .avatar-container span,
+[data-theme="light"] .hero .dot,
+[data-theme="light"] .hero span[class*="dot"],
+[data-theme="light"] .hero div[class*="dot"] {
+    background-color: #000000 !important;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4) !important;
+}
