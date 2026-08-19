@@ -561,12 +561,8 @@ footer {
     }
 }
 
-/* === NUEVO: Adaptación de los puntitos / destellos alrededor del avatar en modo claro === */
-[data-theme="light"] .avatar-container .dot,
-[data-theme="light"] .avatar-container span,
-[data-theme="light"] .hero .dot,
-[data-theme="light"] .hero span[class*="dot"],
-[data-theme="light"] .hero div[class*="dot"] {
-    background-color: #000000 !important;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4) !important;
+/* === Forzar los puntitos (spark) a color negro en modo claro === */
+[data-theme="light"] .spark {
+    background: #000000 !important;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 0, 0, 0.2) !important;
 }
