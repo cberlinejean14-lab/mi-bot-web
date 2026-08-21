@@ -106,9 +106,25 @@ app.get('/', async (req, res) => {
         const topEconomy = await UserModel.find().sort({ money: -1 }).limit(3).lean();
         const topActivity = await UserModel.find().sort({ level: -1 }).limit(3).lean();
         const topMusic = await UserModel.find().sort({ songs: -1 }).limit(3).lean();
-        res.render('index', { user: req.user || null, currentLang: req.query.lang || 'es', rankingDinero: topEconomy, rankingXP: topActivity, rankingMusica: topMusic, listaReviews: [] });
+        
+        // Variables corregidas para que coincidan con ranking.ejs
+        res.render('index', { 
+            user: req.user || null, 
+            currentLang: req.query.lang || 'es', 
+            topEconomy: topEconomy, 
+            topActivity: topActivity, 
+            topMusic: topMusic, 
+            listaReviews: [] 
+        });
     } catch (error) {
-        res.render('index', { user: req.user || null, currentLang: req.query.lang || 'es', rankingDinero: [], rankingXP: [], rankingMusica: [], listaReviews: [] });
+        res.render('index', { 
+            user: req.user || null, 
+            currentLang: req.query.lang || 'es', 
+            topEconomy: [], 
+            topActivity: [], 
+            topMusic: [], 
+            listaReviews: [] 
+        });
     }
 });
 
@@ -117,7 +133,7 @@ app.get('/dashboard', (req, res) => {
     res.render('dashboard-select', { user: req.user, guilds: req.user.guilds || [], lang: req.query.lang || 'es' });
 });
 
-// --- MANEJADOR DE COMANDOS (Interactuando con Mongo) ---
+// --- MANEJADOR DE COMANDOS ---
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
@@ -129,7 +145,11 @@ client.on('interactionCreate', async interaction => {
         sumarComando();
     } catch (error) {
         console.error(error);
-        await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+        } else {
+            await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+        }
     }
 });
 
