@@ -6,8 +6,24 @@ const fs = require('fs');
 const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
+const mongoose = require('mongoose'); // Importación añadida
 
 const app = express();
+
+// --- CONEXIÓN A MONGODB ---
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Conectado a MongoDB exitosamente'))
+    .catch(err => console.error('Error al conectar a MongoDB:', err));
+
+// --- MODELO DE USUARIO (Para los rankings) ---
+const userSchema = new mongoose.Schema({
+    userId: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    money: { type: Number, default: 0 },
+    level: { type: Number, default: 1 },
+    songs: { type: Number, default: 0 }
+});
+const UserModel = mongoose.model('User', userSchema);
 
 // 1. Inicializar el cliente de Discord
 const client = new Client({
@@ -94,15 +110,32 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.render('index', { 
-        user: req.user || null,
-        currentLang: req.query.lang || 'es',
-        rankingDinero: [],
-        rankingXP: [],
-        rankingMusica: [],
-        listaReviews: []
-    });
+// Ruta principal actualizada para consultar MongoDB
+app.get('/', async (req, res) => {
+    try {
+        const topEconomy = await UserModel.find().sort({ money: -1 }).limit(3).lean();
+        const topActivity = await UserModel.find().sort({ level: -1 }).limit(3).lean();
+        const topMusic = await UserModel.find().sort({ songs: -1 }).limit(3).lean();
+
+        res.render('index', { 
+            user: req.user || null,
+            currentLang: req.query.lang || 'es',
+            rankingDinero: topEconomy,
+            rankingXP: topActivity,
+            rankingMusica: topMusic,
+            listaReviews: []
+        });
+    } catch (error) {
+        console.error('Error al cargar rankings:', error);
+        res.render('index', { 
+            user: req.user || null,
+            currentLang: req.query.lang || 'es',
+            rankingDinero: [],
+            rankingXP: [],
+            rankingMusica: [],
+            listaReviews: []
+        });
+    }
 });
 
 app.get('/dashboard', (req, res) => {
@@ -120,7 +153,6 @@ client.on('interactionCreate', async interaction => {
     sumarComando();
 });
 
-// 5. Iniciar bot y servidor en el puerto dinámico de Railway
 const TOKEN = process.env.DISCORD_TOKEN;
 const PORT = process.env.PORT || 3000;
 
