@@ -16,9 +16,14 @@
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <% if (typeof topActivity !== 'undefined' && topActivity && topActivity.length > 0) { %>
                     <% topActivity.forEach((user, index) => { %>
-                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 12px 18px; border-radius: 12px;">
-                            <span style="font-weight: bold; color: var(--text-muted); width: 25px;"><%= index + 1 %></span>
-                            <span style="color: var(--text-main); font-weight: 600; margin-left: 15px;"><%= user.name %></span>
+                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px;">
+                            <span style="font-weight: bold; color: var(--text-muted); width: 20px; text-align: center;"><%= index + 1 %></span>
+                            <div style="display: flex; align-items: center; margin-left: 15px; gap: 10px;">
+                                <% if (user.avatar) { %>
+                                    <img src="<%= user.avatar %>" alt="<%= user.name %>" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                <% } %>
+                                <span style="color: var(--text-main); font-weight: 600;"><%= user.name %></span>
+                            </div>
                         </div>
                     <% }) %>
                 <% } else { %>
@@ -36,9 +41,14 @@
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <% if (typeof topEconomy !== 'undefined' && topEconomy && topEconomy.length > 0) { %>
                     <% topEconomy.forEach((user, index) => { %>
-                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 12px 18px; border-radius: 12px;">
-                            <span style="font-weight: bold; color: var(--text-muted); width: 25px;"><%= index + 1 %></span>
-                            <span style="color: var(--text-main); font-weight: 600; margin-left: 15px;"><%= user.name %></span>
+                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px;">
+                            <span style="font-weight: bold; color: var(--text-muted); width: 20px; text-align: center;"><%= index + 1 %></span>
+                            <div style="display: flex; align-items: center; margin-left: 15px; gap: 10px;">
+                                <% if (user.avatar) { %>
+                                    <img src="<%= user.avatar %>" alt="<%= user.name %>" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                <% } %>
+                                <span style="color: var(--text-main); font-weight: 600;"><%= user.name %></span>
+                            </div>
                         </div>
                     <% }) %>
                 <% } else { %>
@@ -56,9 +66,14 @@
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <% if (typeof topMusic !== 'undefined' && topMusic && topMusic.length > 0) { %>
                     <% topMusic.forEach((user, index) => { %>
-                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 12px 18px; border-radius: 12px;">
-                            <span style="font-weight: bold; color: var(--text-muted); width: 25px;"><%= index + 1 %></span>
-                            <span style="color: var(--text-main); font-weight: 600; margin-left: 15px;"><%= user.name %></span>
+                        <div style="display: flex; align-items: center; background: rgba(255,255,255,0.03); padding: 10px 15px; border-radius: 12px;">
+                            <span style="font-weight: bold; color: var(--text-muted); width: 20px; text-align: center;"><%= index + 1 %></span>
+                            <div style="display: flex; align-items: center; margin-left: 15px; gap: 10px;">
+                                <% if (user.avatar) { %>
+                                    <img src="<%= user.avatar %>" alt="<%= user.name %>" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                <% } %>
+                                <span style="color: var(--text-main); font-weight: 600;"><%= user.name %></span>
+                            </div>
                         </div>
                     <% }) %>
                 <% } else { %>
