@@ -415,12 +415,13 @@ p {
     color: var(--text-muted);
 }
 
+/* --- MODIFICACIÓN PARA ALINEAR EL RANKING EN UNA SOLA FILA HORIZONTAL --- */
 .podium-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
     gap: 30px;
-    align-items: flex-end;
-    margin-top: 30px;
+    align-items: center;
+    margin-top: 40px;
 }
 
 .podium-card {
@@ -429,18 +430,19 @@ p {
 }
 
 .center-card {
-    transform: translateY(-30px);
+    transform: translateY(-25px);
     border-color: var(--accent-color);
     box-shadow: 0 12px 40px var(--accent-glow);
 }
 
 .center-card:hover {
-    transform: translateY(-36px);
+    transform: translateY(-31px);
 }
 
 .side-card {
     transform: translateY(0);
 }
+/* --------------------------------------------------------------------- */
 
 .ranking-list {
     list-style: none;
