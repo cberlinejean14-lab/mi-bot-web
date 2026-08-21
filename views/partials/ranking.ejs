@@ -4,11 +4,11 @@
         <p style="color: var(--text-muted); font-size: 1rem;"><%= typeof t !== 'undefined' ? t.rankingDesc : 'Los usuarios más destacados de todo el ecosistema de PREM.' %></p>
     </div>
 
-    <!-- Contenedor con grid -->
+    <!-- Contenedor del podio -->
     <div class="podium-grid">
         
-        <!-- 1. TOP ACTIVIDAD (XP) - CENTRO (El más alto: Puesto 1) -->
-        <div class="glass-card podium-card center-card" style="justify-content: flex-start; transform: translateY(-30px);">
+        <!-- 1. TOP ACTIVIDAD (XP) - Izquierda (A la misma altura que Música) -->
+        <div class="glass-card podium-card side-card" style="justify-content: flex-start;">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
                 <i class="fa-solid fa-bolt" style="font-size: 1.3rem; color: var(--accent-color);"></i>
                 <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.topActivity : 'Top Actividad (XP)' %></h4>
@@ -30,8 +30,8 @@
             </div>
         </div>
 
-        <!-- 2. TOP ECONOMÍA (DINERO) - IZQUIERDA (Intermedio: Puesto 2) -->
-        <div class="glass-card podium-card side-card" style="justify-content: flex-start; transform: translateY(-10px);">
+        <!-- 2. TOP ECONOMÍA (DINERO) - Centro (Elevado / Arriba) -->
+        <div class="glass-card podium-card center-card" style="justify-content: flex-start;">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
                 <i class="fa-solid fa-wallet" style="font-size: 1.3rem; color: var(--accent-color);"></i>
                 <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.topEconomy : 'Top Economía (Dinero)' %></h4>
@@ -53,8 +53,8 @@
             </div>
         </div>
 
-        <!-- 3. TOP MELÓMANOS (MÚSICA) - DERECHA (El más bajo: Puesto 3) -->
-        <div class="glass-card podium-card side-card" style="justify-content: flex-start; transform: translateY(10px);">
+        <!-- 3. TOP MELÓMANOS (MÚSICA) - Derecha (A la misma altura que Actividad) -->
+        <div class="glass-card podium-card side-card" style="justify-content: flex-start;">
             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
                 <i class="fa-solid fa-music" style="font-size: 1.3rem; color: var(--accent-color);"></i>
                 <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.topMusic : 'Top Melómanos (Música)' %></h4>
