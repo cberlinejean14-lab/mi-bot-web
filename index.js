@@ -1,21 +1,21 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
-const mongoose = require('mongoose'); // Importación añadida
+const mongoose = require('mongoose');
 
 const app = express();
 
 // --- CONEXIÓN A MONGODB ---
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
     .then(() => console.log('Conectado a MongoDB exitosamente'))
     .catch(err => console.error('Error al conectar a MongoDB:', err));
 
-// --- MODELO DE USUARIO (Para los rankings) ---
+// --- MODELO DE USUARIO ---
 const userSchema = new mongoose.Schema({
     userId: { type: String, required: true, unique: true },
     name: { type: String, required: true },
@@ -32,6 +32,15 @@ const client = new Client({
         GatewayIntentBits.GuildMembers
     ]
 });
+
+// --- CARGA DINÁMICA DE COMANDOS ---
+client.commands = new Collection();
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.data.name, command);
+}
 
 // Configuración de Sesiones y Passport
 app.use(session({
@@ -55,12 +64,10 @@ passport.use(new DiscordStrategy({
     return done(null, profile);
 }));
 
-// Configurar el motor de vistas y la carpeta pública
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Función auxiliar para sumar comandos
 function sumarComando() {
     try {
         let stats = { totalCommands: 0 };
@@ -74,20 +81,10 @@ function sumarComando() {
     }
 }
 
-// Rutas
+// Rutas (Auth, API, Web...)
 app.get('/auth/discord', passport.authenticate('discord'));
-app.get('/auth/discord/callback', passport.authenticate('discord', {
-    failureRedirect: '/'
-}), (req, res) => {
-    res.redirect('/dashboard');
-});
-
-app.get('/logout', (req, res, next) => {
-    req.logout((err) => {
-        if (err) return next(err);
-        res.redirect('/');
-    });
-});
+app.get('/auth/discord/callback', passport.authenticate('discord', { failureRedirect: '/' }), (req, res) => res.redirect('/dashboard'));
+app.get('/logout', (req, res, next) => { req.logout((err) => { if (err) return next(err); res.redirect('/'); }); });
 
 app.get('/api/stats', async (req, res) => {
     try {
@@ -100,66 +97,45 @@ app.get('/api/stats', async (req, res) => {
                 totalCommands = statsData.totalCommands || 0;
             }
         } catch (e) { totalCommands = 0; }
-        res.json({
-            servers: serverCount.toLocaleString(),
-            users: totalUsers.toLocaleString(),
-            commands: totalCommands.toLocaleString()
-        });
-    } catch (error) {
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
+        res.json({ servers: serverCount.toLocaleString(), users: totalUsers.toLocaleString(), commands: totalCommands.toLocaleString() });
+    } catch (error) { res.status(500).json({ error: 'Error interno del servidor' }); }
 });
 
-// Ruta principal actualizada para consultar MongoDB
 app.get('/', async (req, res) => {
     try {
         const topEconomy = await UserModel.find().sort({ money: -1 }).limit(3).lean();
         const topActivity = await UserModel.find().sort({ level: -1 }).limit(3).lean();
         const topMusic = await UserModel.find().sort({ songs: -1 }).limit(3).lean();
-
-        res.render('index', { 
-            user: req.user || null,
-            currentLang: req.query.lang || 'es',
-            rankingDinero: topEconomy,
-            rankingXP: topActivity,
-            rankingMusica: topMusic,
-            listaReviews: []
-        });
+        res.render('index', { user: req.user || null, currentLang: req.query.lang || 'es', rankingDinero: topEconomy, rankingXP: topActivity, rankingMusica: topMusic, listaReviews: [] });
     } catch (error) {
-        console.error('Error al cargar rankings:', error);
-        res.render('index', { 
-            user: req.user || null,
-            currentLang: req.query.lang || 'es',
-            rankingDinero: [],
-            rankingXP: [],
-            rankingMusica: [],
-            listaReviews: []
-        });
+        res.render('index', { user: req.user || null, currentLang: req.query.lang || 'es', rankingDinero: [], rankingXP: [], rankingMusica: [], listaReviews: [] });
     }
 });
 
 app.get('/dashboard', (req, res) => {
     if (!req.isAuthenticated()) return res.redirect('/auth/discord');
-    const guilds = req.user.guilds || [];
-    res.render('dashboard-select', { 
-        user: req.user,
-        guilds: guilds,
-        lang: req.query.lang || 'es'
-    });
+    res.render('dashboard-select', { user: req.user, guilds: req.user.guilds || [], lang: req.query.lang || 'es' });
 });
 
+// --- MANEJADOR DE COMANDOS (Interactuando con Mongo) ---
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
-    sumarComando();
+
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return;
+
+    try {
+        await command.execute(interaction);
+        sumarComando();
+    } catch (error) {
+        console.error(error);
+        await interaction.reply({ content: 'Hubo un error al ejecutar este comando.', ephemeral: true });
+    }
 });
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const PORT = process.env.PORT || 3000;
 
 client.login(TOKEN).then(() => {
-    app.listen(PORT, '0.0.0.0', () => {
-        console.log(`Servidor web escuchando en el puerto ${PORT}`);
-    });
-}).catch(err => {
-    console.error('Error al iniciar sesión:', err);
-});
+    app.listen(PORT, '0.0.0.0', () => console.log(`Servidor web escuchando en el puerto ${PORT}`));
+}).catch(err => console.error('Error al iniciar sesión:', err));
