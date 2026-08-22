@@ -11,15 +11,12 @@ const axios = require('axios');
 
 const app = express();
 
-// CONFIGURACIÓN NECESARIA PARA RAILWAY (PROXY Y COOKIES)
 app.set('trust proxy', 1);
 
-// --- CONEXIÓN A MONGODB ---
 mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
     .then(() => console.log('Conectado a MongoDB exitosamente'))
     .catch(err => console.error('Error al conectar a MongoDB:', err));
 
-// --- MODELO DE USUARIO ---
 const userSchema = new mongoose.Schema({
     userId: { type: String, required: true, unique: true },
     name: { type: String, required: true },
@@ -29,7 +26,6 @@ const userSchema = new mongoose.Schema({
 });
 const UserModel = mongoose.model('User', userSchema);
 
-// 1. Inicializar el cliente de Discord
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -37,7 +33,6 @@ const client = new Client({
     ]
 });
 
-// --- CARGA DINÁMICA DE COMANDOS ---
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -46,7 +41,6 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
-// Configuración de Sesiones y Passport robusta para Railway
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secreto_super_seguro_para_sesiones',
     resave: false,
@@ -66,7 +60,6 @@ app.use(passport.session());
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(obj, done));
 
-// ESTRATEGIA DE PASSPORT ACTUALIZADA
 passport.use(new DiscordStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
@@ -74,7 +67,6 @@ passport.use(new DiscordStrategy({
     scope: ['identify', 'guilds'],
     passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-    // Guardamos el accessToken dentro del objeto profile para poder usarlo después
     profile.accessToken = accessToken;
     return done(null, profile);
 }));
@@ -96,7 +88,6 @@ function sumarComando() {
     }
 }
 
-// Rutas (Auth, API, Web...)
 app.get('/auth/discord', passport.authenticate('discord'));
 app.get('/auth/discord/callback', passport.authenticate('discord', { failureRedirect: '/' }), (req, res) => res.redirect('/dashboard'));
 app.get('/logout', (req, res, next) => { req.logout((err) => { if (err) return next(err); res.redirect('/'); }); });
@@ -142,7 +133,6 @@ app.get('/', async (req, res) => {
     }
 });
 
-// RUTA DASHBOARD CON DIAGNÓSTICO EN PANTALLA
 app.get('/dashboard', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
@@ -150,7 +140,6 @@ app.get('/dashboard', async (req, res) => {
         const user = req.user || {};
         let guilds = user.guilds || [];
 
-        // Si los servidores no vienen en el perfil, los consultamos directamente a la API de Discord con el token
         if (guilds.length === 0 && user.accessToken) {
             try {
                 const response = await axios.get('https://discord.com/api/users/@me/guilds', {
@@ -161,7 +150,6 @@ app.get('/dashboard', async (req, res) => {
                 guilds = response.data;
             } catch (apiError) {
                 console.error("API ERROR MESSAGE:", apiError.message);
-                console.error("API ERROR RESPONSE:", apiError.response?.data);
             }
         }
         
@@ -171,21 +159,11 @@ app.get('/dashboard', async (req, res) => {
             lang: req.query.lang || 'es' 
         });
     } catch (error) {
-        // IMPRESIÓN DETALLADA EN CONSOLA Y EN LA PANTALLA WEB
-        console.error("EJS RENDER ERROR MESSAGE:", error.message);
-        console.error("EJS RENDER ERROR STACK:", error.stack);
-        
-        res.status(500).send(`
-            <div style="background: #111; color: #ff5555; padding: 25px; font-family: monospace; border-radius: 8px; margin: 20px;">
-                <h2>¡Error exacto en la vista o servidor!</h2>
-                <p><strong>Mensaje:</strong> ${error.message}</p>
-                <pre style="white-space: pre-wrap; background: #222; padding: 15px; border-radius: 5px;">${error.stack}</pre>
-            </div>
-        `);
+        console.error("ERROR FATAL EN /dashboard:", error.message);
+        res.status(500).send(`Error en el servidor: ${error.message}`);
     }
 });
 
-// --- MANEJADOR DE COMANDOS ---
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
