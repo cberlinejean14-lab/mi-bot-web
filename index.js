@@ -132,7 +132,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-// RUTA DASHBOARD ACTUALIZADA PARA CONSULTAR LA API DE DISCORD SI ES NECESARIO
+// RUTA DASHBOARD ACTUALIZADA Y SEGURA
 app.get('/dashboard', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
