@@ -129,13 +129,22 @@ app.get('/', async (req, res) => {
     }
 });
 
-// RUTA DASHBOARD ACTUALIZADA PARA DEPURACIÓN
+// RUTA DASHBOARD CORREGIDA Y PROTEGIDA
 app.get('/dashboard', (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
-        res.render('dashboard-select', { user: req.user, guilds: req.user.guilds || [], lang: req.query.lang || 'es' });
+        
+        // Protegemos el acceso a guilds asegurando un objeto y arreglo vacío por defecto
+        const user = req.user || {};
+        const guilds = user.guilds || [];
+        
+        res.render('dashboard-select', { 
+            user: user, 
+            guilds: guilds, 
+            lang: req.query.lang || 'es' 
+        });
     } catch (error) {
-        console.error("ERROR DETALLADO EN DASHBOARD:", error);
+        console.error("ERROR EN /dashboard:", error.message, error.stack);
         res.status(500).send("Error interno: " + error.message);
     }
 });
