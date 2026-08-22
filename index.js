@@ -164,6 +164,39 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
+// NUEVA RUTA AGREGADA PARA EVITAR EL ERROR AL HACER CLIC EN "GESTIONAR"
+app.get('/dashboard/:guildId', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.redirect('/auth/discord');
+        
+        const { guildId } = req.params;
+        const user = req.user || {};
+        let guilds = user.guilds || [];
+
+        if (guilds.length === 0 && user.accessToken) {
+            try {
+                const response = await axios.get('https://discord.com/api/users/@me/guilds', {
+                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                });
+                guilds = response.data;
+            } catch (apiError) {
+                console.error("API ERROR:", apiError.message);
+            }
+        }
+
+        const currentGuild = guilds.find(g => g.id === guildId);
+        if (!currentGuild) {
+            return res.status(403).send("No tienes acceso a este servidor o no fue encontrado.");
+        }
+
+        res.send(`Panel de administración para el servidor: <strong>${currentGuild.name}</strong>`);
+        
+    } catch (error) {
+        console.error("ERROR EN /dashboard/:guildId:", error.message);
+        res.status(500).send(`Error al cargar el servidor: ${error.message}`);
+    }
+});
+
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
