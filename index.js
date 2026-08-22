@@ -55,12 +55,14 @@ app.use(passport.session());
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((obj, done) => done(obj, done));
 
+// ESTRATEGIA DE PASSPORT ACTUALIZADA
 passport.use(new DiscordStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: process.env.CALLBACK_URL || 'https://prem-production-5c47.up.railway.app/auth/discord/callback',
-    scope: ['identify', 'guilds']
-}, (accessToken, refreshToken, profile, done) => {
+    callbackURL: process.env.CALLBACK_URL, 
+    scope: ['identify', 'guilds'],
+    passReqToCallback: true
+}, (req, accessToken, refreshToken, profile, done) => {
     return done(null, profile);
 }));
 
@@ -107,7 +109,6 @@ app.get('/', async (req, res) => {
         const topActivity = await UserModel.find().sort({ level: -1 }).limit(3).lean();
         const topMusic = await UserModel.find().sort({ songs: -1 }).limit(3).lean();
         
-        // Variables corregidas para que coincidan con ranking.ejs
         res.render('index', { 
             user: req.user || null, 
             currentLang: req.query.lang || 'es', 
@@ -128,9 +129,15 @@ app.get('/', async (req, res) => {
     }
 });
 
+// RUTA DASHBOARD ACTUALIZADA PARA DEPURACIÓN
 app.get('/dashboard', (req, res) => {
-    if (!req.isAuthenticated()) return res.redirect('/auth/discord');
-    res.render('dashboard-select', { user: req.user, guilds: req.user.guilds || [], lang: req.query.lang || 'es' });
+    try {
+        if (!req.isAuthenticated()) return res.redirect('/auth/discord');
+        res.render('dashboard-select', { user: req.user, guilds: req.user.guilds || [], lang: req.query.lang || 'es' });
+    } catch (error) {
+        console.error("ERROR DETALLADO EN DASHBOARD:", error);
+        res.status(500).send("Error interno: " + error.message);
+    }
 });
 
 // --- MANEJADOR DE COMANDOS ---
