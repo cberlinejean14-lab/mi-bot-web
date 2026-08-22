@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 const mongoose = require('mongoose');
+const axios = require('axios');
 
 const app = express();
 
@@ -63,6 +64,8 @@ passport.use(new DiscordStrategy({
     scope: ['identify', 'guilds'],
     passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
+    // Guardamos el accessToken dentro del objeto profile para poder usarlo después
+    profile.accessToken = accessToken;
     return done(null, profile);
 }));
 
@@ -129,14 +132,27 @@ app.get('/', async (req, res) => {
     }
 });
 
-// RUTA DASHBOARD CORREGIDA Y PROTEGIDA
-app.get('/dashboard', (req, res) => {
+// RUTA DASHBOARD ACTUALIZADA PARA CONSULTAR LA API DE DISCORD SI ES NECESARIO
+app.get('/dashboard', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
         
-        // Protegemos el acceso a guilds asegurando un objeto y arreglo vacío por defecto
         const user = req.user || {};
-        const guilds = user.guilds || [];
+        let guilds = user.guilds || [];
+
+        // Si los servidores no vienen en el perfil, los consultamos directamente a la API de Discord con el token
+        if (guilds.length === 0 && user.accessToken) {
+            try {
+                const response = await axios.get('https://discord.com/api/users/@me/guilds', {
+                    headers: {
+                        Authorization: `Bearer ${user.accessToken}`
+                    }
+                });
+                guilds = response.data;
+            } catch (apiError) {
+                console.error("Error al obtener los servidores de la API de Discord:", apiError.message);
+            }
+        }
         
         res.render('dashboard-select', { 
             user: user, 
