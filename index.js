@@ -132,7 +132,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-// RUTA DASHBOARD ACTUALIZADA Y SEGURA
+// RUTA DASHBOARD CON DIAGNÓSTICO EN PANTALLA
 app.get('/dashboard', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
@@ -150,7 +150,8 @@ app.get('/dashboard', async (req, res) => {
                 });
                 guilds = response.data;
             } catch (apiError) {
-                console.error("Error al obtener los servidores de la API de Discord:", apiError.message);
+                console.error("API ERROR MESSAGE:", apiError.message);
+                console.error("API ERROR RESPONSE:", apiError.response?.data);
             }
         }
         
@@ -160,8 +161,17 @@ app.get('/dashboard', async (req, res) => {
             lang: req.query.lang || 'es' 
         });
     } catch (error) {
-        console.error("ERROR EN /dashboard:", error.message, error.stack);
-        res.status(500).send("Error interno: " + error.message);
+        // IMPRESIÓN DETALLADA EN CONSOLA Y EN LA PANTALLA WEB
+        console.error("EJS RENDER ERROR MESSAGE:", error.message);
+        console.error("EJS RENDER ERROR STACK:", error.stack);
+        
+        res.status(500).send(`
+            <div style="background: #111; color: #ff5555; padding: 25px; font-family: monospace; border-radius: 8px; margin: 20px;">
+                <h2>¡Error exacto en la vista o servidor!</h2>
+                <p><strong>Mensaje:</strong> ${error.message}</p>
+                <pre style="white-space: pre-wrap; background: #222; padding: 15px; border-radius: 5px;">${error.stack}</pre>
+            </div>
+        `);
     }
 });
 
