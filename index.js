@@ -138,6 +138,13 @@ app.get('/dashboard', async (req, res) => {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
         
         const user = req.user || {};
+        
+        // --- REGISTROS DE DEPURACIÓN PARA EL TOKEN ---
+        console.log("=== INTENTO DE ACCESO A /dashboard ===");
+        console.log("Usuario autenticado:", user.username || user.global_name);
+        console.log("Token de acceso actual:", user.accessToken ? "Token presente (" + user.accessToken.substring(0, 6) + "...)" : "¡FALTA EL TOKEN (undefined)!");
+        // ----------------------------------------------
+
         let guilds = user.guilds || [];
 
         if (guilds.length === 0 && user.accessToken) {
@@ -164,7 +171,6 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
-// NUEVA RUTA AGREGADA PARA EVITAR EL ERROR AL HACER CLIC EN "GESTIONAR"
 app.get('/dashboard/:guildId', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
