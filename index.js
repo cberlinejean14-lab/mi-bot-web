@@ -13,6 +13,7 @@ const app = express();
 
 app.set('trust proxy', 1);
 
+// Conexión a MongoDB (protegida para que no tumbe la web si falla)
 mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
     .then(() => console.log('Conectado a MongoDB exitosamente'))
     .catch(err => console.error('Error al conectar a MongoDB:', err));
@@ -34,11 +35,14 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.data.name, command);
+try {
+    const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./commands/${file}`);
+        client.commands.set(command.data.name, command);
+    }
+} catch (e) {
+    console.log("No se cargaron comandos locales o la carpeta no existe.");
 }
 
 app.use(session({
@@ -75,53 +79,26 @@ app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-function sumarComando() {
-    try {
-        let stats = { totalCommands: 0 };
-        if (fs.existsSync('./stats.json')) {
-            stats = JSON.parse(fs.readFileSync('./stats.json', 'utf8'));
-        }
-        stats.totalCommands = (stats.totalCommands || 0) + 1;
-        fs.writeFileSync('./stats.json', JSON.stringify(stats, null, 2));
-    } catch (error) {
-        console.error('Error al actualizar el contador de comandos:', error);
-    }
-}
-
+// Rutas de Autenticación con Discord
 app.get('/auth/discord', passport.authenticate('discord'));
-app.get('/auth/discord/callback', passport.authenticate('discord', { failureRedirect: '/' }), (req, res) => res.redirect('/dashboard'));
-app.get('/logout', (req, res, next) => { req.logout((err) => { if (err) return next(err); res.redirect('/'); }); });
 
-app.get('/api/stats', async (req, res) => {
-    try {
-        const serverCount = client.guilds.cache.size;
-        const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
-        let totalCommands = 0;
-        try {
-            if (fs.existsSync('./stats.json')) {
-                const statsData = JSON.parse(fs.readFileSync('./stats.json', 'utf8'));
-                totalCommands = statsData.totalCommands || 0;
-            }
-        } catch (e) { totalCommands = 0; }
-        res.json({ servers: serverCount.toLocaleString(), users: totalUsers.toLocaleString(), commands: totalCommands.toLocaleString() });
-    } catch (error) { res.status(500).json({ error: 'Error interno del servidor' }); }
+app.get('/auth/discord/callback', 
+    passport.authenticate('discord', { failureRedirect: '/' }), 
+    (req, res) => {
+        res.redirect('/dashboard');
+    }
+);
+
+app.get('/logout', (req, res, next) => { 
+    req.logout((err) => { 
+        if (err) return next(err); 
+        res.redirect('/'); 
+    }); 
 });
 
+// Ruta Principal (Index)
 app.get('/', async (req, res) => {
     try {
-        const topEconomy = await UserModel.find().sort({ money: -1 }).limit(3).lean();
-        const topActivity = await UserModel.find().sort({ level: -1 }).limit(3).lean();
-        const topMusic = await UserModel.find().sort({ songs: -1 }).limit(3).lean();
-        
-        res.render('index', { 
-            user: req.user || null, 
-            currentLang: req.query.lang || 'es', 
-            topEconomy: topEconomy, 
-            topActivity: topActivity, 
-            topMusic: topMusic, 
-            listaReviews: [] 
-        });
-    } catch (error) {
         res.render('index', { 
             user: req.user || null, 
             currentLang: req.query.lang || 'es', 
@@ -130,29 +107,23 @@ app.get('/', async (req, res) => {
             topMusic: [], 
             listaReviews: [] 
         });
+    } catch (error) {
+        res.send("Bienvenido a la página principal del bot.");
     }
 });
 
+// Ruta del Dashboard principal
 app.get('/dashboard', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
         
         const user = req.user || {};
-        
-        // --- REGISTROS DE DEPURACIÓN PARA EL TOKEN ---
-        console.log("=== INTENTO DE ACCESO A /dashboard ===");
-        console.log("Usuario autenticado:", user.username || user.global_name);
-        console.log("Token de acceso actual:", user.accessToken ? "Token presente (" + user.accessToken.substring(0, 6) + "...)" : "¡FALTA EL TOKEN (undefined)!");
-        // ----------------------------------------------
-
         let guilds = user.guilds || [];
 
         if (guilds.length === 0 && user.accessToken) {
             try {
                 const response = await axios.get('https://discord.com/api/users/@me/guilds', {
-                    headers: {
-                        Authorization: `Bearer ${user.accessToken}`
-                    }
+                    headers: { Authorization: `Bearer ${user.accessToken}` }
                 });
                 guilds = response.data;
             } catch (apiError) {
@@ -171,6 +142,7 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
+// Ruta de gestión por Servidor
 app.get('/dashboard/:guildId', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
@@ -203,15 +175,14 @@ app.get('/dashboard/:guildId', async (req, res) => {
     }
 });
 
+// Eventos del Bot de Discord
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
-
     const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
     try {
         await command.execute(interaction);
-        sumarComando();
     } catch (error) {
         console.error(error);
         if (interaction.replied || interaction.deferred) {
