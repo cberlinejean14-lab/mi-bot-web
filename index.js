@@ -51,7 +51,7 @@ app.use(session({
     saveUninitialized: false,
     proxy: true,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: true, // Obligatorio en Railway al usar HTTPS tras un proxy
         httpOnly: true,
         sameSite: 'lax',
         maxAge: 24 * 60 * 60 * 1000
@@ -193,9 +193,18 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-const TOKEN = process.env.DISCORD_TOKEN;
+// INICIO DEL SERVIDOR WEB (Independiente para evitar caídas 502)
 const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor web escuchando en el puerto ${PORT}`);
+});
 
-client.login(TOKEN).then(() => {
-    app.listen(PORT, '0.0.0.0', () => console.log(`Servidor web escuchando en el puerto ${PORT}`));
-}).catch(err => console.error('Error al iniciar sesión:', err));
+// INICIO DEL BOT DE DISCORD
+const TOKEN = process.env.DISCORD_TOKEN;
+if (TOKEN) {
+    client.login(TOKEN)
+        .then(() => console.log('Bot de Discord conectado correctamente'))
+        .catch(err => console.error('Error al iniciar sesión en Discord:', err));
+} else {
+    console.warn("ADVERTENCIA: No se encontró DISCORD_TOKEN en las variables.");
+}
