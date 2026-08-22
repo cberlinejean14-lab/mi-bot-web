@@ -46,11 +46,18 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
-// Configuración de Sesiones y Passport
+// Configuración de Sesiones y Passport robusta para Railway
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secreto_super_seguro_para_sesiones',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    proxy: true,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 24 * 60 * 60 * 1000
+    }
 }));
 
 app.use(passport.initialize());
