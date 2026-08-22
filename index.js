@@ -11,6 +11,9 @@ const axios = require('axios');
 
 const app = express();
 
+// CONFIGURACIÓN NECESARIA PARA RAILWAY (PROXY Y COOKIES)
+app.set('trust proxy', 1);
+
 // --- CONEXIÓN A MONGODB ---
 mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
     .then(() => console.log('Conectado a MongoDB exitosamente'))
