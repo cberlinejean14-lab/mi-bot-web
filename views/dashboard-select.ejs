@@ -244,13 +244,11 @@
 
     <nav>
         <a href="/?lang=<%= typeof lang !== 'undefined' ? lang : 'es' %>" class="nav-left">
-            <!-- URL directa del avatar del bot de Discord con brillo y estilo circular -->
             <img src="https://cdn.discordapp.com/avatars/1534632950224781548/a_678d6b7de1507542e3636f611d297e20.gif?size=2048" alt="Bot Avatar" class="bot-avatar">
             <span class="bot-name">PREM</span>
         </a>
         <div style="display: flex; align-items: center; gap: 15px;">
             
-            <!-- Selector de Idioma -->
             <div class="lang-dropdown" style="position: relative; display: inline-block;">
                 <button onclick="toggleLangMenu()" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 7px 14px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
                     <% 
@@ -270,12 +268,10 @@
                 </div>
             </div>
 
-            <!-- Botón de Tema -->
             <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema">
                 🌙
             </button>
 
-            <!-- Perfil de Usuario -->
             <% if (typeof user !== 'undefined' && user) { %>
                 <div class="user-dropdown-container" style="position: relative; display: inline-block;">
                     <div onclick="toggleUserMenu()" class="user-profile">
@@ -292,17 +288,14 @@
         </div>
     </nav>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <div class="container">
         <h1>Selecciona un servidor</h1>
         <p class="subtitle">Elige un servidor para administrar o invitar al bot.</p>
 
-        <!-- Buscador -->
         <div class="search-container">
             <input type="text" id="serverSearch" class="search-input" placeholder="Buscar servidores por nombre...">
         </div>
 
-        <!-- Tarjetas de Servidores en Cuadrícula -->
         <div class="guilds-grid" id="guildsGrid">
             <% if (typeof guilds !== 'undefined' && Array.isArray(guilds)) { %>
                 <% guilds.forEach(guild => { %>
@@ -328,13 +321,13 @@
                                 const esAdmin = guild.permissions ? (guild.permissions & 0x8) === 0x8 : guild.administrator; 
                             %>
                             <% if (esAdmin) { %>
-                                <a href="/dashboard/<%= guild.id %>?lang=<%= currentLang %>" class="btn-manage">Gestionar</a>
+                                <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage">Gestionar</a>
                             <% } else { %>
                                 <a href="https://discord.com/oauth2/authorize?client_id=1534632950224781548&scope=bot&permissions=8&guild_id=<%= guild.id %>" target="_blank" class="btn-manage" style="background: rgba(168, 85, 247, 0.15); border: 1px solid var(--border-color);">Invitar</a>
                             <% } %>
                         </div>
                     <% } %>
-                <% %>
+                <% }) %>
             <% } %>
         </div>
     </div>
@@ -343,7 +336,6 @@
         <p>&copy; 2026 PREM Bot. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Scripts de Interacción -->
     <script>
         function toggleLangMenu() {
             const menu = document.getElementById('langMenu');
