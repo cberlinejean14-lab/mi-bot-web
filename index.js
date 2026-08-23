@@ -193,18 +193,18 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
-// INICIO DEL SERVIDOR WEB (Independiente para evitar caídas 502)
+// INICIO DEL SERVIDOR WEB Y BOT DE DISCORD
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Servidor web escuchando en el puerto ${PORT}`);
-});
 
-// INICIO DEL BOT DE DISCORD
-const TOKEN = process.env.DISCORD_TOKEN;
-if (TOKEN) {
-    client.login(TOKEN)
-        .then(() => console.log('Bot de Discord conectado correctamente'))
-        .catch(err => console.error('Error al iniciar sesión en Discord:', err));
-} else {
-    console.warn("ADVERTENCIA: No se encontró DISCORD_TOKEN en las variables.");
-}
+app.listen(PORT, () => {
+    console.log(`Servidor web escuchando en el puerto ${PORT}`);
+    
+    const TOKEN = process.env.DISCORD_TOKEN;
+    if (TOKEN) {
+        client.login(TOKEN)
+            .then(() => console.log('Bot de Discord conectado correctamente'))
+            .catch(err => console.error('Error al iniciar sesión en Discord:', err));
+    } else {
+        console.warn("ADVERTENCIA: No se encontró DISCORD_TOKEN en las variables.");
+    }
+});
