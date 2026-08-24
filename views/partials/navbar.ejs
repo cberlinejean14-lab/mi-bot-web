@@ -1,56 +1,49 @@
-<header style="position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: var(--bg-sidebar, #121216); border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 99999; box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease;">
-        
-    <div class="nav-left" style="display: flex; align-items: center; gap: 25px;">
-        <a href="/" class="brand-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-            <!-- Contenedor del avatar con borde y resplandor morado brillante -->
+<header>
+    <div class="nav-left">
+        <a href="/" class="brand-link">
             <div style="position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid #c084fc; box-shadow: 0 0 12px rgba(192, 132, 252, 0.8), inset 0 0 8px rgba(192, 132, 252, 0.4); pointer-events: none;"></div>
-                <img src="https://cdn.discordapp.com/avatars/1534632950224781548/a_678d6b7de1507542e3636f611d297e20.gif?size=2048" alt="PREM" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; position: relative; z-index: 1;">
+                <div style="position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px solid var(--accent-color); box-shadow: 0 0 12px var(--accent-glow), inset 0 0 8px var(--accent-glow); pointer-events: none;"></div>
+                <img src="https://cdn.discordapp.com/avatars/1534632950224781548/a_678d6b7de1507542e3636f611d297e20.gif?size=2048" alt="PREM" class="bot-avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; position: relative; z-index: 1; border: none; box-shadow: none;">
             </div>
-            <!-- Texto PREM -->
-            <span style="font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px; color: var(--text-main, #e9d5ff);">PREM</span>
+            <span class="bot-name">PREM</span>
         </a>
 
-        <!-- Menú de Navegación: Recursos y Soporte -->
-        <nav style="display: flex; align-items: center; gap: 10px;">
-            <!-- Dropdown Recursos -->
+        <!-- Menú de Navegación limpio que usa el CSS global -->
+        <nav>
             <div class="dropdown-container" style="position: relative; display: inline-block;">
-                <button onclick="toggleDropdown('recursosDropdown')" style="background: transparent; border: none; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; transition: background 0.2s;">
-                    Recursos <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
+                <button onclick="toggleDropdown('recursosDropdown')" class="login-btn" style="padding: 7px 14px; border-radius: 8px; cursor: pointer;">
+                    Recursos <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted);"></i>
                 </button>
-                <div id="recursosDropdown" style="display: none; position: absolute; left: 0; top: 40px; width: 180px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
-                    <a href="/comandos" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-terminal" style="color: #a855f7;"></i> Comandos</a>
-                    <a href="/variables" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-code" style="color: #a855f7;"></i> Variables</a>
-                    <a href="/documentacion" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-book" style="color: #a855f7;"></i> Documentación</a>
+                <div id="recursosDropdown" style="display: none; position: absolute; left: 0; top: 45px; width: 180px; background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
+                    <a href="/comandos" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-terminal" style="color: #a855f7;"></i> Comandos</a>
+                    <a href="/variables" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-code" style="color: #a855f7;"></i> Variables</a>
+                    <a href="/documentacion" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-book" style="color: #a855f7;"></i> Documentación</a>
                 </div>
             </div>
 
-            <!-- Dropdown Soporte -->
             <div class="dropdown-container" style="position: relative; display: inline-block;">
-                <button onclick="toggleDropdown('soporteDropdown')" style="background: transparent; border: none; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; transition: background 0.2s;">
-                    Soporte <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
+                <button onclick="toggleDropdown('soporteDropdown')" class="login-btn" style="padding: 7px 14px; border-radius: 8px; cursor: pointer;">
+                    Soporte <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted);"></i>
                 </button>
-                <div id="soporteDropdown" style="display: none; position: absolute; left: 0; top: 40px; width: 220px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
-                    <a href="/#faq-section" onclick="toggleDropdown('soporteDropdown')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-circle-question" style="color: #a855f7;"></i> Preguntas Frecuentes</a>
-                    <a href="https://discord.gg/tu-servidor" target="_blank" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Servidor de Soporte</a>
-                    <a href="/contacto" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-envelope" style="color: #a855f7;"></i> Contáctanos</a>
-                    <a href="/quejas" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> Quejas</a>
-                    <a href="/sugerencias" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-lightbulb" style="color: #fbbf24;"></i> Sugerencias</a>
+                <div id="soporteDropdown" style="display: none; position: absolute; left: 0; top: 45px; width: 220px; background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
+                    <a href="/#faq-section" onclick="toggleDropdown('soporteDropdown')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-circle-question" style="color: #a855f7;"></i> Preguntas Frecuentes</a>
+                    <a href="https://discord.gg/tu-servidor" target="_blank" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Servidor de Soporte</a>
+                    <a href="/contacto" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-envelope" style="color: #a855f7;"></i> Contáctanos</a>
+                    <a href="/quejas" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> Quejas</a>
+                    <a href="/sugerencias" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-lightbulb" style="color: #fbbf24;"></i> Sugerencias</a>
                 </div>
             </div>
         </nav>
     </div>
 
     <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
-        
-        <!-- Selector de Idiomas Personalizado -->
-        <div class="lang-dropdown-container" style="position: relative; display: inline-block;">
-            <button onclick="toggleDropdown('customLangMenu')" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; outline: none; transition: border-color 0.2s;">
+        <!-- Selector de Idiomas -->
+        <div style="position: relative; display: inline-block;">
+            <button onclick="toggleDropdown('customLangMenu')" class="login-btn" style="padding: 7px 14px; border-radius: 10px; cursor: pointer;">
                 <% 
                     let currentFlagCode = 'es'; 
                     let currentName = 'Español';
                     const langCode = typeof currentLang !== 'undefined' ? currentLang : (typeof lang !== 'undefined' ? lang : 'es');
-                    
                     if (langCode === 'en') { currentFlagCode = 'us'; currentName = 'English'; }
                     else if (langCode === 'pt') { currentFlagCode = 'br'; currentName = 'Português'; }
                     else if (langCode === 'fr') { currentFlagCode = 'fr'; currentName = 'Français'; }
@@ -60,55 +53,57 @@
                 %>
                 <img src="https://flagcdn.com/w20/<%= currentFlagCode %>.png" alt="flag" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;">
                 <span><%= currentName %></span>
-                <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af); margin-left: 2px;"></i>
+                <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted); margin-left: 2px;"></i>
             </button>
 
-            <div id="customLangMenu" style="display: none; position: absolute; right: 0; top: 48px; width: 170px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); padding: 6px; z-index: 10000; backdrop-filter: blur(20px);">
-                <a href="?lang=es" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/es.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> Español</a>
-                <a href="?lang=en" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/us.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> English</a>
-                <a href="?lang=pt" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/br.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> Português</a>
-                <a href="?lang=fr" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/fr.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> Français</a>
-                <a href="?lang=hi" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/in.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> हिन्दी</a>
-                <a href="?lang=ar" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/sa.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> العربية</a>
-                <a href="?lang=zh" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/cn.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> 中文</a>
+            <div id="customLangMenu" style="display: none; position: absolute; right: 0; top: 48px; width: 170px; background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); padding: 6px; z-index: 10000; backdrop-filter: blur(20px);">
+                <a href="?lang=es" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/es.png" style="width: 18px; height: 13px; border-radius: 2px;"> Español</a>
+                <a href="?lang=en" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/us.png" style="width: 18px; height: 13px; border-radius: 2px;"> English</a>
+                <a href="?lang=pt" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/br.png" style="width: 18px; height: 13px; border-radius: 2px;"> Português</a>
+                <a href="?lang=fr" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/fr.png" style="width: 18px; height: 13px; border-radius: 2px;"> Français</a>
+                <a href="?lang=hi" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/in.png" style="width: 18px; height: 13px; border-radius: 2px;"> हिन्दी</a>
+                <a href="?lang=ar" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/sa.png" style="width: 18px; height: 13px; border-radius: 2px;"> العربية</a>
+                <a href="?lang=zh" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><img src="https://flagcdn.com/w20/cn.png" style="width: 18px; height: 13px; border-radius: 2px;"> 中文</a>
             </div>
         </div>
 
-        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px;">
+        <!-- Botón de Tema -->
+        <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema">
             <i class="fa-solid fa-moon" id="themeIcon"></i>
         </button>
 
+        <!-- Usuario / Login -->
         <% if (typeof user !== 'undefined' && user) { %>
-            <div class="user-dropdown-container" style="position: relative; display: inline-block;">
-                <div onclick="toggleDropdown('userDropdownMenu')" style="display: flex; align-items: center; gap: 10px; background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); padding: 6px 14px; border-radius: 30px; cursor: pointer; transition: all 0.2s;">
-                    <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%;">
-                    <span style="font-size: 13px; font-weight: 600; color: var(--text-main, #fff);"><%= user.username %></span>
-                    <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
+            <div style="position: relative; display: inline-block;">
+                <div onclick="toggleDropdown('userDropdownMenu')" class="user-profile">
+                    <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" class="user-avatar">
+                    <span style="font-size: 13px; font-weight: 600; color: var(--text-main);"><%= user.username %></span>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted);"></i>
                 </div>
 
-                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 250px; max-height: 450px; overflow-y: auto; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000;">
-                    <div style="padding: 6px 10px 10px 10px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); margin-bottom: 8px;">
-                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main, #fff);"><%= user.username %></div>
-                        <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">@<%= user.username.toLowerCase() %></div>
+                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 250px; max-height: 450px; overflow-y: auto; background: var(--bg-sidebar); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000;">
+                    <div style="padding: 6px 10px 10px 10px; border-bottom: 1px solid var(--border-color); margin-bottom: 8px;">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main);"><%= user.username %></div>
+                        <div style="font-size: 11px; color: var(--text-muted);">@<%= user.username.toLowerCase() %></div>
                     </div>
 
-                    <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                    <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                         <i class="fa-solid fa-server" style="color: #a855f7;"></i> Mis servidores
                     </a>
-                    <a href="#" onclick="toggleTheme(); toggleDropdown('userDropdownMenu'); return false;" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                    <a href="#" onclick="toggleTheme(); toggleDropdown('userDropdownMenu'); return false;" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                         <i class="fa-solid fa-moon" style="color: #a855f7;"></i> Preferencias / Tema
                     </a>
 
-                    <div style="font-size: 10px; color: var(--text-muted, #9ca3af); font-weight: bold; text-transform: uppercase; padding: 10px 10px 4px 10px;">Gestión de PREM Bot</div>
-                    <a href="/dashboard/custom-bot" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                    <div style="font-size: 10px; color: var(--text-muted); font-weight: bold; text-transform: uppercase; padding: 10px 10px 4px 10px;">Gestión de PREM Bot</div>
+                    <a href="/dashboard/custom-bot" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                         <i class="fa-solid fa-robot" style="color: #a855f7;"></i> Personalización de Bot
                     </a>
-                    <a href="/dashboard/custom-commands" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                    <a href="/dashboard/custom-commands" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                         <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-code" style="color: #a855f7;"></i> Comandos personalizados</div>
                         <span style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #000; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">PREMIUM</span>
                     </a>
 
-                    <div style="border-top: 1px solid var(--border, rgba(255,255,255,0.1)); margin-top: 8px; padding-top: 8px;">
+                    <div style="border-top: 1px solid var(--border-color); margin-top: 8px; padding-top: 8px;">
                         <a href="/auth/logout" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                             <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
                         </a>
@@ -116,11 +111,10 @@
                 </div>
             </div>
         <% } else { %>
-            <a href="/auth/discord" class="login-btn" style="background: var(--bg-dropdown, rgba(255,255,255,0.05)); color: var(--text-main, #fff); padding: 8px 16px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid var(--border, rgba(255,255,255,0.1)); display: flex; align-items: center; gap: 8px;">
+            <a href="/auth/discord" class="login-btn">
                 <i class="fa-brands fa-discord"></i> Iniciar Sesión
             </a>
         <% } %>
-
     </div>
 </header>
 
@@ -136,10 +130,6 @@
         if (target) {
             target.style.display = target.style.display === 'block' ? 'none' : 'block';
         }
-    };
-
-    window.toggleUserMenu = function() {
-        toggleDropdown('userDropdownMenu');
     };
 
     window.addEventListener('click', () => {
