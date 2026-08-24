@@ -43,17 +43,35 @@
 
     <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
         
-        <!-- Selector de Idiomas con Banderas -->
-        <div class="lang-container" style="position: relative; display: inline-block;">
-            <select class="lang-select" onchange="location.href='?lang=' + this.value" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none;">
-                <option value="es" <%= (typeof currentLang !== 'undefined' && currentLang === 'es') ? 'selected' : '' %>>🇪🇸 Español</option>
-                <option value="en" <%= (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'selected' : '' %>>🇺🇸 English</option>
-                <option value="pt" <%= (typeof currentLang !== 'undefined' && currentLang === 'pt') ? 'selected' : '' %>>🇧🇷 Português</option>
-                <option value="fr" <%= (typeof currentLang !== 'undefined' && currentLang === 'fr') ? 'selected' : '' %>>🇫🇷 Français</option>
-                <option value="hi" <%= (typeof currentLang !== 'undefined' && currentLang === 'hi') ? 'selected' : '' %>>🇮🇳 हिन्दी</option>
-                <option value="ar" <%= (typeof currentLang !== 'undefined' && currentLang === 'ar') ? 'selected' : '' %>>🇸🇦 العربية</option>
-                <option value="zh" <%= (typeof currentLang !== 'undefined' && currentLang === 'zh') ? 'selected' : '' %>>🇨🇳 中文</option>
-            </select>
+        <!-- Selector de Idiomas Personalizado (Con banderas y diseño elegante) -->
+        <div class="lang-dropdown-container" style="position: relative; display: inline-block;">
+            <button onclick="toggleDropdown('customLangMenu')" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; outline: none; transition: border-color 0.2s;">
+                <% 
+                    let currentFlag = '🇪🇸'; 
+                    let currentName = 'Español';
+                    const langCode = typeof currentLang !== 'undefined' ? currentLang : (typeof lang !== 'undefined' ? lang : 'es');
+                    
+                    if (langCode === 'en') { currentFlag = '🇺🇸'; currentName = 'English'; }
+                    else if (langCode === 'pt') { currentFlag = '🇧🇷'; currentName = 'Português'; }
+                    else if (langCode === 'fr') { currentFlag = '🇫🇷'; currentName = 'Français'; }
+                    else if (langCode === 'hi') { currentFlag = '🇮🇳'; currentName = 'हिन्दी'; }
+                    else if (langCode === 'ar') { currentFlag = '🇸🇦'; currentName = 'العربية'; }
+                    else if (langCode === 'zh') { currentFlag = '🇨🇳'; currentName = '中文'; }
+                %>
+                <span style="font-size: 16px;"><%= currentFlag %></span>
+                <span><%= currentName %></span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af); margin-left: 2px;"></i>
+            </button>
+
+            <div id="customLangMenu" style="display: none; position: absolute; right: 0; top: 48px; width: 170px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); padding: 6px; z-index: 10000; backdrop-filter: blur(20px);">
+                <a href="?lang=es" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇪🇸</span> Español</a>
+                <a href="?lang=en" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇺🇸</span> English</a>
+                <a href="?lang=pt" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇧🇷</span> Português</a>
+                <a href="?lang=fr" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇫🇷</span> Français</a>
+                <a href="?lang=hi" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇮🇳</span> हिन्दी</a>
+                <a href="?lang=ar" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇸🇦</span> العربية</a>
+                <a href="?lang=zh" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇨🇳</span> 中文</a>
+            </div>
         </div>
 
         <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px;">
@@ -62,7 +80,7 @@
 
         <% if (typeof user !== 'undefined' && user) { %>
             <div class="user-dropdown-container" style="position: relative; display: inline-block;">
-                <div onclick="toggleUserMenu()" style="display: flex; align-items: center; gap: 10px; background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); padding: 6px 14px; border-radius: 30px; cursor: pointer; transition: all 0.2s;">
+                <div onclick="toggleDropdown('userDropdownMenu')" style="display: flex; align-items: center; gap: 10px; background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); padding: 6px 14px; border-radius: 30px; cursor: pointer; transition: all 0.2s;">
                     <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" style="width: 28px; height: 28px; border-radius: 50%;">
                     <span style="font-size: 13px; font-weight: 600; color: var(--text-main, #fff);"><%= user.username %></span>
                     <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
@@ -77,7 +95,7 @@
                     <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                         <i class="fa-solid fa-server" style="color: #a855f7;"></i> Mis servidores
                     </a>
-                    <a href="#" onclick="toggleTheme(); toggleUserMenu(); return false;" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                    <a href="#" onclick="toggleTheme(); toggleDropdown('userDropdownMenu'); return false;" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
                         <i class="fa-solid fa-moon" style="color: #a855f7;"></i> Preferencias / Tema
                     </a>
 
@@ -109,7 +127,7 @@
 <script>
     window.toggleDropdown = function(id) {
         event.stopPropagation();
-        const dropdowns = ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu'];
+        const dropdowns = ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu', 'customLangMenu'];
         dropdowns.forEach(d => {
             const el = document.getElementById(d);
             if (el && d !== id) el.style.display = 'none';
@@ -125,7 +143,7 @@
     };
 
     window.addEventListener('click', () => {
-        ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu'].forEach(d => {
+        ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu', 'customLangMenu'].forEach(d => {
             const el = document.getElementById(d);
             if (el) el.style.display = 'none';
         });
