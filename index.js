@@ -150,10 +150,10 @@ app.get('/', async (req, res) => {
         let statsDoc = await StatsModel.findOne({ key: 'global_stats' });
         const totalCommands = statsDoc ? statsDoc.totalCommands : 0;
 
-        // Obtenemos los tops de MongoDB
-        const rawTopActivity = await UserModel.find().sort({ level: -1 }).limit(5).lean();
-        const rawTopEconomy = await UserModel.find().sort({ money: -1 }).limit(5).lean();
-        const rawTopMusic = await UserModel.find().sort({ songs: -1 }).limit(5).lean();
+        // Obtenemos los tops de MongoDB filtrando solo a los que tienen actividad real
+        const rawTopActivity = await UserModel.find({ level: { $gt: 1 } }).sort({ level: -1 }).limit(5).lean();
+        const rawTopEconomy = await UserModel.find({ money: { $gt: 0 } }).sort({ money: -1 }).limit(5).lean();
+        const rawTopMusic = await UserModel.find({ songs: { $gt: 0 } }).sort({ songs: -1 }).limit(5).lean();
 
         // Les inyectamos la foto de perfil de Discord en tiempo real
         const topActivity = await enrichUsersWithAvatars(rawTopActivity);
