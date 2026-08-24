@@ -97,18 +97,44 @@ app.get('/logout', (req, res, next) => {
     }); 
 });
 
+// Ruta API para las estadísticas en tiempo real
+app.get('/api/stats', (req, res) => {
+    try {
+        const totalServers = client.guilds.cache.size;
+        const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
+        
+        res.json({
+            servers: totalServers,
+            users: totalUsers,
+            commands: 0 
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener estadísticas' });
+    }
+});
+
 // Ruta Principal (Index)
 app.get('/', async (req, res) => {
     try {
+        // Obtenemos estadísticas reales del bot de Discord conectado
+        const totalServers = client.guilds.cache.size;
+        const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
+        
         res.render('index', { 
             user: req.user || null, 
             currentLang: req.query.lang || 'es', 
+            stats: {
+                servers: totalServers,
+                users: totalUsers,
+                commands: 0 // Puedes cambiar esto si llevas un contador de comandos ejecutados
+            },
             topEconomy: [], 
             topActivity: [], 
             topMusic: [], 
             listaReviews: [] 
         });
     } catch (error) {
+        console.error("Error en la ruta principal:", error);
         res.send("Bienvenido a la página principal del bot.");
     }
 });
