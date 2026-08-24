@@ -43,34 +43,34 @@
 
     <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
         
-        <!-- Selector de Idiomas Personalizado (Con banderas y diseño elegante) -->
+        <!-- Selector de Idiomas Personalizado (Con banderas SVG reales y sin abreviaturas) -->
         <div class="lang-dropdown-container" style="position: relative; display: inline-block;">
             <button onclick="toggleDropdown('customLangMenu')" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; outline: none; transition: border-color 0.2s;">
                 <% 
-                    let currentFlag = '🇪🇸'; 
+                    let currentFlagCode = 'es'; 
                     let currentName = 'Español';
                     const langCode = typeof currentLang !== 'undefined' ? currentLang : (typeof lang !== 'undefined' ? lang : 'es');
                     
-                    if (langCode === 'en') { currentFlag = '🇺🇸'; currentName = 'English'; }
-                    else if (langCode === 'pt') { currentFlag = '🇧🇷'; currentName = 'Português'; }
-                    else if (langCode === 'fr') { currentFlag = '🇫🇷'; currentName = 'Français'; }
-                    else if (langCode === 'hi') { currentFlag = '🇮🇳'; currentName = 'हिन्दी'; }
-                    else if (langCode === 'ar') { currentFlag = '🇸🇦'; currentName = 'العربية'; }
-                    else if (langCode === 'zh') { currentFlag = '🇨🇳'; currentName = '中文'; }
+                    if (langCode === 'en') { currentFlagCode = 'us'; currentName = 'English'; }
+                    else if (langCode === 'pt') { currentFlagCode = 'br'; currentName = 'Português'; }
+                    else if (langCode === 'fr') { currentFlagCode = 'fr'; currentName = 'Français'; }
+                    else if (langCode === 'hi') { currentFlagCode = 'in'; currentName = 'हिन्दी'; }
+                    else if (langCode === 'ar') { currentFlagCode = 'sa'; currentName = 'العربية'; }
+                    else if (langCode === 'zh') { currentFlagCode = 'cn'; currentName = '中文'; }
                 %>
-                <span style="font-size: 16px;"><%= currentFlag %></span>
+                <img src="https://flagcdn.com/w20/<%= currentFlagCode %>.png" alt="flag" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;">
                 <span><%= currentName %></span>
                 <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af); margin-left: 2px;"></i>
             </button>
 
             <div id="customLangMenu" style="display: none; position: absolute; right: 0; top: 48px; width: 170px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); padding: 6px; z-index: 10000; backdrop-filter: blur(20px);">
-                <a href="?lang=es" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇪🇸</span> Español</a>
-                <a href="?lang=en" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇺🇸</span> English</a>
-                <a href="?lang=pt" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇧🇷</span> Português</a>
-                <a href="?lang=fr" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇫🇷</span> Français</a>
-                <a href="?lang=hi" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇮🇳</span> हिन्दी</a>
-                <a href="?lang=ar" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇸🇦</span> العربية</a>
-                <a href="?lang=zh" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><span style="font-size: 15px;">🇨🇳</span> 中文</a>
+                <a href="?lang=es" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/es.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> Español</a>
+                <a href="?lang=en" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/us.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> English</a>
+                <a href="?lang=pt" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/br.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> Português</a>
+                <a href="?lang=fr" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/fr.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> Français</a>
+                <a href="?lang=hi" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/in.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> हिन्दी</a>
+                <a href="?lang=ar" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/sa.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> العربية</a>
+                <a href="?lang=zh" style="display: flex; align-items: center; gap: 10px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px; transition: background 0.2s;"><img src="https://flagcdn.com/w20/cn.png" style="width: 18px; height: 13px; border-radius: 2px; object-fit: cover;"> 中文</a>
             </div>
         </div>
 
