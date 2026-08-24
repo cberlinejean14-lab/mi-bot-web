@@ -43,15 +43,16 @@
 
     <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
         
+        <!-- Selector de Idiomas con Banderas -->
         <div class="lang-container" style="position: relative; display: inline-block;">
             <select class="lang-select" onchange="location.href='?lang=' + this.value" style="background: var(--bg-dropdown, rgba(45, 35, 75, 0.9)); border: 1px solid var(--border, rgba(255,255,255,0.1)); color: var(--text-main, #fff); padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; outline: none;">
-                <option value="es" <%= (typeof currentLang !== 'undefined' && currentLang === 'es') ? 'selected' : '' %>>ES Español</option>
-                <option value="en" <%= (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'selected' : '' %>>US English</option>
-                <option value="pt" <%= (typeof currentLang !== 'undefined' && currentLang === 'pt') ? 'selected' : '' %>>BR Português</option>
-                <option value="fr" <%= (typeof currentLang !== 'undefined' && currentLang === 'fr') ? 'selected' : '' %>>FR Français</option>
-                <option value="hi" <%= (typeof currentLang !== 'undefined' && currentLang === 'hi') ? 'selected' : '' %>>IN हिन्दी</option>
-                <option value="ar" <%= (typeof currentLang !== 'undefined' && currentLang === 'ar') ? 'selected' : '' %>>SA العربية</option>
-                <option value="zh" <%= (typeof currentLang !== 'undefined' && currentLang === 'zh') ? 'selected' : '' %>>CN 中文</option>
+                <option value="es" <%= (typeof currentLang !== 'undefined' && currentLang === 'es') ? 'selected' : '' %>>🇪🇸 Español</option>
+                <option value="en" <%= (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'selected' : '' %>>🇺🇸 English</option>
+                <option value="pt" <%= (typeof currentLang !== 'undefined' && currentLang === 'pt') ? 'selected' : '' %>>🇧🇷 Português</option>
+                <option value="fr" <%= (typeof currentLang !== 'undefined' && currentLang === 'fr') ? 'selected' : '' %>>🇫🇷 Français</option>
+                <option value="hi" <%= (typeof currentLang !== 'undefined' && currentLang === 'hi') ? 'selected' : '' %>>🇮🇳 हिन्दी</option>
+                <option value="ar" <%= (typeof currentLang !== 'undefined' && currentLang === 'ar') ? 'selected' : '' %>>🇸🇦 العربية</option>
+                <option value="zh" <%= (typeof currentLang !== 'undefined' && currentLang === 'zh') ? 'selected' : '' %>>🇨🇳 中文</option>
             </select>
         </div>
 
