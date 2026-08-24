@@ -1,0 +1,10 @@
+[33m76ccbe2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m chore: restaurar version anterior estable
+[33mf7d99f3[m fix: limpiar estilos duplicados en index.ejs para restaurar la web
+[33ma7005ef[m fix: corregir sintaxis de css para restaurar diseño completo
+[33m661d3bd[m fix: corregir diseño y sintaxis del ranking
+[33me91ff85[m fix: removido el sistema de idiomas para restaurar la estabilidad
+[33m7177ce3[m fix: integrado translatePage y variable t en index.js
+[33m0728634[m fix: asegurando traduccion t en server.js
+[33m563f55a[m feat: agregado sistema de multi-idioma con traduccion automatica
+[33m564ee1f[m chore: revert code changes and keep only translation json files
+[33m09877da[m fix: make resources and support navbar buttons transparent
