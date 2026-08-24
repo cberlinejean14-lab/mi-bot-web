@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema({
 });
 const UserModel = mongoose.model('User', userSchema);
 
-// Esquema para guardar el contador global de comandos en MongoDB de forma permanente
 const statsSchema = new mongoose.Schema({
     key: { type: String, required: true, unique: true },
     totalCommands: { type: Number, default: 0 }
@@ -110,7 +109,6 @@ app.get('/api/stats', async (req, res) => {
         const totalServers = client.guilds.cache.size;
         const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
         
-        // Buscamos el contador persistente en MongoDB
         let statsDoc = await StatsModel.findOne({ key: 'global_stats' });
         const totalCommands = statsDoc ? statsDoc.totalCommands : 0;
         
@@ -124,19 +122,43 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+// Función auxiliar para adjuntar la foto de perfil de Discord a los usuarios del ranking
+async function enrichUsersWithAvatars(users) {
+    return await Promise.all(users.map(async (u) => {
+        let avatarUrl = null;
+        try {
+            const discordUser = await client.users.fetch(u.userId).catch(() => null);
+            if (discordUser) {
+                avatarUrl = discordUser.displayAvatarURL({ dynamic: true, size: 128 });
+            }
+        } catch (e) {
+            // Si falla la búsqueda, queda sin avatar
+        }
+        return {
+            ...u,
+            avatar: avatarUrl
+        };
+    }));
+}
+
 // Ruta Principal (Index)
 app.get('/', async (req, res) => {
     try {
         const totalServers = client.guilds.cache.size;
         const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
         
-        // Obtenemos las estadísticas de MongoDB
         let statsDoc = await StatsModel.findOne({ key: 'global_stats' });
         const totalCommands = statsDoc ? statsDoc.totalCommands : 0;
 
-        const topActivity = await UserModel.find().sort({ level: -1 }).limit(5).lean();
-        const topEconomy = await UserModel.find().sort({ money: -1 }).limit(5).lean();
-        const topMusic = await UserModel.find().sort({ songs: -1 }).limit(5).lean();
+        // Obtenemos los tops de MongoDB
+        const rawTopActivity = await UserModel.find().sort({ level: -1 }).limit(5).lean();
+        const rawTopEconomy = await UserModel.find().sort({ money: -1 }).limit(5).lean();
+        const rawTopMusic = await UserModel.find().sort({ songs: -1 }).limit(5).lean();
+
+        // Les inyectamos la foto de perfil de Discord en tiempo real
+        const topActivity = await enrichUsersWithAvatars(rawTopActivity);
+        const topEconomy = await enrichUsersWithAvatars(rawTopEconomy);
+        const topMusic = await enrichUsersWithAvatars(rawTopMusic);
 
         res.render('index', { 
             user: req.user || null, 
@@ -232,7 +254,6 @@ client.on('interactionCreate', async interaction => {
     if (!command) return;
 
     try {
-        // Incrementamos de forma persistente en MongoDB
         await StatsModel.findOneAndUpdate(
             { key: 'global_stats' },
             { $inc: { totalCommands: 1 } },
