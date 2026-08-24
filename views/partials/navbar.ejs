@@ -1,6 +1,6 @@
 <header style="position: fixed; top: 0; left: 0; right: 0; height: 60px; background-color: var(--bg-sidebar, #121216); border-bottom: 1px solid var(--border, rgba(255,255,255,0.1)); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 99999; box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease;">
         
-    <div class="nav-left">
+    <div class="nav-left" style="display: flex; align-items: center; gap: 25px;">
         <a href="/" class="brand-link" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
             <!-- Contenedor del avatar con borde y resplandor morado brillante -->
             <div style="position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -10,6 +10,34 @@
             <!-- Texto PREM -->
             <span style="font-weight: 700; font-size: 1.25rem; letter-spacing: 0.5px; color: var(--text-main, #e9d5ff);">PREM</span>
         </a>
+
+        <!-- Menú de Navegación: Recursos y Soporte -->
+        <nav style="display: flex; align-items: center; gap: 10px;">
+            <!-- Dropdown Recursos -->
+            <div class="dropdown-container" style="position: relative; display: inline-block;">
+                <button onclick="toggleDropdown('recursosDropdown')" style="background: transparent; border: none; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; transition: background 0.2s;">
+                    Recursos <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
+                </button>
+                <div id="recursosDropdown" style="display: none; position: absolute; left: 0; top: 40px; width: 180px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
+                    <a href="/comandos" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-terminal" style="color: #a855f7;"></i> Comandos</a>
+                    <a href="/variables" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-code" style="color: #a855f7;"></i> Variables</a>
+                    <a href="/documentacion" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-book" style="color: #a855f7;"></i> Documentación</a>
+                </div>
+            </div>
+
+            <!-- Dropdown Soporte -->
+            <div class="dropdown-container" style="position: relative; display: inline-block;">
+                <button onclick="toggleDropdown('soporteDropdown')" style="background: transparent; border: none; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; transition: background 0.2s;">
+                    Soporte <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
+                </button>
+                <div id="soporteDropdown" style="display: none; position: absolute; left: 0; top: 40px; width: 210px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
+                    <a href="https://discord.gg/tu-servidor" target="_blank" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Servidor de Soporte</a>
+                    <a href="/contacto" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-envelope" style="color: #a855f7;"></i> Contáctanos</a>
+                    <a href="/quejas" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> Quejas</a>
+                    <a href="/sugerencias" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-lightbulb" style="color: #fbbf24;"></i> Sugerencias</a>
+                </div>
+            </div>
+        </nav>
     </div>
 
     <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
@@ -77,6 +105,33 @@
 </header>
 
 <script>
+    // Función para manejar menús desplegables generales (Recursos y Soporte)
+    window.toggleDropdown = function(id) {
+        event.stopPropagation();
+        const dropdowns = ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu'];
+        dropdowns.forEach(d => {
+            const el = document.getElementById(d);
+            if (el && d !== id) el.style.display = 'none';
+        });
+        const target = document.getElementById(id);
+        if (target) {
+            target.style.display = target.style.display === 'block' ? 'none' : 'block';
+        }
+    };
+
+    // Función específica para el menú de usuario de Discord
+    window.toggleUserMenu = function() {
+        toggleDropdown('userDropdownMenu');
+    };
+
+    // Cerrar menús al hacer clic fuera
+    window.addEventListener('click', () => {
+        ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu'].forEach(d => {
+            const el = document.getElementById(d);
+            if (el) el.style.display = 'none';
+        });
+    });
+
     window.toggleTheme = function() {
         const htmlEl = document.documentElement;
         const currentTheme = htmlEl.getAttribute('data-theme');
