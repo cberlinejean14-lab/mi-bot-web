@@ -62,8 +62,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(obj, done));
-
+passport.deserializeUser((obj, done) => {
+    done(null, obj);
+ });
 passport.use(new DiscordStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
