@@ -14,7 +14,7 @@
         <nav style="display: flex; align-items: center; gap: 10px; background: transparent !important; border: none !important; padding: 0 !important;">
             <!-- Dropdown Recursos -->
             <div style="position: relative; display: inline-block;">
-                <button onclick="toggleDropdown('recursosDropdown')" style="background: var(--card-bg, rgba(20, 18, 35, 0.65)); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px;">
+                <button onclick="toggleDropdown('recursosDropdown')" style="background: transparent; border: 1px solid transparent; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
                     Recursos <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
                 </button>
                 <div id="recursosDropdown" style="display: none; position: absolute; left: 0; top: 45px; width: 180px; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
@@ -26,7 +26,7 @@
 
             <!-- Dropdown Soporte -->
             <div style="position: relative; display: inline-block;">
-                <button onclick="toggleDropdown('soporteDropdown')" style="background: var(--card-bg, rgba(20, 18, 35, 0.65)); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px;">
+                <button onclick="toggleDropdown('soporteDropdown')" style="background: transparent; border: 1px solid transparent; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
                     Soporte <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
                 </button>
                 <div id="soporteDropdown" style="display: none; position: absolute; left: 0; top: 45px; width: 220px; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
