@@ -27,15 +27,19 @@ const userSchema = new mongoose.Schema({
 });
 const UserModel = mongoose.model('User', userSchema);
 
+// Esquema para guardar el contador global de comandos en MongoDB de forma permanente
+const statsSchema = new mongoose.Schema({
+    key: { type: String, required: true, unique: true },
+    totalCommands: { type: Number, default: 0 }
+});
+const StatsModel = mongoose.model('Stats', statsSchema);
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMembers
     ]
 });
-
-// Variable global para llevar la cuenta de los comandos ejecutados en tiempo real
-let totalCommandsExecuted = 0;
 
 client.commands = new Collection();
 try {
@@ -101,28 +105,35 @@ app.get('/logout', (req, res, next) => {
 });
 
 // Ruta API para las estadísticas en tiempo real
-app.get('/api/stats', (req, res) => {
+app.get('/api/stats', async (req, res) => {
     try {
         const totalServers = client.guilds.cache.size;
         const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
         
+        // Buscamos el contador persistente en MongoDB
+        let statsDoc = await StatsModel.findOne({ key: 'global_stats' });
+        const totalCommands = statsDoc ? statsDoc.totalCommands : 0;
+        
         res.json({
             servers: totalServers,
             users: totalUsers,
-            commands: totalCommandsExecuted
+            commands: totalCommands
         });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener estadísticas' });
     }
 });
 
-// Ruta Principal (Index) - Con consultas dinámicas a MongoDB para el Ranking Global
+// Ruta Principal (Index)
 app.get('/', async (req, res) => {
     try {
         const totalServers = client.guilds.cache.size;
         const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
         
-        // Obtenemos los mejores usuarios de la base de datos ordenados por nivel, dinero y canciones
+        // Obtenemos las estadísticas de MongoDB
+        let statsDoc = await StatsModel.findOne({ key: 'global_stats' });
+        const totalCommands = statsDoc ? statsDoc.totalCommands : 0;
+
         const topActivity = await UserModel.find().sort({ level: -1 }).limit(5).lean();
         const topEconomy = await UserModel.find().sort({ money: -1 }).limit(5).lean();
         const topMusic = await UserModel.find().sort({ songs: -1 }).limit(5).lean();
@@ -133,7 +144,7 @@ app.get('/', async (req, res) => {
             stats: {
                 servers: totalServers,
                 users: totalUsers,
-                commands: totalCommandsExecuted
+                commands: totalCommands
             },
             topEconomy: topEconomy, 
             topActivity: topActivity, 
@@ -145,15 +156,8 @@ app.get('/', async (req, res) => {
         res.render('index', { 
             user: req.user || null, 
             currentLang: req.query.lang || 'es', 
-            stats: { 
-                servers: client.guilds.cache.size, 
-                users: 0, 
-                commands: totalCommandsExecuted 
-            },
-            topEconomy: [], 
-            topActivity: [], 
-            topMusic: [], 
-            listaReviews: [] 
+            stats: { servers: client.guilds.cache.size, users: 0, commands: 0 },
+            topEconomy: [], topActivity: [], topMusic: [], listaReviews: [] 
         });
     }
 });
@@ -228,8 +232,12 @@ client.on('interactionCreate', async interaction => {
     if (!command) return;
 
     try {
-        // Sumamos 1 al contador cada vez que un comando es ejecutado con éxito
-        totalCommandsExecuted++;
+        // Incrementamos de forma persistente en MongoDB
+        await StatsModel.findOneAndUpdate(
+            { key: 'global_stats' },
+            { $inc: { totalCommands: 1 } },
+            { upsert: true, new: true }
+        );
 
         await command.execute(interaction);
     } catch (error) {
