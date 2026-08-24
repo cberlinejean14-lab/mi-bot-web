@@ -127,7 +127,7 @@ app.get('/dashboard', async (req, res) => {
                 });
                 guilds = response.data;
             } catch (apiError) {
-                console.error("API ERROR MESSAGE:", apiError.message);
+                console.error("API ERROR REAL:", apiError.response?.data || apiError.message || apiError);
             }
         }
         
@@ -158,7 +158,7 @@ app.get('/dashboard/:guildId', async (req, res) => {
                 });
                 guilds = response.data;
             } catch (apiError) {
-                console.error("API ERROR:", apiError.message);
+                console.error("API ERROR REAL:", apiError.response?.data || apiError.message || apiError);
             }
         }
 
