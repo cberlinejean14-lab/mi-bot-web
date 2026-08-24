@@ -34,6 +34,9 @@ const client = new Client({
     ]
 });
 
+// Variable global para llevar la cuenta de los comandos ejecutados en tiempo real
+let totalCommandsExecuted = 0;
+
 client.commands = new Collection();
 try {
     const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -106,7 +109,7 @@ app.get('/api/stats', (req, res) => {
         res.json({
             servers: totalServers,
             users: totalUsers,
-            commands: 0 
+            commands: totalCommandsExecuted // <-- Aquí enviamos el contador real
         });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener estadísticas' });
@@ -116,7 +119,6 @@ app.get('/api/stats', (req, res) => {
 // Ruta Principal (Index)
 app.get('/', async (req, res) => {
     try {
-        // Obtenemos estadísticas reales del bot de Discord conectado
         const totalServers = client.guilds.cache.size;
         const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
         
@@ -126,7 +128,7 @@ app.get('/', async (req, res) => {
             stats: {
                 servers: totalServers,
                 users: totalUsers,
-                commands: 0 // Puedes cambiar esto si llevas un contador de comandos ejecutados
+                commands: totalCommandsExecuted
             },
             topEconomy: [], 
             topActivity: [], 
@@ -209,6 +211,9 @@ client.on('interactionCreate', async interaction => {
     if (!command) return;
 
     try {
+        // Sumamos 1 al contador cada vez que un comando es ejecutado con éxito
+        totalCommandsExecuted++;
+
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
