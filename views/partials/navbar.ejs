@@ -30,7 +30,8 @@
                 <button onclick="toggleDropdown('soporteDropdown')" style="background: transparent; border: none; color: var(--text-main, #fff); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; transition: background 0.2s;">
                     Soporte <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
                 </button>
-                <div id="soporteDropdown" style="display: none; position: absolute; left: 0; top: 40px; width: 210px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
+                <div id="soporteDropdown" style="display: none; position: absolute; left: 0; top: 40px; width: 220px; background: var(--bg-sidebar, #121216); border: 1px solid var(--border, rgba(255,255,255,0.1)); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 8px; z-index: 1000;">
+                    <a href="/#faq-section" onclick="toggleDropdown('soporteDropdown')" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-circle-question" style="color: #a855f7;"></i> Preguntas Frecuentes</a>
                     <a href="https://discord.gg/tu-servidor" target="_blank" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Servidor de Soporte</a>
                     <a href="/contacto" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-envelope" style="color: #a855f7;"></i> Contáctanos</a>
                     <a href="/quejas" style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 500; border-radius: 6px;"><i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> Quejas</a>
@@ -105,7 +106,6 @@
 </header>
 
 <script>
-    // Función para manejar menús desplegables generales (Recursos y Soporte)
     window.toggleDropdown = function(id) {
         event.stopPropagation();
         const dropdowns = ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu'];
@@ -119,12 +119,10 @@
         }
     };
 
-    // Función específica para el menú de usuario de Discord
     window.toggleUserMenu = function() {
         toggleDropdown('userDropdownMenu');
     };
 
-    // Cerrar menús al hacer clic fuera
     window.addEventListener('click', () => {
         ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu'].forEach(d => {
             const el = document.getElementById(d);

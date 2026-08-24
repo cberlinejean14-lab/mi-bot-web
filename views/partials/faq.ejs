@@ -1,37 +1,90 @@
-<section style="max-width: 800px; margin: 60px auto; padding: 0 20px;">
+<section id="faq-section" style="max-width: 800px; margin: 60px auto; padding: 0 20px;">
     <div style="text-align: center; margin-bottom: 40px;">
         <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main); margin-bottom: 10px;"><%= typeof t !== 'undefined' ? t.faqTitle : 'Preguntas Frecuentes' %></h2>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 15px;">
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; backdrop-filter: blur(15px);">
-            <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq1Q : '¿Cómo agrego a PREM a mi servidor?' %></h4>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq1A : 'Simplemente haz clic en el botón "Añadir el bot" en la parte superior, selecciona tu servidor en la lista de Discord y otorga los permisos necesarios de administrador.' %></p>
+        
+        <!-- FAQ Item 1 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+            <button onclick="toggleFaq('faq1')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq1Q : '¿Cómo agrego a PREM a mi servidor?' %></span>
+                <i id="icon-faq1" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+            </button>
+            <div id="faq1" style="display: none; padding: 0 20px 20px 20px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq1A : 'Simplemente haz clic en el botón "Añadir el bot" en la parte superior, selecciona tu servidor en la lista de Discord y otorga los permisos necesarios de administrador.' %></p>
+            </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; backdrop-filter: blur(15px);">
-            <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq2Q : '¿PREM es completamente gratuito?' %></h4>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq2A : '¡Sí, es de uso gratuito para cualquier comunidad básica! Aunque si buscas una experiencia superior, contamos con un plan <b>Premium</b> lleno de opciones exclusivas.' %></p>
+        <!-- FAQ Item 2 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+            <button onclick="toggleFaq('faq2')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq2Q : '¿PREM es completamente gratuito?' %></span>
+                <i id="icon-faq2" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+            </button>
+            <div id="faq2" style="display: none; padding: 0 20px 20px 20px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq2A : '¡Sí, es de uso gratuito para cualquier comunidad básica! Aunque si buscas una experiencia superior, contamos con un plan <b>Premium</b> lleno de opciones exclusivas.' %></p>
+            </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; backdrop-filter: blur(15px);">
-            <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq3Q : '¿Cómo funciona el sistema de niveles y XP?' %></h4>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq3A : 'Tus usuarios ganan experiencia (XP) automáticamente al chatear y participar activamente en el servidor. Puedes activar o configurar las opciones de nivel desde el panel de control (Dashboard).' %></p>
+        <!-- FAQ Item 3 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+            <button onclick="toggleFaq('faq3')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq3Q : '¿Cómo funciona el sistema de niveles y XP?' %></span>
+                <i id="icon-faq3" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+            </button>
+            <div id="faq3" style="display: none; padding: 0 20px 20px 20px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq3A : 'Tus usuarios ganan experiencia (XP) automáticamente al chatear y participar activamente en el servidor. Puedes activar o configurar las opciones de nivel desde el panel de control (Dashboard).' %></p>
+            </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; backdrop-filter: blur(15px);">
-            <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq4Q : '¿Cómo puedo reproducir música en mi canal de voz?' %></h4>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq4A : 'Entra a un canal de voz en Discord y utiliza el comando <code>/play</code> seguido del nombre o enlace de la canción para que PREM comience a reproducir audio de alta fidelidad.' %></p>
+        <!-- FAQ Item 4 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+            <button onclick="toggleFaq('faq4')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq4Q : '¿Cómo puedo reproducir música en mi canal de voz?' %></span>
+                <i id="icon-faq4" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+            </button>
+            <div id="faq4" style="display: none; padding: 0 20px 20px 20px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq4A : 'Entra a un canal de voz en Discord y utiliza el comando <code>/play</code> seguido del nombre o enlace de la canción para que PREM comience a reproducir audio de alta fidelidad.' %></p>
+            </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; backdrop-filter: blur(15px);">
-            <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq5Q : '¿Cómo consigo dinero o monedas virtuales?' %></h4>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq5A : 'Puedes reclamar recompensas diarias usando el comando <code>/daily</code>, trabajar duro con <code>/work</code> o arriesgarte a cometer crímenes con <code>/crime</code>.' %></p>
+        <!-- FAQ Item 5 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+            <button onclick="toggleFaq('faq5')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq5Q : '¿Cómo consigo dinero o monedas virtuales?' %></span>
+                <i id="icon-faq5" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+            </button>
+            <div id="faq5" style="display: none; padding: 0 20px 20px 20px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq5A : 'Puedes reclamar recompensas diarias usando el comando <code>/daily</code>, trabajar duro con <code>/work</code> o arriesgarte a cometer crímenes con <code>/crime</code>.' %></p>
+            </div>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; backdrop-filter: blur(15px);">
-            <h4 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq6Q : '¿Dónde puedo calificar al bot o dejar una reseña?' %></h4>
-            <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq6A : 'Puedes usar el comando interactivo <code>/review</code> en cualquier chat de Discord para calificar a PREM con estrellas y dejar tu opinión directamente en la página web.' %></p>
+        <!-- FAQ Item 6 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+            <button onclick="toggleFaq('faq6')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);"><%= typeof t !== 'undefined' ? t.faq6Q : '¿Dónde puedo calificar al bot o dejar una reseña?' %></span>
+                <i id="icon-faq6" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+            </button>
+            <div id="faq6" style="display: none; padding: 0 20px 20px 20px;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;"><%- typeof t !== 'undefined' ? t.faq6A : 'Puedes usar el comando interactivo <code>/review</code> en cualquier chat de Discord para calificar a PREM con estrellas y dejar tu opinión directamente en la página web.' %></p>
+            </div>
         </div>
+
     </div>
 </section>
+
+<script>
+    function toggleFaq(id) {
+        const content = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+        
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            content.style.display = 'block';
+            icon.style.transform = 'rotate(180deg)';
+        }
+    }
+</script>
