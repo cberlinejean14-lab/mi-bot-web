@@ -109,19 +109,24 @@ app.get('/api/stats', (req, res) => {
         res.json({
             servers: totalServers,
             users: totalUsers,
-            commands: totalCommandsExecuted // <-- Aquí enviamos el contador real
+            commands: totalCommandsExecuted
         });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener estadísticas' });
     }
 });
 
-// Ruta Principal (Index)
+// Ruta Principal (Index) - Con consultas dinámicas a MongoDB para el Ranking Global
 app.get('/', async (req, res) => {
     try {
         const totalServers = client.guilds.cache.size;
         const totalUsers = client.guilds.cache.reduce((acc, guild) => acc + (guild.memberCount || 0), 0);
         
+        // Obtenemos los mejores usuarios de la base de datos ordenados por nivel, dinero y canciones
+        const topActivity = await UserModel.find().sort({ level: -1 }).limit(5).lean();
+        const topEconomy = await UserModel.find().sort({ money: -1 }).limit(5).lean();
+        const topMusic = await UserModel.find().sort({ songs: -1 }).limit(5).lean();
+
         res.render('index', { 
             user: req.user || null, 
             currentLang: req.query.lang || 'es', 
@@ -130,14 +135,26 @@ app.get('/', async (req, res) => {
                 users: totalUsers,
                 commands: totalCommandsExecuted
             },
+            topEconomy: topEconomy, 
+            topActivity: topActivity, 
+            topMusic: topMusic, 
+            listaReviews: [] 
+        });
+    } catch (error) {
+        console.error("Error en la ruta principal:", error);
+        res.render('index', { 
+            user: req.user || null, 
+            currentLang: req.query.lang || 'es', 
+            stats: { 
+                servers: client.guilds.cache.size, 
+                users: 0, 
+                commands: totalCommandsExecuted 
+            },
             topEconomy: [], 
             topActivity: [], 
             topMusic: [], 
             listaReviews: [] 
         });
-    } catch (error) {
-        console.error("Error en la ruta principal:", error);
-        res.send("Bienvenido a la página principal del bot.");
     }
 });
 
