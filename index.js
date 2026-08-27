@@ -122,6 +122,26 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+function formatMoney(amount) {
+    const n = Number(amount);
+    if (!Number.isFinite(n)) return '0';
+
+    const abs = Math.abs(n);
+    const sign = n < 0 ? '-' : '';
+
+    if (abs >= 1_000_000_000) {
+        return sign + (abs / 1_000_000_000).toFixed(1) + 'B';
+    }
+    if (abs >= 1_000_000) {
+        return sign + (abs / 1_000_000).toFixed(1) + 'M';
+    }
+    if (abs >= 1_000) {
+        const k = abs / 1_000;
+        return sign + (Number.isInteger(k) ? String(k) : k.toFixed(1)) + 'k';
+    }
+    return sign + String(abs);
+}
+
 // Función auxiliar para adjuntar la foto de perfil de Discord a los usuarios del ranking
 async function enrichUsersWithAvatars(users) {
     return await Promise.all(users.map(async (u) => {
@@ -171,7 +191,8 @@ app.get('/', async (req, res) => {
             topEconomy: topEconomy, 
             topActivity: topActivity, 
             topMusic: topMusic, 
-            listaReviews: [] 
+            listaReviews: [],
+            formatMoney
         });
     } catch (error) {
         console.error("Error en la ruta principal:", error);
@@ -179,7 +200,8 @@ app.get('/', async (req, res) => {
             user: req.user || null, 
             currentLang: req.query.lang || 'es', 
             stats: { servers: client.guilds.cache.size, users: 0, commands: 0 },
-            topEconomy: [], topActivity: [], topMusic: [], listaReviews: [] 
+            topEconomy: [], topActivity: [], topMusic: [], listaReviews: [],
+            formatMoney
         });
     }
 });
