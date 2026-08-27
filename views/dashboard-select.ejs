@@ -266,13 +266,13 @@
                     <span><%= langName %></span>
                 </button>
                 <div id="langMenu" style="display: none; position: absolute; right: 0; top: 120%; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; z-index: 10000; min-width: 150px; backdrop-filter: blur(20px);">
-                    <a href="?lang=es" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇪🇸 Español</a>
-                    <a href="?lang=en" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇺🇸 English</a>
-                    <a href="?lang=pt" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇧🇷 Português</a>
-                    <a href="?lang=fr" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇫🇷 Français</a>
-                    <a href="?lang=hi" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇮🇳 हिन्दी</a>
-                    <a href="?lang=ar" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇸🇦 العربية</a>
-                    <a href="?lang=zh" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇨🇳 中文</a>
+                    <a href="?lang=es" onclick="return changeLanguage('es')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇪🇸 Español</a>
+                    <a href="?lang=en" onclick="return changeLanguage('en')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇺🇸 English</a>
+                    <a href="?lang=pt" onclick="return changeLanguage('pt')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇧🇷 Português</a>
+                    <a href="?lang=fr" onclick="return changeLanguage('fr')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇫🇷 Français</a>
+                    <a href="?lang=hi" onclick="return changeLanguage('hi')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇮🇳 हिन्दी</a>
+                    <a href="?lang=ar" onclick="return changeLanguage('ar')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇸🇦 العربية</a>
+                    <a href="?lang=zh" onclick="return changeLanguage('zh')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇨🇳 中文</a>
                 </div>
             </div>
 
@@ -348,6 +348,16 @@
         function toggleLangMenu() {
             const menu = document.getElementById('langMenu');
             if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+        function changeLanguage(code) {
+            try {
+                localStorage.setItem('lang', code);
+                document.cookie = 'lang=' + encodeURIComponent(code) + ';path=/;max-age=2592000;SameSite=Lax';
+            } catch (e) {}
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', code);
+            window.location.assign(url.toString());
+            return false;
         }
         function toggleUserMenu() {
             const menu = document.getElementById('userDropdownMenu');

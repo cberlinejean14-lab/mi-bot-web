@@ -8,10 +8,32 @@ const passport = require('passport');
 const DiscordStrategy = require('passport-discord').Strategy;
 const mongoose = require('mongoose');
 const axios = require('axios');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
 app.set('trust proxy', 1);
+app.use(cookieParser());
+
+const SUPPORTED_LANGS = ['es', 'en', 'pt', 'fr', 'hi', 'ar', 'zh'];
+
+function loadTranslations(lang) {
+    const selected = SUPPORTED_LANGS.includes(lang) ? lang : 'es';
+    try {
+        const filePath = path.join(__dirname, 'locales', `${selected}.json`);
+        return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    } catch (error) {
+        if (selected !== 'es') return loadTranslations('es');
+        return {};
+    }
+}
+
+function resolveLang(req, res) {
+    const raw = req.query.lang || req.cookies.lang || 'es';
+    const lang = SUPPORTED_LANGS.includes(raw) ? raw : 'es';
+    res.cookie('lang', lang, { maxAge: 30 * 24 * 60 * 60 * 1000, sameSite: 'lax' });
+    return lang;
+}
 
 // Conexión a MongoDB (protegida para que no tumbe la web si falla)
 mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
@@ -180,9 +202,13 @@ app.get('/', async (req, res) => {
         const topEconomy = await enrichUsersWithAvatars(rawTopEconomy);
         const topMusic = await enrichUsersWithAvatars(rawTopMusic);
 
+        const currentLang = resolveLang(req, res);
+
         res.render('index', { 
             user: req.user || null, 
-            currentLang: req.query.lang || 'es', 
+            currentLang,
+            lang: currentLang,
+            t: loadTranslations(currentLang),
             stats: {
                 servers: totalServers,
                 users: totalUsers,
@@ -196,9 +222,12 @@ app.get('/', async (req, res) => {
         });
     } catch (error) {
         console.error("Error en la ruta principal:", error);
+        const currentLang = resolveLang(req, res);
         res.render('index', { 
             user: req.user || null, 
-            currentLang: req.query.lang || 'es', 
+            currentLang,
+            lang: currentLang,
+            t: loadTranslations(currentLang),
             stats: { servers: client.guilds.cache.size, users: 0, commands: 0 },
             topEconomy: [], topActivity: [], topMusic: [], listaReviews: [],
             formatMoney
@@ -225,10 +254,13 @@ app.get('/dashboard', async (req, res) => {
             }
         }
         
+        const currentLang = resolveLang(req, res);
         res.render('dashboard-select', { 
             user: user, 
             guilds: guilds, 
-            lang: req.query.lang || 'es' 
+            lang: currentLang,
+            currentLang,
+            t: loadTranslations(currentLang)
         });
     } catch (error) {
         console.error("ERROR FATAL EN /dashboard:", error.message);

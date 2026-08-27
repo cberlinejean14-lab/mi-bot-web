@@ -2,26 +2,25 @@
     <div class="hero-content" style="flex: 0 1 520px;">
         <div class="badge-container" style="display: flex; gap: 10px; margin-bottom: 15px;">
             <div class="badge" style="background: rgba(168, 85, 247, 0.15); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.3); font-size: 0.8rem; color: #c084fc;">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> The new evolution for servers
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <%= typeof t !== 'undefined' && t.heroBadge ? t.heroBadge : 'The new evolution for servers' %>
             </div>
             <div class="prem-original-badge" style="background: rgba(168, 85, 247, 0.15); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(168, 85, 247, 0.3); font-size: 0.8rem; color: #c084fc;">
-                <i class="fa-solid fa-award"></i> PREM Original
+                <i class="fa-solid fa-award"></i> <%= typeof t !== 'undefined' && t.heroBadgeOriginal ? t.heroBadgeOriginal : 'PREM Original' %>
             </div>
         </div>
 
-        <h1 style="font-size: 2.6rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px;">The ultimate ecosystem for creators and communities</h1>
+        <h1 style="font-size: 2.6rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.heroTitle ? t.heroTitle : 'The ultimate ecosystem for creators and communities' %></h1>
         
         <p style="color: #9ca3af; font-size: 0.95rem; margin-bottom: 25px;">
-            Reinvent your users' interaction with advanced leveling systems, 
-            automated management, and high-fidelity audio playback.
+            <%= typeof t !== 'undefined' && t.heroDesc ? t.heroDesc : "Reinvent your users' interaction with advanced leveling systems, automated management, and high-fidelity audio playback." %>
         </p>
 
         <div class="hero-buttons" style="display: flex; gap: 15px;">
             <a href="https://discord.com/oauth2/authorize?client_id=1534632950224781548&scope=bot&permissions=8" target="_blank" class="btn-primary" style="background: #a855f7; color: white; padding: 10px 22px; border-radius: 12px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">
-                <i class="fa-solid fa-plus"></i> Add to Discord
+                <i class="fa-solid fa-plus"></i> <%= typeof t !== 'undefined' && t.heroAdd ? t.heroAdd : 'Add to Discord' %>
             </a>
             <a href="/dashboard" class="btn-secondary" style="background: rgba(255,255,255,0.05); color: white; padding: 10px 22px; border-radius: 12px; text-decoration: none; font-weight: 600; border: 1px solid rgba(255,255,255,0.1);">
-                <i class="fa-solid fa-server"></i> Manage servers
+                <i class="fa-solid fa-server"></i> <%= typeof t !== 'undefined' && t.heroManage ? t.heroManage : 'Manage servers' %>
             </a>
         </div>
     </div>

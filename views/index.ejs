@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
 <head>
     <%- include('partials/head') %>
     <link rel="stylesheet" href="/css/style.css">
@@ -230,8 +230,8 @@
 
     <!-- ENCABEZADO -->
     <div style="text-align: center; max-width: 800px; margin: 120px auto 35px auto; padding: 0 25px; position: relative; z-index: 1;">
-        <h2 style="font-size: 2.3rem; font-weight: 800; margin-bottom: 12px; color: var(--text-color); letter-spacing: -0.5px;">Join the Movement</h2>
-        <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.5; margin: 0;">See why hundreds of communities trust PREM to handle their daily activity and engagement.</p>
+        <h2 style="font-size: 2.3rem; font-weight: 800; margin-bottom: 12px; color: var(--text-color); letter-spacing: -0.5px;"><%= typeof t !== 'undefined' && t.joinTitle ? t.joinTitle : 'Join the Movement' %></h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' && t.joinDesc ? t.joinDesc : 'See why hundreds of communities trust PREM to handle their daily activity and engagement.' %></p>
     </div>
 
     <!-- 3. Estadísticas Globales -->
