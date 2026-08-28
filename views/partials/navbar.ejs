@@ -102,21 +102,31 @@
                     <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
                 </div>
 
-                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 280px; max-height: 500px; overflow-y: auto; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000; backdrop-filter: blur(20px);">
+                <!-- ===== MENÚ DESPLEGABLE DEL PERFIL (BLOQUE 7) ===== -->
+                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 300px; max-height: 600px; overflow-y: auto; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000; backdrop-filter: blur(20px);">
+                    
+                    <!-- 1. Cabecera de Usuario -->
                     <div style="padding: 8px 12px 12px 12px; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1)); margin-bottom: 10px;">
                         <div style="font-size: 14px; font-weight: 700; color: var(--text-main, #fff);"><%= user.global_name || user.username %></div>
                         <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">@<%= user.username %></div>
                     </div>
                     
+                    <!-- Opción Manager Exclusiva (Solo para el ID autorizado) -->
+                    <% if (user.id === '1534632950224781548') { %>
+                    <a href="/manager-room" class="manager-exclusive" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; text-decoration: none; font-size: 13px; font-weight: 700; border-radius: 8px; transition: all 0.2s; margin-bottom: 10px;">
+                        <i class="fa-solid fa-crown"></i> Manager
+                        <span style="margin-left: auto; font-size: 9px; background: rgba(6, 182, 212, 0.2); color: #06b6d4; padding: 2px 6px; border-radius: 4px; font-weight: 700;">DEV</span>
+                    </a>
+                    <% } %>
+                    
+                    <!-- 2. Navegación General y Perfil -->
+                    <a href="/dashboard/perfil" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                        <i class="fa-solid fa-user" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navProfile ? t.navProfile : 'Perfil' %>
+                    </a>
+                    
                     <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
                         <i class="fa-solid fa-server" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navMyServers ? t.navMyServers : 'Mis servidores' %>
                     </a>
-                    
-                    <% if (user.id === '1534632950224781548' || user.id === 'YOUR_ADMIN_ID') { %>
-                    <a href="/manager-room" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #06b6d4; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: all 0.2s; border: 1px solid rgba(6, 182, 212, 0.4); background: rgba(6, 182, 212, 0.1); box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);">
-                        <i class="fa-solid fa-crown"></i> Manager
-                    </a>
-                    <% } %>
                     
                     <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; color: var(--text-main, #fff); font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;" onclick="toggleTheme()">
                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -125,14 +135,20 @@
                         <i class="fa-solid fa-toggle-on" id="themeToggleIcon" style="color: #a855f7;"></i>
                     </div>
                     
-                    <a href="/dashboard/custom-bot" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                    <!-- 3. Categoría: GESTIÓN DE PREM BOT -->
+                    <div style="font-size: 10px; font-weight: 700; color: var(--text-muted, #9ca3af); text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px 12px; margin-top: 8px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));">GESTIÓN DE PREM BOT</div>
+                    
+                    <a href="/dashboard/bot/personalizacion" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
                         <i class="fa-solid fa-robot" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navCustomBot ? t.navCustomBot : 'Personalización de Bot' %>
                     </a>
                     
-                    <a href="/dashboard/custom-commands" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
-                        <i class="fa-solid fa-wand-magic-sparkles" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navCustomCommands ? t.navCustomCommands : 'Comandos personalizados' %>
-                        <span style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: auto;">PREMIUM</span>
+                    <a href="/dashboard/bot/comandos-premium" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s; border: 1px solid rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.05);">
+                        <i class="fa-solid fa-wand-magic-sparkles" style="color: #fbbf24;"></i> <%= typeof t !== 'undefined' && t.navCustomCommands ? t.navCustomCommands : 'Comandos personalizados' %>
+                        <span class="premium-gold-badge" style="margin-left: auto;">PREMIUM</span>
                     </a>
+                    
+                    <!-- 4. Categoría: COMUNIDAD -->
+                    <div style="font-size: 10px; font-weight: 700; color: var(--text-muted, #9ca3af); text-transform: uppercase; letter-spacing: 1px; padding: 12px 12px 6px 12px; margin-top: 8px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));">COMUNIDAD</div>
                     
                     <a href="https://discord.gg/tu-servidor" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
                         <i class="fa-brands fa-discord" style="color: #5865F2;"></i> <%= typeof t !== 'undefined' && t.navSupportServer ? t.navSupportServer : 'Servidor de Soporte' %>
@@ -146,6 +162,7 @@
                         <i class="fa-solid fa-star" style="color: #fbbf24;"></i> <%= typeof t !== 'undefined' && t.navVote ? t.navVote : 'Votar por el bot' %>
                     </a>
                     
+                    <!-- 5. Estado del Sistema e Información de Versión -->
                     <div style="padding: 10px 12px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); margin-top: 8px;">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                             <span style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e;"></span>
@@ -154,6 +171,7 @@
                         <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">PREM Bot v2.5</div>
                     </div>
                     
+                    <!-- 6. Botón de Cierre de Sesión -->
                     <a href="/logout" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; margin-top: 8px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); transition: background 0.2s;">
                         <i class="fa-solid fa-right-from-bracket"></i> <%= typeof t !== 'undefined' && t.navLogout ? t.navLogout : 'Cerrar sesión' %>
                     </a>

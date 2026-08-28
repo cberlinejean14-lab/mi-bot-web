@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Comandos Premium</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .premium-page {
+            max-width: 1000px;
+            margin: 120px auto 60px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== ESTILO PREMIUM DORADO BRILLANTE ===== */
+        .premium-card {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(245, 158, 11, 0.05), rgba(217, 119, 6, 0.08));
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            box-sizing: border-box;
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.15), inset 0 0 30px rgba(251, 191, 36, 0.05);
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(251, 191, 36, 0.15),
+                transparent
+            );
+            transform: rotate(30deg);
+            transition: 0.8s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .premium-card:hover::before {
+            left: 120%;
+            opacity: 1;
+        }
+
+        .premium-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .premium-card h2 i {
+            color: #fbbf24;
+            -webkit-text-fill-color: #fbbf24;
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+        }
+
+        .premium-card .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .premium-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1a1a1a;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #fbbf24;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+            color: #1a1a1a;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5);
+        }
+
+        .command-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .command-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        .command-item:hover {
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+        }
+
+        .command-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .command-name {
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .command-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+
+        .command-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .btn-edit {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            background: rgba(251, 191, 36, 0.2);
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="premium-page">
+        <div class="premium-card">
+            <span class="premium-badge"><i class="fa-solid fa-crown"></i> PREMIUM</span>
+            <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Comandos Personalizados</h2>
+            <p class="subtitle">Crea y gestiona comandos avanzados personalizados con estilo exclusivo Premium.</p>
+
+            <div class="form-group">
+                <label>Nombre del Comando</label>
+                <input type="text" placeholder="Ej: /hola, /saludo, /bienvenida">
+            </div>
+
+            <div class="form-group">
+                <label>Respuesta del Comando</label>
+                <textarea placeholder="Escribe la respuesta que dará el bot cuando se use este comando..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Tipo de Respuesta</label>
+                <select>
+                    <option value="text">Texto Simple</option>
+                    <option value="embed">Embed Personalizado</option>
+                    <option value="both">Texto + Embed</option>
+                </select>
+            </div>
+
+            <button class="btn-premium" onclick="showToast('success', 'Comando premium creado correctamente')">
+                <i class="fa-solid fa-plus"></i> Crear Comando Premium
+            </button>
+
+            <div class="command-list">
+                <div class="command-item">
+                    <div class="command-info">
+                        <div class="command-name"><i class="fa-solid fa-terminal"></i> /hola</div>
+                        <div class="command-desc">Saluda a los usuarios con un mensaje personalizado</div>
+                    </div>
+                    <div class="command-actions">
+                        <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="command-item">
+                    <div class="command-info">
+                        <div class="command-name"><i class="fa-solid fa-terminal"></i> /reglas</div>
+                        <div class="command-desc">Muestra las reglas del servidor en un embed elegante</div>
+                    </div>
+                    <div class="command-actions">
+                        <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Toast system
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-xmark',
+                info: 'fa-circle-info'
+            };
+            
+            toast.innerHTML = '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

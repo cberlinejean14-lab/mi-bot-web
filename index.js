@@ -420,11 +420,17 @@ app.get('/dashboard', async (req, res) => {
                 console.error("API ERROR REAL:", apiError.response?.data || apiError.message || apiError);
             }
         }
+
+        // Enriquecer guilds con la información de si el bot está instalado
+        const enrichedGuilds = guilds.map(guild => ({
+            ...guild,
+            botInGuild: client.guilds && client.guilds.cache ? client.guilds.cache.has(guild.id) : false
+        }));
         
         const currentLang = resolveLang(req, res);
         res.render('dashboard-select', { 
             user: user, 
-            guilds: guilds, 
+            guilds: enrichedGuilds, 
             lang: currentLang,
             currentLang,
             t: loadTranslations(currentLang)
@@ -432,6 +438,72 @@ app.get('/dashboard', async (req, res) => {
     } catch (error) {
         console.error("ERROR FATAL EN /dashboard:", error.message);
         res.status(500).send(`Error en el servidor: ${error.message}`);
+    }
+});
+
+// Ruta de Perfil de Usuario (BLOQUE 6.1)
+app.get('/dashboard/perfil', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.redirect('/auth/discord');
+        
+        const user = req.user || {};
+        const currentLang = resolveLang(req, res);
+        
+        // Obtener datos del usuario desde MongoDB
+        let userData = null;
+        try {
+            userData = await UserModel.findOne({ userId: user.id }).lean();
+        } catch (e) {
+            console.error("Error al obtener datos del usuario:", e);
+        }
+        
+        res.render('dashboard-perfil', {
+            user: user,
+            userData: userData,
+            currentLang,
+            t: loadTranslations(currentLang)
+        });
+    } catch (error) {
+        console.error("ERROR EN /dashboard/perfil:", error.message);
+        res.status(500).send(`Error al cargar el perfil: ${error.message}`);
+    }
+});
+
+// Ruta de Personalización de Bot (BLOQUE 6.2)
+app.get('/dashboard/bot/personalizacion', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.redirect('/auth/discord');
+        
+        const user = req.user || {};
+        const currentLang = resolveLang(req, res);
+        
+        res.render('dashboard-bot-personalizacion', {
+            user: user,
+            currentLang,
+            t: loadTranslations(currentLang)
+        });
+    } catch (error) {
+        console.error("ERROR EN /dashboard/bot/personalizacion:", error.message);
+        res.status(500).send(`Error al cargar la personalización: ${error.message}`);
+    }
+});
+
+// Ruta de Comandos Personalizados Premium (BLOQUE 6.3)
+app.get('/dashboard/bot/comandos-premium', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.redirect('/auth/discord');
+        
+        const user = req.user || {};
+        const currentLang = resolveLang(req, res);
+        
+        res.render('dashboard-bot-comandos-premium', {
+            user: user,
+            currentLang,
+            t: loadTranslations(currentLang)
+        });
+    } catch (error) {
+        console.error("ERROR EN /dashboard/bot/comandos-premium:", error.message);
+        res.status(500).send(`Error al cargar los comandos premium: ${error.message}`);
     }
 });
 

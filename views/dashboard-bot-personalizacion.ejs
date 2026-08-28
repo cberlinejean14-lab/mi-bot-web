@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Personalización de Bot</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .bot-custom-page {
+            max-width: 1000px;
+            margin: 120px auto 60px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bot-custom-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        .bot-custom-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bot-custom-card h2 i {
+            color: var(--accent-color);
+        }
+
+        .bot-custom-card .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+
+        .toggle-switch label {
+            flex: 1;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .toggle-input {
+            width: 50px;
+            height: 26px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle-input.active {
+            background: var(--accent-color);
+        }
+
+        .toggle-input::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        .toggle-input.active::after {
+            transform: translateX(24px);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #a855f7, var(--accent-color));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px var(--accent-glow);
+        }
+
+        .color-picker-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .color-picker-row input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="bot-custom-page">
+        <div class="bot-custom-card">
+            <h2><i class="fa-solid fa-robot"></i> Personalización de Bot</h2>
+            <p class="subtitle">Configura la apariencia y respuestas del bot en tus servidores.</p>
+
+            <div class="form-group">
+                <label>Prefix de Comandos</label>
+                <input type="text" value="!" placeholder="Ej: !, /, $">
+            </div>
+
+            <div class="form-group">
+                <label>Nombre Personalizado del Bot</label>
+                <input type="text" value="PREM" placeholder="Nombre que verán los usuarios">
+            </div>
+
+            <div class="form-group">
+                <label>Color Principal de Embeds</label>
+                <div class="color-picker-row">
+                    <input type="color" value="#a855f7" id="embedColor">
+                    <div class="color-preview" id="colorPreview" style="background: #a855f7;"></div>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">Selecciona el color de los embeds del bot</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Mensaje de Bienvenida Personalizado</label>
+                <textarea placeholder="Usa variables como {user}, {server}, {memberCount}">¡Bienvenido {user} a {server}! Ahora somos {memberCount} miembros.</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Mensaje de Despedida Personalizado</label>
+                <textarea placeholder="Usa variables como {user}, {server}">¡Adiós {user}! Te esperamos de vuelta en {server}.</textarea>
+            </div>
+
+            <div class="toggle-switch">
+                <label>Integración de Embeds</label>
+                <div class="toggle-input active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="toggle-switch">
+                <label>Insignias Personalizadas</label>
+                <div class="toggle-input" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <div class="toggle-switch">
+                <label>Respuestas Automáticas</label>
+                <div class="toggle-input active" onclick="this.classList.toggle('active')"></div>
+            </div>
+
+            <button class="btn-save" onclick="showToast('success', 'Configuración guardada correctamente')">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios
+            </button>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Color picker preview
+        const colorInput = document.getElementById('embedColor');
+        const colorPreview = document.getElementById('colorPreview');
+        if (colorInput && colorPreview) {
+            colorInput.addEventListener('input', () => {
+                colorPreview.style.background = colorInput.value;
+            });
+        }
+
+        // Toast system
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-xmark',
+                info: 'fa-circle-info'
+            };
+            
+            toast.innerHTML = '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

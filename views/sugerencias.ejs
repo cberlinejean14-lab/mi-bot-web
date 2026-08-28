@@ -8,21 +8,22 @@
 <body>
     <%- include('partials/navbar') %>
 
-    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px;">
+    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px; position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 50px;">
             <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Enviar Sugerencia</h1>
             <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">¿Tienes una idea para mejorar PREM? ¡Nos encantaría escucharla! Tu feedback nos ayuda a crecer.</p>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
-            <form style="display: flex; flex-direction: column; gap: 20px;">
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Tu Nombre (opcional)</label>
-                    <input type="text" placeholder="Tu nombre de usuario" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+        <div class="suggestion-card">
+            <form id="suggestionForm" onsubmit="return handleSuggestionSubmit(event)">
+                <div class="form-group">
+                    <label>Tu Nombre (opcional)</label>
+                    <input type="text" placeholder="Tu nombre de usuario">
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Categoría</label>
-                    <select style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select required>
                         <option value="">Selecciona una categoría</option>
                         <option value="features">Nuevas Funcionalidades</option>
                         <option value="improvements">Mejoras Existentes</option>
@@ -31,16 +32,20 @@
                         <option value="other">Otro</option>
                     </select>
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Título de la Sugerencia</label>
-                    <input type="text" placeholder="Un título breve para tu sugerencia" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+
+                <div class="form-group">
+                    <label>Título de la Sugerencia</label>
+                    <input type="text" placeholder="Un título breve para tu sugerencia" required>
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Descripción Detallada</label>
-                    <textarea rows="6" placeholder="Describe tu sugerencia con el mayor detalle posible. ¿Cómo mejoraría esta función la experiencia del usuario?" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s; resize: vertical;"></textarea>
+
+                <div class="form-group">
+                    <label>Descripción Detallada</label>
+                    <textarea rows="6" placeholder="Describe tu sugerencia con el mayor detalle posible. ¿Cómo mejoraría esta función la experiencia del usuario?" required></textarea>
                 </div>
-                <button type="submit" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 14px 28px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;">
-                    Enviar Sugerencia
+
+                <button type="submit" class="submit-btn" id="suggestionSubmitBtn" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);">
+                    <span id="suggestionSubmitText"><i class="fa-solid fa-lightbulb"></i> Enviar Sugerencia</span>
+                    <span id="suggestionSubmitSpinner" style="display: none;"><span class="spinner"></span> Enviando...</span>
                 </button>
             </form>
         </div>
@@ -55,6 +60,61 @@
 
     <%- include('partials/footer') %>
 
-    <script src="/js/main.js"></script>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Toast system
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-xmark',
+                info: 'fa-circle-info'
+            };
+            
+            toast.innerHTML = '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle suggestion submit
+        function handleSuggestionSubmit(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('suggestionSubmitBtn');
+            const submitText = document.getElementById('suggestionSubmitText');
+            const submitSpinner = document.getElementById('suggestionSubmitSpinner');
+            
+            // Show spinner
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            submitSpinner.style.display = 'inline-flex';
+            
+            // Simulate sending
+            setTimeout(() => {
+                // Hide spinner
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline-flex';
+                submitSpinner.style.display = 'none';
+                
+                // Show success toast
+                showToast('success', '¡Sugerencia enviada correctamente! Gracias por tu aporte.');
+                
+                // Reset form
+                event.target.reset();
+            }, 1500);
+            
+            return false;
+        }
+    </script>
 </body>
 </html>

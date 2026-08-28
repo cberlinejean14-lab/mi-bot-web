@@ -8,21 +8,33 @@
 <body>
     <%- include('partials/navbar') %>
 
-    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px;">
+    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px; position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 50px;">
             <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Reportar Queja</h1>
             <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">¿Has tenido algún problema con el bot? Envíanos un reporte detallado para ayudarnos a mejorar.</p>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
-            <form style="display: flex; flex-direction: column; gap: 20px;">
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Tu ID de Discord</label>
-                    <input type="text" placeholder="Tu ID de usuario" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+        <div class="suggestion-card">
+            <form id="complaintForm" onsubmit="return handleComplaintSubmit(event)">
+                <!-- Selector de Nivel de Severidad -->
+                <div class="form-group">
+                    <label>Nivel de Severidad</label>
+                    <div class="severity-selector">
+                        <div class="severity-pill low" data-severity="low" onclick="selectSeverity(this)">Baja</div>
+                        <div class="severity-pill medium" data-severity="medium" onclick="selectSeverity(this)">Media</div>
+                        <div class="severity-pill high" data-severity="high" onclick="selectSeverity(this)">Alta</div>
+                        <div class="severity-pill critical" data-severity="critical" onclick="selectSeverity(this)">Crítica</div>
+                    </div>
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Tipo de Problema</label>
-                    <select style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+
+                <div class="form-group">
+                    <label>Tu ID de Discord</label>
+                    <input type="text" placeholder="Tu ID de usuario (ej: 123456789012345678)" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Problema</label>
+                    <select required>
                         <option value="">Selecciona el tipo de problema</option>
                         <option value="bug">Error o Bug</option>
                         <option value="performance">Problema de Rendimiento</option>
@@ -31,16 +43,20 @@
                         <option value="other">Otro</option>
                     </select>
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Descripción Detallada</label>
-                    <textarea rows="6" placeholder="Describe el problema con el mayor detalle posible..." style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s; resize: vertical;"></textarea>
+
+                <div class="form-group">
+                    <label>Descripción Detallada</label>
+                    <textarea rows="6" placeholder="Describe el problema con el mayor detalle posible. Incluye pasos para reproducirlo, capturas de pantalla o fragmentos de código si es necesario..." required></textarea>
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Servidor Afectado (ID)</label>
-                    <input type="text" placeholder="ID del servidor donde ocurrió el problema" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+
+                <div class="form-group">
+                    <label>Servidor Afectado (ID)</label>
+                    <input type="text" placeholder="ID del servidor donde ocurrió el problema">
                 </div>
-                <button type="submit" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 14px 28px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;">
-                    Enviar Reporte
+
+                <button type="submit" class="submit-btn" id="complaintSubmitBtn" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);">
+                    <span id="complaintSubmitText"><i class="fa-solid fa-paper-plane"></i> Enviar Reporte</span>
+                    <span id="complaintSubmitSpinner" style="display: none;"><span class="spinner"></span> Enviando...</span>
                 </button>
             </form>
         </div>
@@ -55,6 +71,75 @@
 
     <%- include('partials/footer') %>
 
-    <script src="/js/main.js"></script>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Severity selector
+        function selectSeverity(element) {
+            document.querySelectorAll('.severity-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        // Toast system
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-xmark',
+                info: 'fa-circle-info'
+            };
+            
+            toast.innerHTML = '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle complaint submit
+        function handleComplaintSubmit(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('complaintSubmitBtn');
+            const submitText = document.getElementById('complaintSubmitText');
+            const submitSpinner = document.getElementById('complaintSubmitSpinner');
+            
+            // Show spinner
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            submitSpinner.style.display = 'inline-flex';
+            
+            // Simulate sending
+            setTimeout(() => {
+                // Hide spinner
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline-flex';
+                submitSpinner.style.display = 'none';
+                
+                // Generate tracking code
+                const trackingCode = 'CMP-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Show success toast with tracking code
+                showToast('success', 'Reporte enviado. Código de seguimiento: ' + trackingCode);
+                
+                // Reset form
+                event.target.reset();
+                document.querySelectorAll('.severity-pill').forEach(pill => {
+                    pill.classList.remove('active');
+                });
+            }, 1500);
+            
+            return false;
+        }
+    </script>
 </body>
 </html>

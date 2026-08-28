@@ -8,46 +8,149 @@
 <body>
     <%- include('partials/navbar') %>
 
-    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px;">
+    <main style="max-width: 1000px; margin: 120px auto 60px auto; padding: 0 20px; position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 50px;">
             <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Contáctanos</h1>
             <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">¿Tienes alguna pregunta o sugerencia? Envíanos un mensaje y te responderemos lo antes posible.</p>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
-            <form style="display: flex; flex-direction: column; gap: 20px;">
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Nombre</label>
-                    <input type="text" placeholder="Tu nombre" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+        <div class="contact-card">
+            <!-- Columna de Información y Canales de Apoyo -->
+            <div class="contact-info-col">
+                <div class="contact-info-card">
+                    <div class="icon-box">
+                        <i class="fa-brands fa-discord"></i>
+                    </div>
+                    <div>
+                        <h4>Soporte por Discord</h4>
+                        <p>Únete a nuestro servidor oficial de soporte para recibir ayuda directa de nuestro equipo.</p>
+                        <a href="https://discord.gg/tu-servidor" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; color: #5865F2; font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Unirse al servidor
+                        </a>
+                    </div>
                 </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Email</label>
-                    <input type="email" placeholder="tu@email.com" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
-                </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Asunto</label>
-                    <input type="text" placeholder="Asunto de tu mensaje" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
-                </div>
-                <div>
-                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Mensaje</label>
-                    <textarea rows="5" placeholder="Escribe tu mensaje aquí..." style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s; resize: vertical;"></textarea>
-                </div>
-                <button type="submit" style="background: linear-gradient(135deg, #a855f7, var(--accent-color)); color: white; padding: 14px 28px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;">
-                    Enviar Mensaje
-                </button>
-            </form>
-        </div>
 
-        <div style="margin-top: 40px; text-align: center;">
-            <p style="color: var(--text-muted); font-size: 0.95rem;">O únete a nuestro servidor de Discord para soporte directo:</p>
-            <a href="https://discord.gg/tu-servidor" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 15px; background: #5865F2; color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: opacity 0.3s;">
-                <i class="fa-brands fa-discord" style="font-size: 1.2rem;"></i> Servidor de Soporte
-            </a>
+                <div class="contact-info-card">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h4>Correo de Atención</h4>
+                        <p>Para consultas formales o comerciales, escríbenos a:</p>
+                        <p style="color: var(--accent-color); font-weight: 600; margin-top: 5px;">soporte@prembot.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-card">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <h4>Horarios de Respuesta</h4>
+                        <p>Nuestro equipo responde en un promedio de <strong style="color: var(--accent-color);">24-48 horas</strong> hábiles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna de Formulario Interactivo -->
+            <div class="contact-form-col">
+                <form id="contactForm" onsubmit="return handleSubmit(event)">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría de Consulta</label>
+                        <select required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="soporte">Soporte Técnico</option>
+                            <option value="comercial">Consulta Comercial</option>
+                            <option value="bug">Reportar Bug</option>
+                            <option value="sugerencia">Sugerencia</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Asunto</label>
+                        <input type="text" placeholder="Asunto de tu mensaje" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje</label>
+                        <textarea rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span id="submitText"><i class="fa-solid fa-paper-plane"></i> Enviar Mensaje</span>
+                        <span id="submitSpinner" style="display: none;"><span class="spinner"></span> Enviando...</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </main>
 
     <%- include('partials/footer') %>
 
-    <script src="/js/main.js"></script>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Toast system
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-xmark',
+                info: 'fa-circle-info'
+            };
+            
+            toast.innerHTML = '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle form submit with spinner
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            
+            // Show spinner
+            submitBtn.disabled = true;
+            submitText.style.display = 'none';
+            submitSpinner.style.display = 'inline-flex';
+            
+            // Simulate sending
+            setTimeout(() => {
+                // Hide spinner
+                submitBtn.disabled = false;
+                submitText.style.display = 'inline-flex';
+                submitSpinner.style.display = 'none';
+                
+                // Generate ticket number
+                const ticketNumber = 'TKT-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Show success toast
+                showToast('success', 'Mensaje enviado correctamente. Ticket: ' + ticketNumber);
+                
+                // Reset form
+                event.target.reset();
+            }, 1500);
+            
+            return false;
+        }
+    </script>
 </body>
 </html>

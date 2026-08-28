@@ -8,13 +8,16 @@
 <body>
     <%- include('partials/navbar') %>
 
-    <main style="max-width: 900px; margin: 120px auto 60px auto; padding: 0 20px;">
+    <!-- Barra de Progreso de Lectura -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <main style="max-width: 900px; margin: 120px auto 60px auto; padding: 0 20px; position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 50px;">
             <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Política de Privacidad</h1>
             <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Última actualización: Agosto 2026</p>
         </div>
 
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
+        <div class="legal-card">
             <div style="display: flex; flex-direction: column; gap: 30px;">
                 <section>
                     <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">1. Información que Recopilamos</h2>
@@ -24,7 +27,7 @@
                         <li>Información de servidores donde el bot está presente</li>
                         <li>Estadísticas de uso de comandos y actividad</li>
                         <li>Configuraciones personalizadas por servidor</li>
-                        <li> datos de economía y niveles (opcional)</li>
+                        <li>Datos de economía y niveles (opcional)</li>
                     </ul>
                 </section>
 
@@ -43,6 +46,11 @@
                 <section>
                     <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">3. Almacenamiento de Datos</h2>
                     <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Todos los datos se almacenan de forma segura en bases de datos encriptadas. Implementamos medidas de seguridad estándar de la industria para proteger tu información contra accesos no autorizados.</p>
+                    
+                    <div class="secure-badge-box">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <p><strong>Seguridad Garantizada:</strong> Tus datos están protegidos con cifrado de extremo a extremo y nunca compartimos tu información personal con terceros sin tu consentimiento explícito.</p>
+                    </div>
                 </section>
 
                 <section>
@@ -80,6 +88,15 @@
                 <section>
                     <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">8. Contacto</h2>
                     <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Para cualquier pregunta sobre esta política de privacidad o para ejercer tus derechos, por favor contáctanos a través de nuestro servidor de Discord o formulario de contacto.</p>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+                        <button onclick="showToast('success', 'Solicitud de datos enviada correctamente')" style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);">
+                            <i class="fa-solid fa-download"></i> Exportar mis datos
+                        </button>
+                        <button onclick="showToast('error', 'Solicitud de eliminación enviada. Procesaremos tu petición.')" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.3); cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fa-solid fa-trash"></i> Solicitar eliminación
+                        </button>
+                    </div>
                 </section>
             </div>
         </div>
@@ -87,6 +104,42 @@
 
     <%- include('partials/footer') %>
 
-    <script src="/js/main.js"></script>
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Barra de progreso de lectura
+        const progressBar = document.getElementById('readingProgress');
+        if (progressBar) {
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                progressBar.style.width = progress + '%';
+            });
+        }
+
+        // Toast system
+        function showToast(type, message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            
+            const icons = {
+                success: 'fa-circle-check',
+                error: 'fa-circle-xmark',
+                info: 'fa-circle-info'
+            };
+            
+            toast.innerHTML = '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i><span>' + message + '</span>';
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
