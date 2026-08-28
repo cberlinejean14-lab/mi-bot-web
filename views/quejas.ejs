@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Quejas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Reportar Queja</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">¿Has tenido algún problema con el bot? Envíanos un reporte detallado para ayudarnos a mejorar.</p>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
+            <form style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Tu ID de Discord</label>
+                    <input type="text" placeholder="Tu ID de usuario" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Tipo de Problema</label>
+                    <select style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                        <option value="">Selecciona el tipo de problema</option>
+                        <option value="bug">Error o Bug</option>
+                        <option value="performance">Problema de Rendimiento</option>
+                        <option value="feature">Funcionalidad Incorrecta</option>
+                        <option value="abuse">Uso Indebido</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Descripción Detallada</label>
+                    <textarea rows="6" placeholder="Describe el problema con el mayor detalle posible..." style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s; resize: vertical;"></textarea>
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Servidor Afectado (ID)</label>
+                    <input type="text" placeholder="ID del servidor donde ocurrió el problema" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <button type="submit" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 14px 28px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;">
+                    Enviar Reporte
+                </button>
+            </form>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px;">
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0; text-align: center;">
+                <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; margin-right: 8px;"></i>
+                Los reportes falsos o malintencionados pueden resultar en sanciones.
+            </p>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

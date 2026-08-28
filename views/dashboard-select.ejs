@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= typeof lang !== 'undefined' ? lang : 'es' %>" data-theme="dark">
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
 <head>
     <%- include('partials/head') %>
     <title>PREM - Select Server</title>
@@ -21,7 +21,7 @@
             --card-bg: rgba(255, 255, 255, 0.9);
             --border-color: rgba(0, 0, 0, 0.1);
             --text-color: #1f2937;
-            --text-muted: #6b7280;
+            --text-muted: #374151;
             --accent-color: #9333ea;
         }
 
@@ -242,63 +242,11 @@
 </head>
 <body>
 
-    <nav>
-        <a href="/?lang=<%= typeof lang !== 'undefined' ? lang : 'es' %>" class="nav-left">
-            <img src="https://cdn.discordapp.com/avatars/1534632950224781548/a_678d6b7de1507542e3636f611d297e20.gif?size=2048" alt="Bot Avatar" class="bot-avatar">
-            <span class="bot-name">PREM</span>
-        </a>
-        <div style="display: flex; align-items: center; gap: 15px;">
-            
-            <!-- Selector de Idiomas con Banderas (Actualizado) -->
-            <div class="lang-dropdown" style="position: relative; display: inline-block;">
-                <button onclick="toggleLangMenu()" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 7px 14px; border-radius: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
-                    <% 
-                        let flag = '🇪🇸'; let langName = 'Español';
-                        const currentLang = typeof lang !== 'undefined' ? lang : 'es';
-                        if (currentLang === 'en') { flag = '🇺🇸'; langName = 'English'; }
-                        else if (currentLang === 'pt') { flag = '🇧🇷'; langName = 'Português'; }
-                        else if (currentLang === 'fr') { flag = '🇫🇷'; langName = 'Français'; }
-                        else if (currentLang === 'hi') { flag = '🇮🇳'; langName = 'हिन्दी'; }
-                        else if (currentLang === 'ar') { flag = '🇸🇦'; langName = 'العربية'; }
-                        else if (currentLang === 'zh') { flag = '🇨🇳'; langName = '中文'; }
-                    %>
-                    <span><%= flag %></span>
-                    <span><%= langName %></span>
-                </button>
-                <div id="langMenu" style="display: none; position: absolute; right: 0; top: 120%; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; z-index: 10000; min-width: 150px; backdrop-filter: blur(20px);">
-                    <a href="?lang=es" onclick="return changeLanguage('es')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇪🇸 Español</a>
-                    <a href="?lang=en" onclick="return changeLanguage('en')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇺🇸 English</a>
-                    <a href="?lang=pt" onclick="return changeLanguage('pt')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇧🇷 Português</a>
-                    <a href="?lang=fr" onclick="return changeLanguage('fr')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇫🇷 Français</a>
-                    <a href="?lang=hi" onclick="return changeLanguage('hi')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇮🇳 हिन्दी</a>
-                    <a href="?lang=ar" onclick="return changeLanguage('ar')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇸🇦 العربية</a>
-                    <a href="?lang=zh" onclick="return changeLanguage('zh')" style="display: block; padding: 10px 14px; color: var(--text-color); text-decoration: none; font-size: 0.85rem;">🇨🇳 中文</a>
-                </div>
-            </div>
-
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema">
-                🌙
-            </button>
-
-            <% if (typeof user !== 'undefined' && user) { %>
-                <div class="user-dropdown-container" style="position: relative; display: inline-block;">
-                    <div onclick="toggleUserMenu()" class="user-profile">
-                        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="Avatar" class="user-avatar">
-                        <span style="font-weight: 600; font-size: 0.9rem;"><%= user.global_name || user.username %></span>
-                    </div>
-
-                    <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 45px; width: 220px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10000; padding: 8px; backdrop-filter: blur(20px);">
-                        <a href="/dashboard" style="display: block; padding: 8px 12px; color: var(--text-color); text-decoration: none; border-radius: 8px; font-size: 13px;">Mis servidores</a>
-                        <a href="/logout" style="display: block; padding: 8px 12px; color: #ef4444; text-decoration: none; border-radius: 8px; font-size: 13px; margin-top: 4px; border-top: 1px solid var(--border-color);">Cerrar sesión</a>
-                    </div>
-                </div>
-            <% } %>
-        </div>
-    </nav>
+    <%- include('partials/navbar') %>
 
     <div class="container">
         <h1>Selecciona un servidor</h1>
-        <p class="subtitle">Elige un servidor para administrar o invitar al bot.</p>
+        <p class="subtitle">Elige un servidor donde tienes permisos de administrador para gestionar el bot.</p>
 
         <div class="search-container">
             <input type="text" id="serverSearch" class="search-input" placeholder="Buscar servidores por nombre...">
@@ -308,6 +256,12 @@
             <% if (typeof guilds !== 'undefined' && Array.isArray(guilds)) { %>
                 <% guilds.forEach(guild => { %>
                     <% if (guild && guild.name) { %>
+                        <% 
+                            const esAdmin = guild.permissions ? (guild.permissions & 0x8) === 0x8 : guild.administrator; 
+                            const esOwner = guild.owner;
+                            // Solo mostrar servidores donde el usuario es admin o owner
+                            if (esAdmin || esOwner) {
+                        %>
                         <div class="guild-card" data-name="<%= guild.name.toLowerCase() %>">
                             <div class="guild-info">
                                 <% if (guild.icon) { %>
@@ -325,15 +279,9 @@
                                 </div>
                             </div>
                             
-                            <% 
-                                const esAdmin = guild.permissions ? (guild.permissions & 0x8) === 0x8 : guild.administrator; 
-                            %>
-                            <% if (esAdmin) { %>
-                                <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage">Gestionar</a>
-                            <% } else { %>
-                                <a href="https://discord.com/oauth2/authorize?client_id=1534632950224781548&scope=bot&permissions=8&guild_id=<%= guild.id %>" target="_blank" class="btn-manage" style="background: rgba(168, 85, 247, 0.15); border: 1px solid var(--border-color);">Invitar</a>
-                            <% } %>
+                            <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage">Gestionar</a>
                         </div>
+                        <% } %>
                     <% } %>
                 <% }) %>
             <% } %>
@@ -345,49 +293,6 @@
     </footer>
 
     <script>
-        function toggleLangMenu() {
-            const menu = document.getElementById('langMenu');
-            if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-        function changeLanguage(code) {
-            try {
-                localStorage.setItem('lang', code);
-                document.cookie = 'lang=' + encodeURIComponent(code) + ';path=/;max-age=2592000;SameSite=Lax';
-            } catch (e) {}
-            const url = new URL(window.location.href);
-            url.searchParams.set('lang', code);
-            window.location.assign(url.toString());
-            return false;
-        }
-        function toggleUserMenu() {
-            const menu = document.getElementById('userDropdownMenu');
-            if (menu) menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            if (currentTheme === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                localStorage.setItem('prem_theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                localStorage.setItem('prem_theme', 'light');
-            }
-        }
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('prem_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        });
-        window.onclick = function(event) {
-            if (!event.target.closest('.lang-dropdown')) {
-                const menu = document.getElementById('langMenu');
-                if (menu) menu.style.display = 'none';
-            }
-            if (!event.target.closest('.user-dropdown-container')) {
-                const userMenu = document.getElementById('userDropdownMenu');
-                if (userMenu) userMenu.style.display = 'none';
-            }
-        }
         const searchInput = document.getElementById('serverSearch');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {

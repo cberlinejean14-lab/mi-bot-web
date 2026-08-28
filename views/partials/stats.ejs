@@ -2,27 +2,59 @@
     <div style="display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 20px; flex-wrap: wrap;">
         
         <!-- Servidores Activos -->
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px;">
+        <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px; transition: all 0.3s ease; position: relative; overflow: hidden;">
             <i class="fa-solid fa-server" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
             <h3 id="stat-servers" style="font-size: 2rem; font-weight: 800; margin: 5px 0; color: var(--text-main);">0...</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;"><%= typeof t !== 'undefined' ? t.statServers : 'Servidores Activos' %></p>
         </div>
 
         <!-- Usuarios Totales -->
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px;">
+        <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px; transition: all 0.3s ease; position: relative; overflow: hidden;">
             <i class="fa-solid fa-users" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
             <h3 id="stat-users" style="font-size: 2rem; font-weight: 800; margin: 5px 0; color: var(--text-main);">0...</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;"><%= typeof t !== 'undefined' ? t.statUsers : 'Usuarios Totales' %></p>
         </div>
 
         <!-- Comandos Ejecutados -->
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px;">
+        <div class="stat-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(15px); flex: 1; min-width: 250px; transition: all 0.3s ease; position: relative; overflow: hidden;">
             <i class="fa-solid fa-terminal" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 10px;"></i>
             <h3 id="stat-commands" style="font-size: 2rem; font-weight: 800; margin: 5px 0; color: var(--text-main);">0...</h3>
             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;"><%= typeof t !== 'undefined' ? t.statCommands : 'Comandos Ejecutados' %></p>
         </div>
         
     </div>
+
+    <style>
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                var(--shimmer-color),
+                transparent
+            );
+            transform: rotate(30deg);
+            transition: 0.8s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px var(--accent-glow);
+        }
+
+        .stat-card:hover::before {
+            left: 120%;
+            opacity: 1;
+        }
+    </style>
 </section>
 
 <!-- Script para actualizar las estadísticas automáticamente en tiempo real -->

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Sugerencias</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Enviar Sugerencia</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">¿Tienes una idea para mejorar PREM? ¡Nos encantaría escucharla! Tu feedback nos ayuda a crecer.</p>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
+            <form style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Tu Nombre (opcional)</label>
+                    <input type="text" placeholder="Tu nombre de usuario" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Categoría</label>
+                    <select style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                        <option value="">Selecciona una categoría</option>
+                        <option value="features">Nuevas Funcionalidades</option>
+                        <option value="improvements">Mejoras Existentes</option>
+                        <option value="ui">Interfaz de Usuario</option>
+                        <option value="commands">Nuevos Comandos</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Título de la Sugerencia</label>
+                    <input type="text" placeholder="Un título breve para tu sugerencia" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Descripción Detallada</label>
+                    <textarea rows="6" placeholder="Describe tu sugerencia con el mayor detalle posible. ¿Cómo mejoraría esta función la experiencia del usuario?" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s; resize: vertical;"></textarea>
+                </div>
+                <button type="submit" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; padding: 14px 28px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;">
+                    Enviar Sugerencia
+                </button>
+            </form>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px;">
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0; text-align: center;">
+                <i class="fa-solid fa-lightbulb" style="color: #fbbf24; margin-right: 8px;"></i>
+                Las mejores sugerencias son implementadas en futuras actualizaciones. ¡Gracias por tu ayuda!
+            </p>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

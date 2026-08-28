@@ -5,7 +5,7 @@
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
         <!-- Comando 1 -->
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+        <div class="command-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); transition: all 0.3s ease; position: relative; overflow: hidden;">
             <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <i class="fa-solid fa-store" style="font-size: 1.3rem; color: var(--accent-color);"></i>
             </div>
@@ -14,7 +14,7 @@
         </div>
 
         <!-- Comando 2 -->
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+        <div class="command-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); transition: all 0.3s ease; position: relative; overflow: hidden;">
             <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <i class="fa-solid fa-ticket" style="font-size: 1.3rem; color: var(--accent-color);"></i>
             </div>
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Comando 3 -->
-        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+        <div class="command-card" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); transition: all 0.3s ease; position: relative; overflow: hidden;">
             <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
                 <i class="fa-solid fa-door-open" style="font-size: 1.3rem; color: var(--accent-color);"></i>
             </div>
@@ -31,4 +31,36 @@
             <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0;"><%= typeof t !== 'undefined' ? t.cmd3Desc : 'Saluda a los nuevos miembros y despide a quienes se van con mensajes personalizados y banners atractivos.' %></p>
         </div>
     </div>
+
+    <style>
+        .command-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 50%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                var(--shimmer-color),
+                transparent
+            );
+            transform: rotate(30deg);
+            transition: 0.8s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .command-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px var(--accent-glow);
+        }
+
+        .command-card:hover::before {
+            left: 120%;
+            opacity: 1;
+        }
+    </style>
 </section>

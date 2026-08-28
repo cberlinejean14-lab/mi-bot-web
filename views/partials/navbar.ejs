@@ -72,6 +72,22 @@
             </div>
         </div>
 
+        <!-- Botón de Notificaciones -->
+        <% if (typeof user !== 'undefined' && user) { %>
+            <div style="position: relative; display: inline-block;">
+                <button onclick="toggleDropdown('notificationsDropdown', event)" style="background: var(--card-bg, rgba(20, 18, 35, 0.65)); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); color: var(--text-main, #fff); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; position: relative;">
+                    <i class="fa-solid fa-bell"></i>
+                    <span id="notificationIndicator" style="position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #a855f7; border-radius: 50%; box-shadow: 0 0 8px #a855f7; display: none;"></span>
+                </button>
+                <div id="notificationsDropdown" style="display: none; position: absolute; right: 0; top: 48px; width: 320px; max-height: 400px; overflow-y: auto; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000;">
+                    <div style="font-size: 14px; font-weight: 700; color: var(--text-main, #fff); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1));">Notificaciones</div>
+                    <div id="notificationsList" style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="color: var(--text-muted, #9ca3af); font-size: 13px; text-align: center; padding: 20px 0;">No hay notificaciones nuevas</div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
         <!-- Botón Tema -->
         <button id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema" style="background: var(--card-bg, rgba(20, 18, 35, 0.65)); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); color: var(--text-main, #fff); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px;">
             <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -86,15 +102,59 @@
                     <i class="fa-solid fa-chevron-down" style="font-size: 10px; color: var(--text-muted, #9ca3af);"></i>
                 </div>
 
-                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 250px; max-height: 450px; overflow-y: auto; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000;">
-                    <div style="padding: 6px 10px 10px 10px; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1)); margin-bottom: 8px;">
-                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main, #fff);"><%= user.username %></div>
-                        <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">@<%= user.username.toLowerCase() %></div>
+                <div id="userDropdownMenu" style="display: none; position: absolute; right: 0; top: 52px; width: 280px; max-height: 500px; overflow-y: auto; background: var(--bg-sidebar, #12101f); border: 1px solid var(--border-color, rgba(255,255,255,0.1)); border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); padding: 12px; z-index: 1000; backdrop-filter: blur(20px);">
+                    <div style="padding: 8px 12px 12px 12px; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1)); margin-bottom: 10px;">
+                        <div style="font-size: 14px; font-weight: 700; color: var(--text-main, #fff);"><%= user.global_name || user.username %></div>
+                        <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">@<%= user.username %></div>
                     </div>
-                    <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px;">
+                    
+                    <a href="/dashboard" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
                         <i class="fa-solid fa-server" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navMyServers ? t.navMyServers : 'Mis servidores' %>
                     </a>
-                    <a href="/logout" style="display: flex; align-items: center; gap: 10px; padding: 10px; color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; margin-top: 8px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));">
+                    
+                    <% if (user.id === '1534632950224781548' || user.id === 'YOUR_ADMIN_ID') { %>
+                    <a href="/manager-room" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #fbbf24; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s; border: 1px solid rgba(251, 191, 36, 0.3);">
+                        <i class="fa-solid fa-crown"></i> Sala de Manager
+                    </a>
+                    <% } %>
+                    
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; color: var(--text-main, #fff); font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;" onclick="toggleTheme()">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-palette" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navTheme ? t.navTheme : 'Preferencias / Tema' %>
+                        </div>
+                        <i class="fa-solid fa-toggle-on" id="themeToggleIcon" style="color: #a855f7;"></i>
+                    </div>
+                    
+                    <a href="/dashboard/custom-bot" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                        <i class="fa-solid fa-robot" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navCustomBot ? t.navCustomBot : 'Personalización de Bot' %>
+                    </a>
+                    
+                    <a href="/dashboard/custom-commands" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                        <i class="fa-solid fa-wand-magic-sparkles" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navCustomCommands ? t.navCustomCommands : 'Comandos personalizados' %>
+                        <span style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: auto;">PREMIUM</span>
+                    </a>
+                    
+                    <a href="https://discord.gg/tu-servidor" target="_blank" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                        <i class="fa-brands fa-discord" style="color: #5865F2;"></i> <%= typeof t !== 'undefined' && t.navSupportServer ? t.navSupportServer : 'Servidor de Soporte' %>
+                    </a>
+                    
+                    <a href="/documentacion" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                        <i class="fa-solid fa-book" style="color: #a855f7;"></i> <%= typeof t !== 'undefined' && t.navDocs ? t.navDocs : 'Documentación / Guías' %>
+                    </a>
+                    
+                    <a href="/votar" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text-main, #fff); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.2s;">
+                        <i class="fa-solid fa-star" style="color: #fbbf24;"></i> <%= typeof t !== 'undefined' && t.navVote ? t.navVote : 'Votar por el bot' %>
+                    </a>
+                    
+                    <div style="padding: 10px 12px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); margin-top: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e;"></span>
+                            <span style="font-size: 12px; color: var(--text-muted, #9ca3af); font-weight: 600;">Operational</span>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-muted, #9ca3af);">PREM Bot v2.5</div>
+                    </div>
+                    
+                    <a href="/logout" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 8px; margin-top: 8px; border-top: 1px solid var(--border-color, rgba(255,255,255,0.1)); transition: background 0.2s;">
                         <i class="fa-solid fa-right-from-bracket"></i> <%= typeof t !== 'undefined' && t.navLogout ? t.navLogout : 'Cerrar sesión' %>
                     </a>
                 </div>
@@ -121,7 +181,7 @@
 
     window.toggleDropdown = function(id, evt) {
         if (evt) evt.stopPropagation();
-        const dropdowns = ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu', 'customLangMenu'];
+        const dropdowns = ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu', 'customLangMenu', 'notificationsDropdown'];
         dropdowns.forEach(d => {
             const el = document.getElementById(d);
             if (el && d !== id) el.style.display = 'none';
@@ -130,10 +190,16 @@
         if (target) {
             target.style.display = target.style.display === 'block' ? 'none' : 'block';
         }
+        
+        // Mark notifications as read when opened
+        if (id === 'notificationsDropdown' && target.style.display === 'block') {
+            const indicator = document.getElementById('notificationIndicator');
+            if (indicator) indicator.style.display = 'none';
+        }
     };
 
     window.addEventListener('click', () => {
-        ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu', 'customLangMenu'].forEach(d => {
+        ['recursosDropdown', 'soporteDropdown', 'userDropdownMenu', 'customLangMenu', 'notificationsDropdown'].forEach(d => {
             const el = document.getElementById(d);
             if (el) el.style.display = 'none';
         });

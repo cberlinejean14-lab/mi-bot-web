@@ -9,8 +9,8 @@
     --accent-color: #c084fc;
     --accent: #c084fc;
     --accent-glow: rgba(192, 132, 252, 0.4);
-    --border-color: rgba(192, 132, 252, 0.15);
-    --border: rgba(192, 132, 252, 0.15);
+    --border-color: rgba(192, 132, 252, 0.5);
+    --border: rgba(192, 132, 252, 0.5);
     --nav-bg: rgba(15, 12, 28, 0.8);
     --badge-bg: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(192, 132, 252, 0.05));
     --badge-text: #e9d5ff;
@@ -25,12 +25,12 @@
     --hover-sidebar: rgba(0, 0, 0, 0.05);
     --text-color: #1e1b4b;
     --text-main: #1e1b4b;
-    --text-muted: #6b21a8;
+    --text-muted: #374151;
     --accent-color: #9333ea;
     --accent: #9333ea;
     --accent-glow: rgba(147, 51, 234, 0.25);
-    --border-color: rgba(147, 51, 234, 0.2);
-    --border: rgba(147, 51, 234, 0.2);
+    --border-color: rgba(147, 51, 234, 0.5);
+    --border: rgba(147, 51, 234, 0.5);
     --nav-bg: rgba(255, 255, 255, 0.9);
     --badge-bg: linear-gradient(135deg, rgba(147, 51, 234, 0.12), rgba(168, 85, 247, 0.06));
     --badge-text: #581c87;

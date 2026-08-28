@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Política de Privacidad</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 900px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Política de Privacidad</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Última actualización: Agosto 2026</p>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">1. Información que Recopilamos</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">PREM Bot recopila la siguiente información:</p>
+                    <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
+                        <li>Información básica de usuario de Discord (ID, nombre, avatar)</li>
+                        <li>Información de servidores donde el bot está presente</li>
+                        <li>Estadísticas de uso de comandos y actividad</li>
+                        <li>Configuraciones personalizadas por servidor</li>
+                        <li> datos de economía y niveles (opcional)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">2. Uso de la Información</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Utilizamos la información recopilada para:</p>
+                    <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
+                        <li>Proporcionar y mejorar los servicios del bot</li>
+                        <li>Personalizar la experiencia del usuario</li>
+                        <li>Analizar tendencias de uso y estadísticas</li>
+                        <li>Prevenir abusos y mantener la seguridad</li>
+                        <li>Enviar notificaciones importantes (opcional)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">3. Almacenamiento de Datos</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Todos los datos se almacenan de forma segura en bases de datos encriptadas. Implementamos medidas de seguridad estándar de la industria para proteger tu información contra accesos no autorizados.</p>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">4. Compartición de Información</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">No vendemos, alquilamos ni compartimos tu información personal con terceros para fines de marketing. Solo podemos compartir datos cuando:</p>
+                    <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
+                        <li>Sea requerido por ley</li>
+                        <li>Sea necesario para proteger nuestros derechos</li>
+                        <li>El usuario nos dé su consentimiento explícito</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">5. Tus Derechos</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Tienes derecho a:</p>
+                    <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
+                        <li>Acceder a tus datos personales</li>
+                        <li>Solicitar la corrección de datos inexactos</li>
+                        <li>Solicitar la eliminación de tus datos</li>
+                        <li>Optar por no recibir notificaciones</li>
+                        <li>Exportar tus datos</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">6. Cookies y Tecnologías Similares</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nuestro sitio web utiliza cookies para mejorar la experiencia de usuario, analizar el tráfico y personalizar el contenido. Puedes configurar tu navegador para rechazar cookies.</p>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">7. Cambios en esta Política</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nos reservamos el derecho de modificar esta política de privacidad en cualquier momento. Los cambios serán notificados a través de nuestro sitio web o bot.</p>
+                </section>
+
+                <section>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">8. Contacto</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Para cualquier pregunta sobre esta política de privacidad o para ejercer tus derechos, por favor contáctanos a través de nuestro servidor de Discord o formulario de contacto.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

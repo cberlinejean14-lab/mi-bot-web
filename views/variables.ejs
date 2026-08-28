@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Variables</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 1200px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Variables</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Las variables dinámicas que puedes usar en los mensajes personalizados del bot.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px;">
+            <!-- Variables de Usuario -->
+            <div class="variable-category" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-user" style="font-size: 1.5rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0;">Usuario</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{user}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Mención del usuario</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{username}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Nombre de usuario</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{userId}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">ID del usuario</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{avatar}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">URL del avatar</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variables de Servidor -->
+            <div class="variable-category" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-server" style="font-size: 1.5rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0;">Servidor</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{server}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Nombre del servidor</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{serverId}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">ID del servidor</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{memberCount}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Número de miembros</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{icon}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">URL del icono del servidor</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variables de Nivel -->
+            <div class="variable-category" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-chart-line" style="font-size: 1.5rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0;">Nivel</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{level}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Nivel del usuario</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{xp}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Experiencia actual</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">{xpNeeded}</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">XP necesaria para siguiente nivel</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

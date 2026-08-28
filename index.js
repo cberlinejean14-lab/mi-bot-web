@@ -31,7 +31,7 @@ function loadTranslations(lang) {
 function resolveLang(req, res) {
     const raw = req.query.lang || req.cookies.lang || 'es';
     const lang = SUPPORTED_LANGS.includes(raw) ? raw : 'es';
-    res.cookie('lang', lang, { maxAge: 30 * 24 * 60 * 60 * 1000, sameSite: 'lax' });
+    res.cookie('lang', lang, { maxAge: 30 * 24 * 60 * 60 * 1000, sameSite: 'lax', httpOnly: false });
     return lang;
 }
 
@@ -54,6 +54,38 @@ const statsSchema = new mongoose.Schema({
     totalCommands: { type: Number, default: 0 }
 });
 const StatsModel = mongoose.model('Stats', statsSchema);
+
+// Schema para Notificaciones
+const notificationSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    message: { type: String, required: true },
+    type: { type: String, enum: ['info', 'warning', 'error', 'success'], default: 'info' },
+    isActive: { type: Boolean, default: true },
+    createdAt: { type: Date, default: Date.now },
+    createdBy: { type: String, required: true } // ID del admin que creó la notificación
+});
+const NotificationModel = mongoose.model('Notification', notificationSchema);
+
+// Schema para Historial de Notificaciones Eliminadas
+const deletedNotificationSchema = new mongoose.Schema({
+    originalNotification: { type: mongoose.Schema.Types.ObjectId, ref: 'Notification' },
+    title: { type: String, required: true },
+    message: { type: String, required: true },
+    type: { type: String, required: true },
+    deletedAt: { type: Date, default: Date.now },
+    deletedBy: { type: String, required: true } // ID del admin que eliminó la notificación
+});
+const DeletedNotificationModel = mongoose.model('DeletedNotification', deletedNotificationSchema);
+
+// Schema para Administradores
+const adminSchema = new mongoose.Schema({
+    discordId: { type: String, required: true, unique: true },
+    username: { type: String, required: true },
+    permissionLevel: { type: String, enum: ['manager', 'admin', 'moderator'], default: 'admin' },
+    grantedBy: { type: String },
+    grantedAt: { type: Date, default: Date.now }
+});
+const AdminModel = mongoose.model('Admin', adminSchema);
 
 const client = new Client({
     intents: [
@@ -82,7 +114,7 @@ app.use(session({
         secure: true, // Obligatorio en Railway al usar HTTPS tras un proxy
         httpOnly: true,
         sameSite: 'lax',
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 días de persistencia de sesión
     }
 }));
 
@@ -141,6 +173,141 @@ app.get('/api/stats', async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener estadísticas' });
+    }
+});
+
+// API para crear notificación global
+app.post('/api/notifications', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        const { title, message, type } = req.body;
+        const notification = new NotificationModel({
+            title,
+            message,
+            type: type || 'info',
+            createdBy: req.user.id
+        });
+        
+        await notification.save();
+        res.json({ success: true, notification });
+    } catch (error) {
+        console.error("Error al crear notificación:", error);
+        res.status(500).json({ error: "Error al crear notificación" });
+    }
+});
+
+// API para obtener notificaciones activas
+app.get('/api/notifications', async (req, res) => {
+    try {
+        const notifications = await NotificationModel.find({ isActive: true }).sort({ createdAt: -1 });
+        res.json({ notifications });
+    } catch (error) {
+        console.error("Error al obtener notificaciones:", error);
+        res.status(500).json({ error: "Error al obtener notificaciones" });
+    }
+});
+
+// API para eliminar notificación
+app.delete('/api/notifications/:id', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        const notification = await NotificationModel.findById(req.params.id);
+        if (!notification) return res.status(404).json({ error: "Notificación no encontrada" });
+        
+        // Crear registro en historial de eliminadas
+        const deletedNotification = new DeletedNotificationModel({
+            originalNotification: notification._id,
+            title: notification.title,
+            message: notification.message,
+            type: notification.type,
+            deletedBy: req.user.id
+        });
+        await deletedNotification.save();
+        
+        // Marcar como inactiva en lugar de eliminar
+        notification.isActive = false;
+        await notification.save();
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Error al eliminar notificación:", error);
+        res.status(500).json({ error: "Error al eliminar notificación" });
+    }
+});
+
+// API para obtener historial de notificaciones eliminadas
+app.get('/api/notifications/deleted', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        const deletedNotifications = await DeletedNotificationModel.find().sort({ deletedAt: -1 });
+        res.json({ deletedNotifications });
+    } catch (error) {
+        console.error("Error al obtener historial:", error);
+        res.status(500).json({ error: "Error al obtener historial" });
+    }
+});
+
+// API para obtener administradores
+app.get('/api/admins', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        const admins = await AdminModel.find().sort({ grantedAt: -1 });
+        res.json({ admins });
+    } catch (error) {
+        console.error("Error al obtener administradores:", error);
+        res.status(500).json({ error: "Error al obtener administradores" });
+    }
+});
+
+// API para otorgar permisos de administrador
+app.post('/api/admins', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        const { discordId, username, permissionLevel } = req.body;
+        
+        // Validar formato de ID de Discord (debe ser un número de 18-19 dígitos)
+        const discordIdRegex = /^\d{17,19}$/;
+        if (!discordIdRegex.test(discordId)) {
+            return res.status(400).json({ error: "ID de Discord inválido" });
+        }
+        
+        const admin = new AdminModel({
+            discordId,
+            username,
+            permissionLevel,
+            grantedBy: req.user.id
+        });
+        
+        await admin.save();
+        res.json({ success: true, admin });
+    } catch (error) {
+        console.error("Error al otorgar permisos:", error);
+        if (error.code === 11000) {
+            return res.status(400).json({ error: "El usuario ya es administrador" });
+        }
+        res.status(500).json({ error: "Error al otorgar permisos" });
+    }
+});
+
+// API para revocar permisos de administrador
+app.delete('/api/admins/:discordId', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        const result = await AdminModel.deleteOne({ discordId: req.params.discordId });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "Administrador no encontrado" });
+        }
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Error al revocar permisos:", error);
+        res.status(500).json({ error: "Error al revocar permisos" });
     }
 });
 
@@ -268,6 +435,117 @@ app.get('/dashboard', async (req, res) => {
     }
 });
 
+// Ruta de Comandos
+app.get('/comandos', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('comandos', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Variables
+app.get('/variables', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('variables', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Documentación
+app.get('/documentacion', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('documentacion', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de FAQ
+app.get('/faq', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('faq', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Contacto
+app.get('/contacto', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('contacto', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Quejas
+app.get('/quejas', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('quejas', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Sugerencias
+app.get('/sugerencias', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('sugerencias', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Términos
+app.get('/terminos', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('terminos', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Privacidad
+app.get('/privacidad', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('privacidad', {
+        user: req.user || null,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+// Ruta de Sala de Manager (protegida)
+app.get('/manager-room', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) return res.redirect('/auth/discord');
+        
+        // Aquí deberías verificar si el usuario tiene permisos de manager
+        // Por ahora, permitiremos acceso a usuarios autenticados
+        const user = req.user || {};
+        
+        const currentLang = resolveLang(req, res);
+        res.render('manager-room', {
+            user: user,
+            currentLang,
+            t: loadTranslations(currentLang)
+        });
+    } catch (error) {
+        console.error("ERROR EN /manager-room:", error.message);
+        res.status(500).send(`Error al cargar la sala de manager: ${error.message}`);
+    }
+});
+
 // Ruta de gestión por Servidor
 app.get('/dashboard/:guildId', async (req, res) => {
     try {
@@ -293,7 +571,14 @@ app.get('/dashboard/:guildId', async (req, res) => {
             return res.status(403).send("No tienes acceso a este servidor o no fue encontrado.");
         }
 
-        res.send(`Panel de administración para el servidor: <strong>${currentGuild.name}</strong>`);
+        const currentLang = resolveLang(req, res);
+        res.render('dashboard-server', { 
+            user: user, 
+            guild: currentGuild, 
+            guildId: guildId,
+            currentLang,
+            t: loadTranslations(currentLang)
+        });
         
     } catch (error) {
         console.error("ERROR EN /dashboard/:guildId:", error.message);

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Comandos</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 1200px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Comandos</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Explora todos los comandos disponibles de PREM Bot y aprende cómo usarlos para mejorar tu servidor.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
+            <!-- Economía -->
+            <div class="command-category" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-coins" style="font-size: 1.5rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0;">Economía</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/balance</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Ver tu saldo actual</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/daily</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Reclamar recompensa diaria</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/work</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Trabajar para ganar monedas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moderación -->
+            <div class="command-category" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-shield-halved" style="font-size: 1.5rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0;">Moderación</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/kick</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Expulsar a un usuario</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/ban</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Banear a un usuario</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/mute</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Silenciar a un usuario</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Música -->
+            <div class="command-category" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px);">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                    <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--badge-bg); border: 1px solid var(--badge-border); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-music" style="font-size: 1.5rem; color: var(--accent-color);"></i>
+                    </div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin: 0;">Música</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/play</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Reproducir una canción</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/skip</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Saltar a la siguiente canción</p>
+                    </div>
+                    <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <code style="color: var(--accent-color); font-weight: 600;">/queue</code>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin: 5px 0 0 0;">Ver la lista de reproducción</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

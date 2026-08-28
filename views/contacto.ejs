@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Contacto</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 800px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Contáctanos</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">¿Tienes alguna pregunta o sugerencia? Envíanos un mensaje y te responderemos lo antes posible.</p>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(15px);">
+            <form style="display: flex; flex-direction: column; gap: 20px;">
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Nombre</label>
+                    <input type="text" placeholder="Tu nombre" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Email</label>
+                    <input type="email" placeholder="tu@email.com" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Asunto</label>
+                    <input type="text" placeholder="Asunto de tu mensaje" style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s;">
+                </div>
+                <div>
+                    <label style="display: block; color: var(--text-main); font-weight: 600; margin-bottom: 8px;">Mensaje</label>
+                    <textarea rows="5" placeholder="Escribe tu mensaje aquí..." style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-size: 1rem; outline: none; transition: border-color 0.3s; resize: vertical;"></textarea>
+                </div>
+                <button type="submit" style="background: linear-gradient(135deg, #a855f7, var(--accent-color)); color: white; padding: 14px 28px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;">
+                    Enviar Mensaje
+                </button>
+            </form>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <p style="color: var(--text-muted); font-size: 0.95rem;">O únete a nuestro servidor de Discord para soporte directo:</p>
+            <a href="https://discord.gg/tu-servidor" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 15px; background: #5865F2; color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: opacity 0.3s;">
+                <i class="fa-brands fa-discord" style="font-size: 1.2rem;"></i> Servidor de Soporte
+            </a>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

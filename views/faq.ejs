@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
+<head>
+    <%- include('partials/head') %>
+    <title>PREM - Preguntas Frecuentes</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main style="max-width: 900px; margin: 120px auto 60px auto; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Preguntas Frecuentes</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Encuentra respuestas a las preguntas más comunes sobre PREM Bot.</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+                <button onclick="toggleFaq('faq1')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);">¿Cómo agrego a PREM a mi servidor?</span>
+                    <i id="icon-faq1" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+                </button>
+                <div id="faq1" style="display: none; padding: 0 20px 20px 20px;">
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Simplemente haz clic en el botón "Añadir el bot" en la página principal, selecciona tu servidor en la lista de Discord y otorga los permisos necesarios de administrador.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+                <button onclick="toggleFaq('faq2')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);">¿PREM es completamente gratuito?</span>
+                    <i id="icon-faq2" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+                </button>
+                <div id="faq2" style="display: none; padding: 0 20px 20px 20px;">
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">¡Sí, es de uso gratuito para cualquier comunidad básica! Aunque si buscas una experiencia superior, contamos con un plan Premium lleno de opciones exclusivas.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+                <button onclick="toggleFaq('faq3')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);">¿Cómo funciona el sistema de niveles y XP?</span>
+                    <i id="icon-faq3" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+                </button>
+                <div id="faq3" style="display: none; padding: 0 20px 20px 20px;">
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Tus usuarios ganan experiencia (XP) automáticamente al chatear y participar activamente en el servidor. Puedes activar o configurar las opciones de nivel desde el panel de control (Dashboard).</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+                <button onclick="toggleFaq('faq4')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);">¿Cómo puedo reproducir música en mi canal de voz?</span>
+                    <i id="icon-faq4" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+                </button>
+                <div id="faq4" style="display: none; padding: 0 20px 20px 20px;">
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Entra a un canal de voz en Discord y utiliza el comando /play seguido del nombre o enlace de la canción para que PREM comience a reproducir audio de alta fidelidad.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-item" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; backdrop-filter: blur(15px); transition: border-color 0.2s;">
+                <button onclick="toggleFaq('faq5')" style="width: 100%; background: transparent; border: none; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; text-align: left;">
+                    <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-main);">¿Dónde puedo calificar al bot o dejar una reseña?</span>
+                    <i id="icon-faq5" class="fa-solid fa-chevron-down" style="color: var(--text-muted); transition: transform 0.3s ease;"></i>
+                </button>
+                <div id="faq5" style="display: none; padding: 0 20px 20px 20px;">
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Puedes usar el comando interactivo /review en cualquier chat de Discord para calificar a PREM con estrellas y dejar tu opinión directamente en la página web.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        function toggleFaq(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+</body>
+</html>
