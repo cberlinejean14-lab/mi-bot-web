@@ -74,7 +74,7 @@
 
         .container {
             max-width: 1200px;
-            margin: 40px auto;
+            margin: 100px auto 40px auto;
             padding: 0 20px;
             flex: 1;
             width: 100%;
@@ -261,6 +261,8 @@
                             const esOwner = guild.owner;
                             // Solo mostrar servidores donde el usuario es admin o owner
                             if (esAdmin || esOwner) {
+                                // Verificar si el bot está en el servidor (simulado - en producción usar API real)
+                                const botInServer = true; // Cambiar a lógica real de verificación
                         %>
                         <div class="guild-card" data-name="<%= guild.name.toLowerCase() %>">
                             <div class="guild-info">
@@ -279,7 +281,11 @@
                                 </div>
                             </div>
                             
-                            <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage">Gestionar</a>
+                            <% if (botInServer) { %>
+                                <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage">Gestionar</a>
+                            <% } else { %>
+                                <a href="https://discord.com/oauth2/authorize?client_id=1534632950224781548&scope=bot&permissions=8&guild_id=<%= guild.id %>" target="_blank" class="btn-manage" style="background: linear-gradient(135deg, #a855f7, #c084fc); border: 1px solid rgba(168, 85, 247, 0.4);">Invitar</a>
+                            <% } %>
                         </div>
                         <% } %>
                     <% } %>
