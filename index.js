@@ -181,6 +181,12 @@ app.post('/api/notifications', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
         
+        // Validación estricta: Solo el Manager autorizado puede crear notificaciones
+        const MANAGER_ID = '931545363565908041';
+        if (req.user.id !== MANAGER_ID) {
+            return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
+        }
+        
         const { title, message, type } = req.body;
         const notification = new NotificationModel({
             title,
@@ -212,6 +218,12 @@ app.get('/api/notifications', async (req, res) => {
 app.delete('/api/notifications/:id', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        // Validación estricta: Solo el Manager autorizado puede eliminar notificaciones
+        const MANAGER_ID = '931545363565908041';
+        if (req.user.id !== MANAGER_ID) {
+            return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
+        }
         
         const notification = await NotificationModel.findById(req.params.id);
         if (!notification) return res.status(404).json({ error: "Notificación no encontrada" });
@@ -268,6 +280,12 @@ app.post('/api/admins', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
         
+        // Validación estricta: Solo el Manager autorizado puede otorgar permisos
+        const MANAGER_ID = '931545363565908041';
+        if (req.user.id !== MANAGER_ID) {
+            return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
+        }
+        
         const { discordId, username, permissionLevel } = req.body;
         
         // Validar formato de ID de Discord (debe ser un número de 18-19 dígitos)
@@ -298,6 +316,12 @@ app.post('/api/admins', async (req, res) => {
 app.delete('/api/admins/:discordId', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
+        
+        // Validación estricta: Solo el Manager autorizado puede revocar permisos
+        const MANAGER_ID = '931545363565908041';
+        if (req.user.id !== MANAGER_ID) {
+            return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
+        }
         
         const result = await AdminModel.deleteOne({ discordId: req.params.discordId });
         if (result.deletedCount === 0) {
@@ -597,14 +621,18 @@ app.get('/privacidad', (req, res) => {
     });
 });
 
-// Ruta de Sala de Manager (protegida)
+// Ruta de Sala de Manager (protegida - Solo para el ID autorizado)
 app.get('/manager-room', async (req, res) => {
     try {
         if (!req.isAuthenticated()) return res.redirect('/auth/discord');
         
-        // Aquí deberías verificar si el usuario tiene permisos de manager
-        // Por ahora, permitiremos acceso a usuarios autenticados
         const user = req.user || {};
+        
+        // Validación estricta: Solo el ID autorizado puede acceder al Manager
+        const MANAGER_ID = '931545363565908041';
+        if (user.id !== MANAGER_ID) {
+            return res.status(403).send("Acceso denegado. No tienes permisos de Manager.");
+        }
         
         const currentLang = resolveLang(req, res);
         res.render('manager-room', {
