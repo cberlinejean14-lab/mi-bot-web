@@ -335,6 +335,61 @@ app.delete('/api/admins/:discordId', async (req, res) => {
     }
 });
 
+// API para exportar los datos del usuario (GDPR / Derecho a la portabilidad)
+app.get('/api/user/export', async (req, res) => {
+    try {
+        if (!req.isAuthenticated()) {
+            return res.status(401).json({ error: "No autorizado. Debes iniciar sesión para exportar tus datos." });
+        }
+
+        const user = req.user || {};
+        const userId = user.id;
+
+        // Buscar toda la información asociada al usuario en la base de datos
+        const userData = await UserModel.findOne({ userId }).lean();
+        const adminData = await AdminModel.findOne({ discordId: userId }).lean();
+        const notificationsCreated = await NotificationModel.find({ createdBy: userId }).lean();
+        const notificationsDeleted = await DeletedNotificationModel.find({ deletedBy: userId }).lean();
+
+        // Datos básicos del perfil de Discord
+        const discordProfile = {
+            id: user.id,
+            username: user.username,
+            discriminator: user.discriminator || null,
+            global_name: user.global_name || null,
+            avatar: user.avatar || null,
+            locale: user.locale || null
+        };
+
+        // Estructurar toda la información del usuario en un objeto JSON
+        const exportData = {
+            exportedAt: new Date().toISOString(),
+            user: discordProfile,
+            botData: userData || null,
+            adminPermissions: adminData || null,
+            notificationsCreated: notificationsCreated || [],
+            notificationsDeleted: notificationsDeleted || [],
+            servers: (user.guilds || []).map(g => ({
+                id: g.id,
+                name: g.name,
+                icon: g.icon || null,
+                owner: g.owner || false
+            }))
+        };
+
+        // Enviar el archivo JSON como descarga automática
+        const fileName = `prem-user-data-${userId}.json`;
+        const jsonContent = JSON.stringify(exportData, null, 2);
+
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+        res.send(jsonContent);
+    } catch (error) {
+        console.error("Error al exportar datos del usuario:", error);
+        res.status(500).json({ error: "Error al exportar los datos del usuario" });
+    }
+});
+
 function formatMoney(amount) {
     const n = Number(amount);
     if (!Number.isFinite(n)) return '0';

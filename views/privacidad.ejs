@@ -2,7 +2,7 @@
 <html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
 <head>
     <%- include('partials/head') %>
-    <title>PREM - Política de Privacidad</title>
+    <title>PREM - <%= typeof t !== 'undefined' && t.privacyTitle ? t.privacyTitle : 'Política de Privacidad' %></title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -13,88 +13,112 @@
 
     <main style="max-width: 900px; margin: 120px auto 60px auto; padding: 0 20px; position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 50px;">
-            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Política de Privacidad</h1>
-            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Última actualización: Agosto 2026</p>
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacyTitle ? t.privacyTitle : 'Política de Privacidad' %></h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;"><%= typeof t !== 'undefined' && t.privacyUpdated ? t.privacyUpdated : 'Última actualización: Agosto 2026' %></p>
         </div>
 
         <div class="legal-card">
             <div style="display: flex; flex-direction: column; gap: 30px;">
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">1. Información que Recopilamos</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">PREM Bot recopila la siguiente información:</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy1Title ? t.privacy1Title : '1. Información que Recopilamos' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy1Text ? t.privacy1Text : 'PREM Bot recopila la siguiente información:' %></p>
                     <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
-                        <li>Información básica de usuario de Discord (ID, nombre, avatar)</li>
-                        <li>Información de servidores donde el bot está presente</li>
-                        <li>Estadísticas de uso de comandos y actividad</li>
-                        <li>Configuraciones personalizadas por servidor</li>
-                        <li>Datos de economía y niveles (opcional)</li>
+                        <% if (typeof t !== 'undefined' && t.privacy1List) { %>
+                            <% t.privacy1List.forEach(item => { %>
+                                <li><%= item %></li>
+                            <% }); %>
+                        <% } else { %>
+                            <li>Información básica de usuario de Discord (ID, nombre, avatar)</li>
+                            <li>Información de servidores donde el bot está presente</li>
+                            <li>Estadísticas de uso de comandos y actividad</li>
+                            <li>Configuraciones personalizadas por servidor</li>
+                            <li>Datos de economía y niveles (opcional)</li>
+                        <% } %>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">2. Uso de la Información</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Utilizamos la información recopilada para:</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy2Title ? t.privacy2Title : '2. Uso de la Información' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy2Text ? t.privacy2Text : 'Utilizamos la información recopilada para:' %></p>
                     <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
-                        <li>Proporcionar y mejorar los servicios del bot</li>
-                        <li>Personalizar la experiencia del usuario</li>
-                        <li>Analizar tendencias de uso y estadísticas</li>
-                        <li>Prevenir abusos y mantener la seguridad</li>
-                        <li>Enviar notificaciones importantes (opcional)</li>
+                        <% if (typeof t !== 'undefined' && t.privacy2List) { %>
+                            <% t.privacy2List.forEach(item => { %>
+                                <li><%= item %></li>
+                            <% }); %>
+                        <% } else { %>
+                            <li>Proporcionar y mejorar los servicios del bot</li>
+                            <li>Personalizar la experiencia del usuario</li>
+                            <li>Analizar tendencias de uso y estadísticas</li>
+                            <li>Prevenir abusos y mantener la seguridad</li>
+                            <li>Enviar notificaciones importantes (opcional)</li>
+                        <% } %>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">3. Almacenamiento de Datos</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Todos los datos se almacenan de forma segura en bases de datos encriptadas. Implementamos medidas de seguridad estándar de la industria para proteger tu información contra accesos no autorizados.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy3Title ? t.privacy3Title : '3. Almacenamiento de Datos' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy3Text ? t.privacy3Text : 'Todos los datos se almacenan de forma segura en bases de datos encriptadas. Implementamos medidas de seguridad estándar de la industria para proteger tu información contra accesos no autorizados.' %></p>
                     
                     <div class="secure-badge-box">
                         <i class="fa-solid fa-shield-halved"></i>
-                        <p><strong>Seguridad Garantizada:</strong> Tus datos están protegidos con cifrado de extremo a extremo y nunca compartimos tu información personal con terceros sin tu consentimiento explícito.</p>
+                        <p><strong><%= typeof t !== 'undefined' && t.privacy3BadgeTitle ? t.privacy3BadgeTitle : 'Seguridad Garantizada:' %></strong> <%= typeof t !== 'undefined' && t.privacy3BadgeText ? t.privacy3BadgeText : 'Tus datos están protegidos con cifrado de extremo a extremo y nunca compartimos tu información personal con terceros sin tu consentimiento explícito.' %></p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">4. Compartición de Información</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">No vendemos, alquilamos ni compartimos tu información personal con terceros para fines de marketing. Solo podemos compartir datos cuando:</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy4Title ? t.privacy4Title : '4. Compartición de Información' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy4Text ? t.privacy4Text : 'No vendemos, alquilamos ni compartimos tu información personal con terceros para fines de marketing. Solo podemos compartir datos cuando:' %></p>
                     <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
-                        <li>Sea requerido por ley</li>
-                        <li>Sea necesario para proteger nuestros derechos</li>
-                        <li>El usuario nos dé su consentimiento explícito</li>
+                        <% if (typeof t !== 'undefined' && t.privacy4List) { %>
+                            <% t.privacy4List.forEach(item => { %>
+                                <li><%= item %></li>
+                            <% }); %>
+                        <% } else { %>
+                            <li>Sea requerido por ley</li>
+                            <li>Sea necesario para proteger nuestros derechos</li>
+                            <li>El usuario nos dé su consentimiento explícito</li>
+                        <% } %>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">5. Tus Derechos</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Tienes derecho a:</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy5Title ? t.privacy5Title : '5. Tus Derechos' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy5Text ? t.privacy5Text : 'Tienes derecho a:' %></p>
                     <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
-                        <li>Acceder a tus datos personales</li>
-                        <li>Solicitar la corrección de datos inexactos</li>
-                        <li>Solicitar la eliminación de tus datos</li>
-                        <li>Optar por no recibir notificaciones</li>
-                        <li>Exportar tus datos</li>
+                        <% if (typeof t !== 'undefined' && t.privacy5List) { %>
+                            <% t.privacy5List.forEach(item => { %>
+                                <li><%= item %></li>
+                            <% }); %>
+                        <% } else { %>
+                            <li>Acceder a tus datos personales</li>
+                            <li>Solicitar la corrección de datos inexactos</li>
+                            <li>Solicitar la eliminación de tus datos</li>
+                            <li>Optar por no recibir notificaciones</li>
+                            <li>Exportar tus datos</li>
+                        <% } %>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">6. Cookies y Tecnologías Similares</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nuestro sitio web utiliza cookies para mejorar la experiencia de usuario, analizar el tráfico y personalizar el contenido. Puedes configurar tu navegador para rechazar cookies.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy6Title ? t.privacy6Title : '6. Cookies y Tecnologías Similares' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy6Text ? t.privacy6Text : 'Nuestro sitio web utiliza cookies para mejorar la experiencia de usuario, analizar el tráfico y personalizar el contenido. Puedes configurar tu navegador para rechazar cookies.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">7. Cambios en esta Política</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nos reservamos el derecho de modificar esta política de privacidad en cualquier momento. Los cambios serán notificados a través de nuestro sitio web o bot.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy7Title ? t.privacy7Title : '7. Cambios en esta Política' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy7Text ? t.privacy7Text : 'Nos reservamos el derecho de modificar esta política de privacidad en cualquier momento. Los cambios serán notificados a través de nuestro sitio web o bot.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">8. Contacto</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Para cualquier pregunta sobre esta política de privacidad o para ejercer tus derechos, por favor contáctanos a través de nuestro servidor de Discord o formulario de contacto.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.privacy8Title ? t.privacy8Title : '8. Contacto' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.privacy8Text ? t.privacy8Text : 'Para cualquier pregunta sobre esta política de privacidad o para ejercer tus derechos, por favor contáctanos a través de nuestro servidor de Discord o formulario de contacto.' %></p>
                     
                     <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
-                        <button onclick="showToast('success', 'Solicitud de datos enviada correctamente')" style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);">
-                            <i class="fa-solid fa-download"></i> Exportar mis datos
+                        <button id="exportDataBtn" onclick="exportMyData()" data-toast-success="<%= typeof t !== 'undefined' && t.toastExportSuccess ? t.toastExportSuccess : 'Tus datos se están descargando correctamente' %>" data-toast-error="<%= typeof t !== 'undefined' && t.toastExportError ? t.toastExportError : 'Error al exportar tus datos. Inténtalo de nuevo.' %>" data-toast-login="<%= typeof t !== 'undefined' && t.toastLoginRequired ? t.toastLoginRequired : 'Debes iniciar sesión para exportar tus datos' %>" style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);">
+                            <i class="fa-solid fa-download"></i> <%= typeof t !== 'undefined' && t.privacyExportBtn ? t.privacyExportBtn : 'Exportar mis datos' %>
                         </button>
-                        <button onclick="showToast('error', 'Solicitud de eliminación enviada. Procesaremos tu petición.')" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.3); cursor: pointer; transition: all 0.3s ease;">
-                            <i class="fa-solid fa-trash"></i> Solicitar eliminación
+                        <button onclick="showToast('info', this.getAttribute('data-delete-msg'))" data-delete-msg="<%= typeof t !== 'undefined' && t.toastDeleteRequest ? t.toastDeleteRequest : 'Solicitud de eliminación enviada. Procesaremos tu petición.' %>" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.3); cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fa-solid fa-trash"></i> <%= typeof t !== 'undefined' && t.privacyDeleteBtn ? t.privacyDeleteBtn : 'Solicitar eliminación' %>
                         </button>
                     </div>
                 </section>
@@ -139,6 +163,58 @@
                 toast.classList.add('hiding');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
+        }
+
+        // Exportar mis datos - Funcionalidad completa
+        function exportMyData() {
+            const btn = document.getElementById('exportDataBtn');
+            if (!btn) return;
+
+            const toastExportSuccess = btn.getAttribute('data-toast-success') || 'Tus datos se están descargando correctamente';
+            const toastExportError = btn.getAttribute('data-toast-error') || 'Error al exportar tus datos. Inténtalo de nuevo.';
+            const toastLoginRequired = btn.getAttribute('data-toast-login') || 'Debes iniciar sesión para exportar tus datos';
+
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'wait';
+
+            fetch('/api/user/export', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    throw new Error('unauthorized');
+                }
+                if (!response.ok) {
+                    throw new Error('export_failed');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                // Crear URL temporal y descargar el archivo automáticamente
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'prem-user-data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                showToast('success', toastExportSuccess);
+            })
+            .catch(error => {
+                if (error.message === 'unauthorized') {
+                    showToast('error', toastLoginRequired);
+                } else {
+                    showToast('error', toastExportError);
+                }
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            });
         }
     </script>
 </body>

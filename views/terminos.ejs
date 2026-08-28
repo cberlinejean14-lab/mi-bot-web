@@ -2,7 +2,7 @@
 <html lang="<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" data-theme="dark">
 <head>
     <%- include('partials/head') %>
-    <title>PREM - Términos de Servicio</title>
+    <title>PREM - <%= typeof t !== 'undefined' && t.termsTitle ? t.termsTitle : 'Términos de Servicio' %></title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -13,68 +13,74 @@
 
     <main style="max-width: 900px; margin: 120px auto 60px auto; padding: 0 20px; position: relative; z-index: 1;">
         <div style="text-align: center; margin-bottom: 50px;">
-            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;">Términos de Servicio</h1>
-            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Última actualización: Agosto 2026</p>
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.termsTitle ? t.termsTitle : 'Términos de Servicio' %></h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;"><%= typeof t !== 'undefined' && t.termsUpdated ? t.termsUpdated : 'Última actualización: Agosto 2026' %></p>
         </div>
 
         <div class="legal-card">
             <div style="display: flex; flex-direction: column; gap: 30px;">
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">1. Aceptación de Términos</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Al utilizar PREM Bot ("el Bot"), aceptas y estás de acuerdo con estos Términos de Servicio. Si no estás de acuerdo con estos términos, por favor no utilices el Bot.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms1Title ? t.terms1Title : '1. Aceptación de Términos' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms1Text ? t.terms1Text : 'Al utilizar PREM Bot ("el Bot"), aceptas y estás de acuerdo con estos Términos de Servicio. Si no estás de acuerdo con estos términos, por favor no utilices el Bot.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">2. Uso Permitido</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">PREM Bot está diseñado para ser utilizado en servidores de Discord que cumplan con los Términos de Servicio de Discord. El uso del Bot para actividades ilegales, harassamiento, spam o cualquier violación de las políticas de Discord está estrictamente prohibido.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms2Title ? t.terms2Title : '2. Uso Permitido' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms2Text ? t.terms2Text : 'PREM Bot está diseñado para ser utilizado en servidores de Discord que cumplan con los Términos de Servicio de Discord. El uso del Bot para actividades ilegales, harassamiento, spam o cualquier violación de las políticas de Discord está estrictamente prohibido.' %></p>
                     
                     <div class="secure-badge-box">
                         <i class="fa-solid fa-triangle-exclamation"></i>
-                        <p><strong>Advertencia:</strong> El uso indebido del bot para actividades maliciosas resultará en la suspensión inmediata de tu acceso y podría conllevar acciones legales.</p>
+                        <p><strong><%= typeof t !== 'undefined' && t.terms2BadgeTitle ? t.terms2BadgeTitle : 'Advertencia:' %></strong> <%= typeof t !== 'undefined' && t.terms2BadgeText ? t.terms2BadgeText : 'El uso indebido del bot para actividades maliciosas resultará en la suspensión inmediata de tu acceso y podría conllevar acciones legales.' %></p>
                     </div>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">3. Responsabilidades del Usuario</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Los usuarios son responsables de:</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms3Title ? t.terms3Title : '3. Responsabilidades del Usuario' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms3Text ? t.terms3Text : 'Los usuarios son responsables de:' %></p>
                     <ul style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 10px 0 0 20px; padding: 0;">
-                        <li>Mantener la seguridad de su cuenta y servidor</li>
-                        <li>Utilizar el Bot de manera responsable y ética</li>
-                        <li>No intentar explotar vulnerabilidades o bugs</li>
-                        <li>Respetar los derechos de otros usuarios</li>
+                        <% if (typeof t !== 'undefined' && t.terms3List) { %>
+                            <% t.terms3List.forEach(item => { %>
+                                <li><%= item %></li>
+                            <% }); %>
+                        <% } else { %>
+                            <li>Mantener la seguridad de su cuenta y servidor</li>
+                            <li>Utilizar el Bot de manera responsable y ética</li>
+                            <li>No intentar explotar vulnerabilidades o bugs</li>
+                            <li>Respetar los derechos de otros usuarios</li>
+                        <% } %>
                     </ul>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">4. Propiedad Intelectual</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">PREM Bot y todo su contenido, incluyendo pero no limitado a código, diseño, gráficos y documentación, son propiedad exclusiva de sus desarrolladores y están protegidos por leyes de propiedad intelectual.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms4Title ? t.terms4Title : '4. Propiedad Intelectual' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms4Text ? t.terms4Text : 'PREM Bot y todo su contenido, incluyendo pero no limitado a código, diseño, gráficos y documentación, son propiedad exclusiva de sus desarrolladores y están protegidos por leyes de propiedad intelectual.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">5. Limitación de Responsabilidad</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">PREM Bot se proporciona "tal cual" sin garantías de ningún tipo. Los desarrolladores no se hacen responsables por cualquier daño directo, indirecto, incidental o consecuente que pueda resultar del uso del Bot.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms5Title ? t.terms5Title : '5. Limitación de Responsabilidad' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms5Text ? t.terms5Text : 'PREM Bot se proporciona "tal cual" sin garantías de ningún tipo. Los desarrolladores no se hacen responsables por cualquier daño directo, indirecto, incidental o consecuente que pueda resultar del uso del Bot.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">6. Modificaciones del Servicio</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nos reservamos el derecho de modificar, suspender o discontinuar cualquier aspecto del Bot en cualquier momento sin previo aviso.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms6Title ? t.terms6Title : '6. Modificaciones del Servicio' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms6Text ? t.terms6Text : 'Nos reservamos el derecho de modificar, suspender o discontinuar cualquier aspecto del Bot en cualquier momento sin previo aviso.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">7. Terminación</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Nos reservamos el derecho de terminar o suspender el acceso al Bot a cualquier usuario que viole estos Términos de Servicio o las políticas de Discord.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms7Title ? t.terms7Title : '7. Terminación' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms7Text ? t.terms7Text : 'Nos reservamos el derecho de terminar o suspender el acceso al Bot a cualquier usuario que viole estos Términos de Servicio o las políticas de Discord.' %></p>
                 </section>
 
                 <section>
-                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;">8. Contacto</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;">Para cualquier pregunta sobre estos Términos de Servicio, por favor contáctanos a través de nuestro servidor de Discord o formulario de contacto.</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px;"><%= typeof t !== 'undefined' && t.terms8Title ? t.terms8Title : '8. Contacto' %></h2>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0;"><%= typeof t !== 'undefined' && t.terms8Text ? t.terms8Text : 'Para cualquier pregunta sobre estos Términos de Servicio, por favor contáctanos a través de nuestro servidor de Discord o formulario de contacto.' %></p>
                     
                     <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
-                        <button onclick="showToast('success', 'Has aceptado los términos de servicio')" style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);">
-                            <i class="fa-solid fa-check"></i> Aceptar Términos
+                        <button onclick="showToast('success', this.getAttribute('data-accept-msg'))" data-accept-msg="<%= typeof t !== 'undefined' && t.toastAcceptTerms ? t.toastAcceptTerms : 'Has aceptado los términos de servicio' %>" style="background: linear-gradient(135deg, #a855f7, #c084fc); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px var(--accent-glow);">
+                            <i class="fa-solid fa-check"></i> <%= typeof t !== 'undefined' && t.termsAcceptBtn ? t.termsAcceptBtn : 'Aceptar Términos' %>
                         </button>
-                        <button onclick="showToast('error', 'Has rechazado los términos de servicio')" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.3); cursor: pointer; transition: all 0.3s ease;">
-                            <i class="fa-solid fa-xmark"></i> Rechazar
+                        <button onclick="showToast('error', this.getAttribute('data-reject-msg'))" data-reject-msg="<%= typeof t !== 'undefined' && t.toastRejectTerms ? t.toastRejectTerms : 'Has rechazado los términos de servicio' %>" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 12px 24px; border-radius: 10px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.3); cursor: pointer; transition: all 0.3s ease;">
+                            <i class="fa-solid fa-xmark"></i> <%= typeof t !== 'undefined' && t.termsRejectBtn ? t.termsRejectBtn : 'Rechazar' %>
                         </button>
                     </div>
                 </section>
