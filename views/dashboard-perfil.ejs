@@ -80,44 +80,75 @@
             font-weight: 600;
         }
 
+        /* Nuevo diseño de perfil */
         .profile-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 40px;
+            padding: 30px;
             backdrop-filter: blur(15px);
-            box-sizing: border-box;
-            max-width: 100%;
+            margin-bottom: 30px;
         }
 
-        .profile-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 0 0 20px 0;
+        .profile-banner-layout {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
 
-        .info-grid {
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-right {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            flex: 2;
+            width: 100%;
         }
 
-        .info-item {
+        .stat-box {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
             padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .stat-box .value { font-size: 1.2rem; font-weight: 700; color: var(--accent-color); }
+        .stat-box .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+
+        .badges-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            margin-top: 20px;
         }
 
-        .info-item .label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 5px;
+        .badges-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
         }
+
+        .badge-item {
+            padding: 8px 16px;
+            background: rgba(192, 132, 252, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: 20px;
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
 
         .info-item .value {
             font-size: 1rem;
@@ -150,59 +181,37 @@
 
     <div class="profile-page">
         <div class="profile-card">
-            <div class="profile-header">
-                <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" class="profile-avatar">
-                <div class="profile-info">
-                    <h2><%= user.global_name || user.username %></h2>
-                    <p>@<%= user.username %></p>
-                    <div style="margin-top: 10px;">
-                        <span class="status-badge active"><i class="fa-solid fa-circle-check"></i> Cuenta Activa</span>
+            <div class="profile-banner-layout">
+                <div class="profile-left">
+                    <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" class="profile-avatar">
+                    <div class="profile-info">
+                        <h2><%= user.global_name || user.username %></h2>
+                        <p>@<%= user.username %></p>
+                        <span class="status-badge active" style="margin-top: 10px; display: inline-block;"><i class="fa-solid fa-circle-check"></i> Cuenta Activa</span>
+                    </div>
+                </div>
+                <div class="profile-right">
+                    <div class="stat-box">
+                        <div class="value"><%= userData ? userData.money || 0 : 0 %></div>
+                        <div class="label">Monedas</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value"><%= userData ? userData.level || 1 : 1 %></div>
+                        <div class="label">Nivel</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value"><%= userData ? userData.songs || 0 : 0 %></div>
+                        <div class="label">Canciones</div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <h3>Información de la Cuenta</h3>
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="label">ID de Discord</div>
-                    <div class="value"><%= user.id %></div>
-                </div>
-                <div class="info-item">
-                    <div class="label">Nombre de Usuario</div>
-                    <div class="value"><%= user.username %></div>
-                </div>
-                <div class="info-item">
-                    <div class="label">Nombre Global</div>
-                    <div class="value"><%= user.global_name || user.username %></div>
-                </div>
-                <div class="info-item">
-                    <div class="label">Fecha de Registro</div>
-                    <div class="value"><%= new Date().toLocaleDateString() %></div>
-                </div>
-                <div class="info-item">
-                    <div class="label">Estado de Cuenta</div>
-                    <div class="value"><span class="status-badge active">Activa</span></div>
-                </div>
-                <div class="info-item">
-                    <div class="label">Servidores Vinculados</div>
-                    <div class="value"><%= user.guilds ? user.guilds.length : 0 %></div>
-                </div>
-            </div>
-
-            <h3 style="margin-top: 30px;">Estadísticas del Usuario</h3>
-            <div class="profile-stats">
-                <div class="profile-stat">
-                    <div class="value"><%= userData ? userData.money || 0 : 0 %></div>
-                    <div class="label">Monedas</div>
-                </div>
-                <div class="profile-stat">
-                    <div class="value"><%= userData ? userData.level || 1 : 1 %></div>
-                    <div class="label">Nivel</div>
-                </div>
-                <div class="profile-stat">
-                    <div class="value"><%= userData ? userData.songs || 0 : 0 %></div>
-                    <div class="label">Canciones Reproducidas</div>
-                </div>
+        <div class="badges-section">
+            <h3 style="margin-top: 0;">Insignias</h3>
+            <div class="badges-container">
+                <div class="badge-item"><i class="fa-solid fa-star"></i> Usuario PREM</div>
+                <div class="badge-item"><i class="fa-solid fa-bolt"></i> Activo</div>
             </div>
         </div>
     </div>

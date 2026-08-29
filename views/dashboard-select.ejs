@@ -276,11 +276,11 @@
     <%- include('partials/navbar') %>
 
     <div class="container">
-        <h1>Selecciona un servidor</h1>
-        <p class="subtitle">Elige un servidor donde tienes permisos de administrador para gestionar el bot.</p>
+        <h1><%= typeof t !== 'undefined' && t.dashSelectTitle ? t.dashSelectTitle : 'Selecciona un servidor' %></h1>
+        <p class="subtitle"><%= typeof t !== 'undefined' && t.dashSelectSubtitle ? t.dashSelectSubtitle : 'Elige un servidor donde tienes permisos de administrador para gestionar el bot.' %></p>
 
         <div class="search-container">
-            <input type="text" id="serverSearch" class="search-input" placeholder="Buscar servidores por nombre...">
+            <input type="text" id="serverSearch" class="search-input" placeholder="<%= typeof t !== 'undefined' && t.dashSelectSearch ? t.dashSelectSearch : 'Buscar servidores por nombre...' %>">
         </div>
 
         <div class="guilds-grid" id="guildsGrid">
@@ -307,16 +307,19 @@
                                 <div class="guild-details">
                                     <h3 title="<%= guild.name %>"><%= guild.name %></h3>
                                     <span class="guild-role">
-                                        <%= guild.owner ? 'Propietario' : 'Administrador' %>
+                                        <%= guild.owner 
+                                            ? (typeof t !== 'undefined' && t.dashOwner ? t.dashOwner : 'Propietario') 
+                                            : (typeof t !== 'undefined' && t.dashAdmin ? t.dashAdmin : 'Administrador') 
+                                        %>
                                     </span>
                                 </div>
                             </div>
                             
                             <% if (botInServer) { %>
-                                <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage">Gestionar</a>
+                                <a href="/dashboard/<%= guild.id %>?lang=<%= typeof currentLang !== 'undefined' ? currentLang : 'es' %>" class="btn-manage"><%= typeof t !== 'undefined' && t.dashManage ? t.dashManage : 'Gestionar' %></a>
                             <% } else { %>
                                 <a href="https://discord.com/oauth2/authorize?client_id=1534632950224781548&scope=bot&permissions=8&guild_id=<%= guild.id %>" target="_blank" class="btn-invite">
-                                    <i class="fa-solid fa-plus"></i> Invitar
+                                    <i class="fa-solid fa-plus"></i> <%= typeof t !== 'undefined' && t.dashInvite ? t.dashInvite : 'Invitar' %>
                                 </a>
                             <% } %>
                         </div>
@@ -328,7 +331,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 PREM Bot. Todos los derechos reservados.</p>
+        <p>&copy; 2026 PREM Bot. <%= typeof t !== 'undefined' && t.dashFooterRights ? t.dashFooterRights : 'Todos los derechos reservados.' %></p>
     </footer>
 
     <script>

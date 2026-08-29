@@ -149,5 +149,13 @@
   "termsAcceptBtn": "शर्तें स्वीकार करें",
   "termsRejectBtn": "अस्वीकार करें",
   "toastAcceptTerms": "आपने सेवा की शर्तें स्वीकार कर ली हैं",
-  "toastRejectTerms": "आपने सेवा की शर्तें अस्वीकार कर दी हैं"
+  "toastRejectTerms": "आपने सेवा की शर्तें अस्वीकार कर दी हैं",
+  "dashSelectTitle": "एक सर्वर चुनें",
+  "dashSelectSubtitle": "ऐसा सर्वर चुनें जहाँ आपके पास बॉट प्रबंधित करने के लिए एडमिन अनुमतियाँ हों।",
+  "dashSelectSearch": "नाम से सर्वर खोजें...",
+  "dashOwner": "मालिक",
+  "dashAdmin": "व्यवस्थापक",
+  "dashManage": "प्रबंधित करें",
+  "dashInvite": "आमंत्रित करें",
+  "dashFooterRights": "सर्वाधिकार सुरक्षित।"
 }

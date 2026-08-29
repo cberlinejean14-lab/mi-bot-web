@@ -153,5 +153,13 @@
   "termsAcceptBtn": "Aceptar Términos",
   "termsRejectBtn": "Rechazar",
   "toastAcceptTerms": "Has aceptado los términos de servicio",
-  "toastRejectTerms": "Has rechazado los términos de servicio"
+  "toastRejectTerms": "Has rechazado los términos de servicio",
+  "dashSelectTitle": "Selecciona un servidor",
+  "dashSelectSubtitle": "Elige un servidor donde tienes permisos de administrador para gestionar el bot.",
+  "dashSelectSearch": "Buscar servidores por nombre...",
+  "dashOwner": "Propietario",
+  "dashAdmin": "Administrador",
+  "dashManage": "Gestionar",
+  "dashInvite": "Invitar",
+  "dashFooterRights": "Todos los derechos reservados."
 }

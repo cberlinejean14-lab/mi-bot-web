@@ -149,5 +149,13 @@
   "termsAcceptBtn": "接受条款",
   "termsRejectBtn": "拒绝",
   "toastAcceptTerms": "您已接受服务条款",
-  "toastRejectTerms": "您已拒绝服务条款"
+  "toastRejectTerms": "您已拒绝服务条款",
+  "dashSelectTitle": "选择一个服务器",
+  "dashSelectSubtitle": "选择一个您拥有管理员权限的服务器来管理机器人。",
+  "dashSelectSearch": "按名称搜索服务器...",
+  "dashOwner": "所有者",
+  "dashAdmin": "管理员",
+  "dashManage": "管理",
+  "dashInvite": "邀请",
+  "dashFooterRights": "保留所有权利。"
 }

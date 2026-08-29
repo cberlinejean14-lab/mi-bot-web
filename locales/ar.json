@@ -149,5 +149,13 @@
   "termsAcceptBtn": "قبول الشروط",
   "termsRejectBtn": "رفض",
   "toastAcceptTerms": "لقد قبلت شروط الخدمة",
-  "toastRejectTerms": "لقد رفضت شروط الخدمة"
+  "toastRejectTerms": "لقد رفضت شروط الخدمة",
+  "dashSelectTitle": "اختر خادماً",
+  "dashSelectSubtitle": "اختر خادماً لديك فيه صلاحيات المسؤول لإدارة البوت.",
+  "dashSelectSearch": "البحث عن الخوادم بالاسم...",
+  "dashOwner": "المالك",
+  "dashAdmin": "مسؤول",
+  "dashManage": "إدارة",
+  "dashInvite": "دعوة",
+  "dashFooterRights": "جميع الحقوق محفوظة."
 }
