@@ -40,13 +40,51 @@ mongoose.connect(process.env.MONGO_URI || process.env.MONGODB_URI)
     .then(() => console.log('Conectado a MongoDB exitosamente'))
     .catch(err => console.error('Error al conectar a MongoDB:', err));
 
+async function checkAndGrantBadges(user, userData) {
+    if (!userData) return [];
+    
+    let changed = false;
+    const newBadges = new Set(userData.badges || []);
+    
+    // Lista de reglas: ID insignia, Condición
+    const rules = [
+        { id: 'Leyenda', condition: userData.level >= 100 },
+        { id: 'Activo', condition: userData.songs >= 500 },
+        { id: 'Fundador', condition: false }, // Manual
+        { id: 'Arquitecto de Bot', condition: false }, // Manual
+        { id: 'Impulsor Estrella', condition: false }, // Integrar con API Top.gg
+        { id: 'Comandante', condition: userData.songs >= 1000 },
+        { id: 'Guardián', condition: false }, // Manual
+        { id: 'Premium', condition: false } // Integrar con sistema de pagos
+    ];
+    
+    rules.forEach(rule => {
+        if (rule.condition && !newBadges.has(rule.id)) {
+            newBadges.add(rule.id);
+            changed = true;
+        }
+    });
+    
+    if (changed) {
+        userData.badges = Array.from(newBadges);
+        await UserModel.findOneAndUpdate(
+            { userId: user.id },
+            { $set: { badges: userData.badges } }
+        );
+    }
+    return userData.badges;
+}
+
 const userSchema = new mongoose.Schema({
     userId: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     money: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
-    songs: { type: Number, default: 0 }
+    songs: { type: Number, default: 0 },
+    xp: { type: Number, default: 0 },
+    badges: { type: [String], default: [] }
 });
+
 const UserModel = mongoose.model('User', userSchema);
 
 const statsSchema = new mongoose.Schema({
@@ -532,6 +570,10 @@ app.get('/dashboard/perfil', async (req, res) => {
         let userData = null;
         try {
             userData = await UserModel.findOne({ userId: user.id }).lean();
+            if (userData) {
+                // Verificar insignias en tiempo real al cargar el perfil
+                userData.badges = await checkAndGrantBadges(user, userData);
+            }
         } catch (e) {
             console.error("Error al obtener datos del usuario:", e);
         }

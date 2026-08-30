@@ -184,6 +184,12 @@
                 <!-- XP Real conectado del backend -->
                 <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">
                     <%= userData ? userData.xp || 0 : 0 %> XP to Level <%= userData ? (userData.level || 1) + 1 : 2 %>
+            <div class="badges" style="margin: 20px 0; display: flex; justify-content: center; gap: 10px;">
+                <% if (userData && userData.badges) { userData.badges.forEach(badge => { %>
+                    <span class="badge" style="background: #a855f7; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem;"><%= badge %></span>
+                <% }); } %>
+            </div>
+
                 </p>
                 <div class="xp-bar-container">
                     <div class="progress-bar">

@@ -16,23 +16,29 @@
     <div class="page-container">
         <h1>Catálogo de Insignias</h1>
         <p>Gana insignias participando en la comunidad y demostrando tu lealtad a PREM.</p>
+    <div class="page-container">
+        <h1>Catálogo de Insignias</h1>
+        <p>Gana insignias participando en la comunidad y demostrando tu lealtad a PREM.</p>
         <div class="badge-grid">
-            <div class="badge-card">
-                <div class="badge-icon"><i class="fa-solid fa-crown"></i></div>
-                <h3>Leyenda</h3>
-                <p>Nivel 100 alcanzado</p>
-            </div>
-            <div class="badge-card">
-                <div class="badge-icon"><i class="fa-solid fa-bolt"></i></div>
-                <h3>Activo</h3>
-                <p>Envía 500 mensajes</p>
-            </div>
-            <div class="badge-card">
-                <div class="badge-icon"><i class="fa-solid fa-gem"></i></div>
-                <h3>Premium</h3>
-                <p>Suscriptor activo</p>
-            </div>
+            <% const badges = [
+                { id: 'Fundador', icon: 'fa-rocket', desc: 'Presente desde la fase beta' },
+                { id: 'Arquitecto de Bot', icon: 'fa-robot', desc: 'Configuró su propio bot' },
+                { id: 'Impulsor Estrella', icon: 'fa-star', desc: 'Votó por el bot' },
+                { id: 'Comandante', icon: 'fa-terminal', desc: 'Usó muchos comandos' },
+                { id: 'Guardián', icon: 'fa-shield-alt', desc: 'Ayudó en el soporte' },
+                { id: 'Leyenda', icon: 'fa-crown', desc: 'Nivel 100 alcanzado' },
+                { id: 'Activo', icon: 'fa-bolt', desc: '500+ mensajes enviados' },
+                { id: 'Premium', icon: 'fa-gem', desc: 'Suscriptor activo' }
+            ]; %>
+            <% badges.forEach(b => { %>
+                <div class="badge-card">
+                    <div class="badge-icon"><i class="fa-solid <%= b.icon %>"></i></div>
+                    <h3><%= b.id %></h3>
+                    <p><%= b.desc %></p>
+                </div>
+            <% }); %>
         </div>
+    </div>
     </div>
     <%- include('partials/footer') %>
 </body>
