@@ -548,6 +548,16 @@ app.get('/dashboard/perfil', async (req, res) => {
     }
 });
 
+app.get('/insignias', (req, res) => {
+    const currentLang = resolveLang(req, res);
+    res.render('insignias', { 
+        user: req.user,
+        currentLang,
+        t: loadTranslations(currentLang)
+    });
+});
+
+
 // Ruta de Personalización de Bot (BLOQUE 6.2)
 app.get('/dashboard/bot/personalizacion', async (req, res) => {
     try {

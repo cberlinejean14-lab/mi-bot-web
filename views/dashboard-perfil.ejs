@@ -180,27 +180,21 @@
         <div class="profile-content">
             <h2 class="user-name"><%= user.global_name || user.username %></h2>
             
-            <div class="badges">
-                <span class="badge badge-grandpa">Grandpa</span>
-                <span class="badge badge-subscriber">IGM Subscriber</span>
-            </div>
-
             <div class="xp-section">
-                <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">34,000 XP to Level 35</p>
+                <!-- XP Real conectado del backend -->
+                <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">
+                    <%= userData ? userData.xp || 0 : 0 %> XP to Level <%= userData ? (userData.level || 1) + 1 : 2 %>
+                </p>
                 <div class="xp-bar-container">
-                    <div class="progress-bar"><div class="progress-fill"></div></div>
-                    <span class="level-badge">35</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: <%= userData ? Math.min((userData.xp % 1000) / 10, 100) : 0 %>%;"></div>
+                    </div>
+                    <span class="level-badge"><%= userData ? userData.level || 1 : 1 %></span>
                 </div>
             </div>
-
-            <div class="stats-grid">
-                <div class="stat-item"><i class="fa-solid fa-star"></i> <span>8</span> <small>Reviews</small></div>
-                <div class="stat-item"><i class="fa-solid fa-comment"></i> <span>34</span> <small>Comments</small></div>
-                <div class="stat-item"><i class="fa-solid fa-compact-disc"></i> <span>21</span> <small>Purchased</small></div>
-                <div class="stat-item"><i class="fa-solid fa-trophy"></i> <span>8/89</span> <small>Achievements</small></div>
-                <div class="stat-item"><i class="fa-solid fa-heart"></i> <span>233</span> <small>Likes</small></div>
-                <div class="stat-item"><i class="fa-solid fa-dollar-sign"></i> <span>$377.13</span> <small>Saved</small></div>
-                <div class="stat-item"><i class="fa-solid fa-rocket"></i> <span>144</span> <small>days</small></div>
+            
+            <div style="margin-top: 30px;">
+                <a href="/insignias" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Ver catálogo de insignias disponibles</a>
             </div>
         </div>
     </div>
