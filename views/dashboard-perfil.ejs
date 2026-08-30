@@ -80,74 +80,65 @@
             font-weight: 600;
         }
 
-        /* Nuevo diseño de perfil */
-        .profile-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 30px;
-            backdrop-filter: blur(15px);
-            margin-bottom: 30px;
+        /* Diseño de perfil estilo gamer */
+        .profile-container {
+            max-width: 900px;
+            margin: 120px auto;
+            background: #0b0416;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(192, 132, 252, 0.2);
         }
 
-        .profile-banner-layout {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
+        .profile-bg-banner {
+            height: 200px;
+            background: linear-gradient(to right, #1e1b4b, #4c1d95, #1e1b4b);
+            position: relative;
         }
 
-        .profile-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex: 1;
-            min-width: 300px;
+        .profile-avatar-wrapper {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
+            border: 6px solid #fbbf24; /* Marco dorado */
+            border-radius: 50%;
+            padding: 4px;
+            background: #0b0416;
         }
 
-        .profile-right {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            flex: 2;
+        .profile-avatar-wrapper img {
             width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
-        .stat-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 12px;
+        .profile-content {
+            padding: 80px 40px 40px;
             text-align: center;
         }
-        
-        .stat-box .value { font-size: 1.2rem; font-weight: 700; color: var(--accent-color); }
-        .stat-box .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
 
-        .badges-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 30px;
-            margin-top: 20px;
-        }
+        .user-name { font-size: 2rem; font-weight: 800; color: white; margin: 10px 0; }
 
-        .badges-container {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
+        .badges { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .badge { padding: 4px 12px; border-radius: 15px; font-size: 0.8rem; font-weight: 600; color: white; }
+        .badge-grandpa { background: #ef4444; }
+        .badge-subscriber { background: #8b5cf6; }
 
-        .badge-item {
-            padding: 8px 16px;
-            background: rgba(192, 132, 252, 0.1);
-            border: 1px solid var(--accent-color);
-            border-radius: 20px;
-            color: var(--accent-color);
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
+        .xp-section { margin: 30px 0; }
+        .xp-bar-container { display: flex; align-items: center; gap: 15px; width: 100%; }
+        .progress-bar { flex-grow: 1; height: 12px; background: #333; border-radius: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #ec4899; width: 34%; }
+        .level-badge { background: #ec4899; padding: 5px 10px; border-radius: 5px; font-weight: bold; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 20px; margin-top: 40px; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .stat-item i { font-size: 1.5rem; color: #fbbf24; }
+
 
 
         .info-item .value {
@@ -180,40 +171,39 @@
     <%- include('partials/navbar') %>
 
     <div class="profile-page">
-        <div class="profile-card">
-            <div class="profile-banner-layout">
-                <div class="profile-left">
-                    <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar" class="profile-avatar">
-                    <div class="profile-info">
-                        <h2><%= user.global_name || user.username %></h2>
-                        <p>@<%= user.username %></p>
-                        <span class="status-badge active" style="margin-top: 10px; display: inline-block;"><i class="fa-solid fa-circle-check"></i> Cuenta Activa</span>
-                    </div>
-                </div>
-                <div class="profile-right">
-                    <div class="stat-box">
-                        <div class="value"><%= userData ? userData.money || 0 : 0 %></div>
-                        <div class="label">Monedas</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="value"><%= userData ? userData.level || 1 : 1 %></div>
-                        <div class="label">Nivel</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="value"><%= userData ? userData.songs || 0 : 0 %></div>
-                        <div class="label">Canciones</div>
-                    </div>
-                </div>
-            </div>
+    <div class="profile-container">
+        <div class="profile-bg-banner"></div>
+        <div class="profile-avatar-wrapper">
+            <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar">
         </div>
+        
+        <div class="profile-content">
+            <h2 class="user-name"><%= user.global_name || user.username %></h2>
+            
+            <div class="badges">
+                <span class="badge badge-grandpa">Grandpa</span>
+                <span class="badge badge-subscriber">IGM Subscriber</span>
+            </div>
 
-        <div class="badges-section">
-            <h3 style="margin-top: 0;">Insignias</h3>
-            <div class="badges-container">
-                <div class="badge-item"><i class="fa-solid fa-star"></i> Usuario PREM</div>
-                <div class="badge-item"><i class="fa-solid fa-bolt"></i> Activo</div>
+            <div class="xp-section">
+                <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">34,000 XP to Level 35</p>
+                <div class="xp-bar-container">
+                    <div class="progress-bar"><div class="progress-fill"></div></div>
+                    <span class="level-badge">35</span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item"><i class="fa-solid fa-star"></i> <span>8</span> <small>Reviews</small></div>
+                <div class="stat-item"><i class="fa-solid fa-comment"></i> <span>34</span> <small>Comments</small></div>
+                <div class="stat-item"><i class="fa-solid fa-compact-disc"></i> <span>21</span> <small>Purchased</small></div>
+                <div class="stat-item"><i class="fa-solid fa-trophy"></i> <span>8/89</span> <small>Achievements</small></div>
+                <div class="stat-item"><i class="fa-solid fa-heart"></i> <span>233</span> <small>Likes</small></div>
+                <div class="stat-item"><i class="fa-solid fa-dollar-sign"></i> <span>$377.13</span> <small>Saved</small></div>
+                <div class="stat-item"><i class="fa-solid fa-rocket"></i> <span>144</span> <small>days</small></div>
             </div>
         </div>
+    </div>
     </div>
 
     <%- include('partials/footer') %>
