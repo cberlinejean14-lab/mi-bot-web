@@ -80,15 +80,33 @@
             font-weight: 600;
         }
 
-        /* Diseño de perfil estilo gamer */
-        .profile-container {
-            max-width: 900px;
-            margin: 120px auto;
-            background: #0b0416;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(192, 132, 252, 0.2);
+        .user-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .user-badge-small { color: var(--accent-color); font-size: 1.2rem; cursor: help; }
+        .profile-actions { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .action-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .action-btn:hover { background: var(--accent-color); color: #0b0416; }
+        .my-badges-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px; }
+        .badge-pill {
+            padding: 5px 12px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid #a855f7;
+            border-radius: 15px;
+            font-size: 0.8rem;
         }
 
         .profile-bg-banner {
@@ -163,9 +181,48 @@
         }
         .level-badge span { transform: rotate(45deg); }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 20px; margin-top: 40px; }
-        .stat-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .stat-item i { font-size: 1.5rem; color: #fbbf24; }
+        .user-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .user-badge-small {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .action-btn:hover { background: var(--accent-color); color: #0b0416; }
+        .my-badges-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .badge-pill {
+            padding: 5px 12px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid #a855f7;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
 
 
 
