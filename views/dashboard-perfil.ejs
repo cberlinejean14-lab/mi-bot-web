@@ -257,59 +257,55 @@
     <%- include('partials/navbar') %>
 
     <div class="profile-page">
-    <div class="profile-container">
-        <div class="profile-bg-banner"></div>
-        <div class="profile-avatar-wrapper">
-            <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar">
-        </div>
-        
-        <div class="profile-content">
-            <h2 class="user-name"><%= user.global_name || user.username %></h2>
-            
-            <div class="xp-section">
-                <!-- XP Real conectado del backend -->
-                <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">
-                    <%= userData ? userData.xp || 0 : 0 %> XP to Level <%= userData ? (userData.level || 1) + 1 : 2 %>
-            <div class="badges" style="margin: 20px 0; display: flex; justify-content: center; gap: 10px;">
-                <% if (userData && userData.badges) { userData.badges.forEach(badge => { %>
-                    <span class="badge" style="background: #a855f7; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem;"><%= badge %></span>
-                <% }); } %>
+        <div class="profile-container">
+            <div class="profile-bg-banner"></div>
+            <div class="profile-avatar-wrapper">
+                <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="Avatar">
             </div>
-
-                </p>
-                <div class="xp-bar-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: <%= userData ? Math.min((userData.xp % 1000) / 10, 100) : 0 %>%;"></div>
-                    </div>
-                    <span class="level-badge"><%= userData ? userData.level || 1 : 1 %></span>
+            
+            <div class="profile-content">
+                <div class="user-header-row">
+                    <h2 class="user-name" style="margin: 0;"><%= user.global_name || user.username %></h2>
+                    <% if (userData && userData.badges) { %>
+                        <% userData.badges.forEach(badge => { %>
+                            <span class="user-badge-small" title="<%= badge %>"><i class="fa-solid fa-certificate"></i></span>
+                        <% }); %>
+                    <% } %>
                 </div>
-            <div class="xp-section">
-                <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">
-                    <%= userData ? userData.xp || 0 : 0 %> XP to Level <%= userData ? (userData.level || 1) + 1 : 2 %>
-                </p>
-                <div class="badges" style="margin: 20px 0; display: flex; justify-content: center; gap: 10px;">
-                    <% if (userData && userData.badges) { userData.badges.forEach(badge => { %>
-                        <span class="badge" style="background: #a855f7; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem;"><%= badge %></span>
-                    <% }); } %>
-                </div>
-                <div class="xp-bar-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: <%= userData ? Math.min((userData.xp % 1000) / 10, 100) : 0 %>%;">
-                            <%= userData ? Math.floor(Math.min((userData.xp % 1000) / 10, 100)) : 0 %>%
+                
+                <div class="xp-section" style="margin: 30px 0;">
+                    <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 8px;">
+                        <%= userData ? userData.xp || 0 : 0 %> XP para el Nivel <%= userData ? (userData.level || 1) + 1 : 2 %>
+                    </p>
+                    <div class="xp-bar-container" style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                        <div class="progress-bar" style="position: relative; flex-grow: 1; height: 24px; background: #1e1b4b; border: 1px solid var(--accent-color); border-radius: 12px; overflow: hidden;">
+                            <% const xpCurrent = userData ? (userData.xp % 1000) : 0; const progress = (xpCurrent / 1000) * 100; %>
+                            <div class="progress-fill" style="height: 100%; background: linear-gradient(90deg, #a855f7, #ec4899); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; width: <%= progress %>%;">
+                                <%= Math.floor(progress) %>%
+                            </div>
+                        </div>
+                        <div class="level-badge" style="width: 45px; height: 45px; background: var(--accent-color); color: #0b0416; display: flex; align-items: center; justify-content: center; border-radius: 50% 50% 50% 0; font-weight: 800; transform: rotate(-45deg);">
+                            <span style="transform: rotate(45deg);"><%= userData ? userData.level || 1 : 1 %></span>
                         </div>
                     </div>
-                    <div class="level-badge"><span><%= userData ? userData.level || 1 : 1 %></span></div>
                 </div>
-            </div>
 
-            </div>
-            
-            <div style="margin-top: 30px;">
-                <a href="/insignias" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Ver catálogo de insignias disponibles</a>
+                <div class="my-badges-grid">
+                    <% if (userData && userData.badges) { userData.badges.forEach(badge => { %>
+                        <span class="badge-pill"><%= badge %></span>
+                    <% }); } %>
+                    <a href="/insignias" class="badge-pill" style="border-style: dashed;">+ Catálogo</a>
+                </div>
+
+                <div class="profile-actions">
+                    <a href="#" class="action-btn">Editar Perfil</a>
+                    <a href="#" class="action-btn">Configuración</a>
+                    <a href="/logout" class="action-btn">Cerrar Sesión</a>
+                </div>
             </div>
         </div>
     </div>
-    </div>
+
 
     <%- include('partials/footer') %>
     <script src="/js/main.js"></script>
