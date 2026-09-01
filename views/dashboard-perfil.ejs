@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-        </nav>
-        .nav-link:hover, .nav-link.active { background: rgba(124, 58, 237, 0.1); color: var(--accent); }
-    <title>Perfil - Dashboard</title>
-        .nav-links { list-style: none; padding: 0; flex: 1; }
+<html>
 <head>
-        </div>
-</head>
-        <nav>
-        <div class='sidebar-logo'>MI-BOT</div>
-            <ul class='nav-links'>
-    <aside class='sidebar'>
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; margin: 0; display: flex; min-height: 100vh; }
-        .sidebar-logo { font-size: 1.5rem; font-weight: bold; margin-bottom: 40px; color: var(--accent); }
-                <li><a href='/perfil' class='nav-link active'><i class='fa-solid fa-user'></i> Profile</a></li>
-        .sidebar { width: var(--sidebar-width); background: var(--sidebar-bg); border-right: 1px solid #1f1f1f; display: flex; flex-direction: column; padding: 20px; }
-    </main>
-    </style>
-        .avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent); }
     <%- include('partials/head') %>
-        .logout-link:hover { background: rgba(248, 113, 113, 0.1); }
-        :root { --sidebar-width: 260px; --bg-dark: #0a0a0a; --sidebar-bg: #111111; --accent: #7c3aed; --text-main: #ffffff; --text-muted: #a1a1aa; }
-        <div class='content-placeholder'>
-    <link rel=" stylesheet\ href=\https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\>
-        .user-info h2 { margin: 0; font-size: 1.5rem; }
-        .logout-link { color: #f87171; margin-top: auto; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        </div>
-</body>
-            <p>Sección principal lista para contenido</p>
-                <p>Nivel <%= userData ? userData.level || 1 : 1 %> | XP: <%= userData ? userData.xp || 0 : 0 %></p>
-                <li><a href='/configuracion' class='nav-link'><i class='fa-solid fa-gear'></i> Configuración</a></li>
-                <li><a href='/logout' class='nav-link logout-link'><i class='fa-solid fa-right-from-bracket'></i> Cerrar Sesión</a></li>
+        :root { --sidebar-width: 260px; --bg-dark: #0a0a0a; --sidebar-bg: #111111; --accent: #7c3aed; --text-main: #ffffff; --text-muted: #a1a1aa; }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; margin: 0; display: flex; min-height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: var(--sidebar-bg); border-right: 1px solid #1f1f1f; display: flex; flex-direction: column; padding: 20px; }
+        .sidebar-logo { font-size: 1.5rem; font-weight: bold; margin-bottom: 40px; color: var(--accent); }
+        .nav-links { list-style: none; padding: 0; flex: 1; }
         .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-muted); text-decoration: none; border-radius: 10px; margin-bottom: 8px; transition: 0.3s; }
-            <img src='<%= user.avatar ? https://cdn.discordapp.com/avatars//.png?size=256 : 'https://cdn.discordapp.com/embed/avatars/0.png' %>' alt='Avatar' class='avatar'>
+        .nav-link:hover, .nav-link.active { background: rgba(124, 58, 237, 0.1); color: var(--accent); }
+        .logout-link { color: #f87171; margin-top: auto; }
+        .logout-link:hover { background: rgba(248, 113, 113, 0.1); }
+        .content { flex: 1; padding: 40px; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--accent); }
+        .user-info h2 { margin: 0; font-size: 1.5rem; }
+    </style>
+    <title>Perfil - Dashboard</title>
+</head>
+<body>
+    <aside class='sidebar'>
+        <div class='sidebar-logo'>MI-BOT</div>
+        <ul class='nav-links'>
+            <li><a href='/dashboard/perfil' class='nav-link active'><i class='fa-solid fa-user'></i> Profile</a></li>
+            <li><a href='/configuracion' class='nav-link'><i class='fa-solid fa-gear'></i> ConfiguraciÃ³n</a></li>
+            <li><a href='/logout' class='nav-link logout-link'><i class='fa-solid fa-right-from-bracket'></i> Cerrar SesiÃ³n</a></li>
+        </ul>
+    </aside>
+    <main class='content'>
+        <div class='user-info'>
+            <% if (user) { %>
+                <img src="<%= user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt='Avatar' class='avatar'>
+                <h2><%= user.username %></h2>
+            <% } %>
+            <p>Nivel <%= userData ? userData.level || 1 : 1 %> | XP: <%= userData ? userData.xp || 0 : 0 %></p>
+        </div>
+    </main>
+</body>
+</html>
