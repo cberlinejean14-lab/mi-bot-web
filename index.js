@@ -220,7 +220,7 @@ app.post('/api/notifications', async (req, res) => {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
         
         // Validación estricta: Solo el Manager autorizado puede crear notificaciones
-        const MANAGER_ID = '931545363565908041';
+        const MANAGER_ID = process.env.MANAGER_ID;
         if (req.user.id !== MANAGER_ID) {
             return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
         }
@@ -258,7 +258,7 @@ app.delete('/api/notifications/:id', async (req, res) => {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
         
         // Validación estricta: Solo el Manager autorizado puede eliminar notificaciones
-        const MANAGER_ID = '931545363565908041';
+        const MANAGER_ID = process.env.MANAGER_ID;
         if (req.user.id !== MANAGER_ID) {
             return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
         }
@@ -319,7 +319,7 @@ app.post('/api/admins', async (req, res) => {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
         
         // Validación estricta: Solo el Manager autorizado puede otorgar permisos
-        const MANAGER_ID = '931545363565908041';
+        const MANAGER_ID = process.env.MANAGER_ID;
         if (req.user.id !== MANAGER_ID) {
             return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
         }
@@ -356,7 +356,7 @@ app.delete('/api/admins/:discordId', async (req, res) => {
         if (!req.isAuthenticated()) return res.status(401).json({ error: "No autorizado" });
         
         // Validación estricta: Solo el Manager autorizado puede revocar permisos
-        const MANAGER_ID = '931545363565908041';
+        const MANAGER_ID = process.env.MANAGER_ID;
         if (req.user.id !== MANAGER_ID) {
             return res.status(403).json({ error: "Acceso denegado. No tienes permisos de Manager." });
         }
@@ -736,7 +736,7 @@ app.get('/manager-room', async (req, res) => {
         const user = req.user || {};
         
         // Validación estricta: Solo el ID autorizado puede acceder al Manager
-        const MANAGER_ID = '931545363565908041';
+        const MANAGER_ID = process.env.MANAGER_ID;
         if (user.id !== MANAGER_ID) {
             return res.status(403).send("Acceso denegado. No tienes permisos de Manager.");
         }
